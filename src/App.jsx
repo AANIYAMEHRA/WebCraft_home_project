@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import Home from './pages/Home.jsx'
 import FooterAdmin from './pages/FooterAdmin.jsx'
+import HeaderAdmin from './pages/HeaderAdmin.jsx'
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
       </Route>
 
+      <Route path="/admin/header" element={<HeaderAdmin />} />
       <Route path="/admin/footer" element={<FooterAdmin />} />
     </Routes>
   )
