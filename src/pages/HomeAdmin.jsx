@@ -37,6 +37,64 @@ const DEFAULT_WHAT_WE_DO = {
         "We combine AI, research, products, and engineering services into a single, integrated offering — so everything works together.",
     services: DEFAULT_SERVICES,
 };
+const DEFAULT_WHY_WEBCRAFT = {
+    label: "The Difference",
+    heading: "Why serious businesses choose Webcraft",
+    description:
+        "Most technology partners start with a scope document. We start with the right questions. Webcraft combines research rigour with engineering depth so that what gets built actually solves the problem it was designed for.",
+    image: "/images/why.webp",
+    cards: [
+        {
+            title: "Research-backed decisions",
+            description:
+                "We validate assumptions with data before committing resources to build.",
+        },
+        {
+            title: "AI with delivery realism",
+            description:
+                "Practical AI implementations grounded in real business constraints and ROI.",
+        },
+        {
+            title: "Product thinking",
+            description:
+                "We approach projects as products — with user value, scalability, and lifecycle in mind.",
+        },
+        {
+            title: "Long-term partnership",
+            description:
+                "96% client retention built on reliable delivery, transparent communication, and ongoing support.",
+        },
+    ],
+};
+const DEFAULT_APPROACH = {
+    label: "Our Approach",
+    heading: "We don't start with code.",
+    introDescription:
+        "Every engagement begins with understanding. Through structured research, market analysis, and technology assessment, we help you define the right problem — then design and build the right solution.",
+    steps: [
+        {
+            num: "01",
+            title: "Understand",
+            card: "Research, validate and define the opportunity before a line of code is written.",
+            sub: "We start with clarity.",
+            desc: "Research, validate, and define the opportunity. We listen carefully before we recommend — then we pressure-test the recommendation before we build.",
+        },
+        {
+            num: "02",
+            title: "Design",
+            card: "Architect the solution around product thinking, user value and scalability.",
+            sub: "We design for leverage.",
+            desc: "Architect the solution around product thinking, user value, and scalability. Every decision gets a written rationale — so it holds up six months later.",
+        },
+        {
+            num: "03",
+            title: "Deliver",
+            card: "Build, iterate and support at scale with full accountability from one team.",
+            sub: "We deliver, and we stay.",
+            desc: "Build, iterate, and support at scale. One team from first brief to last line of code — with full accountability, not handoffs.",
+        },
+    ],
+};
 
 export default function HomeAdmin() {
     const [form, setForm] = useState({
@@ -53,6 +111,8 @@ export default function HomeAdmin() {
         beliefDescription: "",
         stats: [],
         whatWeDo: DEFAULT_WHAT_WE_DO,
+        whyWebcraft: DEFAULT_WHY_WEBCRAFT,
+        approach: DEFAULT_APPROACH,
     });
 
     const [loading, setLoading] = useState(true);
@@ -115,7 +175,49 @@ export default function HomeAdmin() {
                                 : DEFAULT_SERVICES.map((service) => ({
                                     ...service,
                                 })),
+                    }, whyWebcraft: {
+                        label:
+                            data.whyWebcraft?.label ??
+                            DEFAULT_WHY_WEBCRAFT.label,
+                        heading:
+                            data.whyWebcraft?.heading ??
+                            DEFAULT_WHY_WEBCRAFT.heading,
+                        description:
+                            data.whyWebcraft?.description ??
+                            DEFAULT_WHY_WEBCRAFT.description,
+                        image:
+                            data.whyWebcraft?.image ??
+                            DEFAULT_WHY_WEBCRAFT.image,
+                        cards:
+                            Array.isArray(data.whyWebcraft?.cards) &&
+                                data.whyWebcraft.cards.length > 0
+                                ? data.whyWebcraft.cards.map((card) => ({
+                                    title: card.title ?? "",
+                                    description: card.description ?? "",
+                                }))
+                                : DEFAULT_WHY_WEBCRAFT.cards.map((card) => ({
+                                    ...card,
+                                })),
                     },
+
+                    approach: {
+                        label:
+                            data.approach?.label ??
+                            DEFAULT_APPROACH.label,
+                        heading:
+                            data.approach?.heading ??
+                            DEFAULT_APPROACH.heading,
+                        introDescription:
+                            data.approach?.introDescription ??
+                            DEFAULT_APPROACH.introDescription,
+                        steps: DEFAULT_APPROACH.steps.map(
+                            (defaultStep, index) => ({
+                                ...defaultStep,
+                                ...(data.approach?.steps?.[index] || {}),
+                            })
+                        ),
+                    },
+
                 });
             } catch (err) {
                 setError(err.message);
@@ -156,6 +258,53 @@ export default function HomeAdmin() {
             },
         }));
     }
+    function handleWhyWebcraftChange(field, value) {
+        setForm((previous) => ({
+            ...previous,
+            whyWebcraft: {
+                ...previous.whyWebcraft,
+                [field]: value,
+            },
+        }));
+    }
+
+    function handleWhyWebcraftCardChange(index, field, value) {
+        setForm((previous) => ({
+            ...previous,
+            whyWebcraft: {
+                ...previous.whyWebcraft,
+                cards: previous.whyWebcraft.cards.map((card, i) =>
+                    i === index
+                        ? { ...card, [field]: value }
+                        : card
+                ),
+            },
+        }));
+    }
+    function handleApproachChange(field, value) {
+        setForm((previous) => ({
+            ...previous,
+            approach: {
+                ...previous.approach,
+                [field]: value,
+            },
+        }));
+    }
+
+    function handleApproachStepChange(index, field, value) {
+        setForm((previous) => ({
+            ...previous,
+            approach: {
+                ...previous.approach,
+                steps: previous.approach.steps.map((step, i) =>
+                    i === index
+                        ? { ...step, [field]: value }
+                        : step
+                ),
+            },
+        }));
+    }
+
 
     function handleServiceChange(index, field, value) {
         setForm((previous) => ({
@@ -233,12 +382,29 @@ export default function HomeAdmin() {
             setForm((previous) => ({
                 ...previous,
                 ...savedHome,
+
                 whatWeDo: {
                     ...previous.whatWeDo,
                     ...(savedHome.whatWeDo || {}),
                     services:
-                        savedHome.whatWeDo?.services ||
+                        savedHome.whatWeDo?.services ??
                         previous.whatWeDo.services,
+                },
+
+                whyWebcraft: {
+                    ...previous.whyWebcraft,
+                    ...(savedHome.whyWebcraft || {}),
+                    cards:
+                        savedHome.whyWebcraft?.cards ??
+                        previous.whyWebcraft.cards,
+                },
+
+                approach: {
+                    ...previous.approach,
+                    ...(savedHome.approach || {}),
+                    steps:
+                        savedHome.approach?.steps ??
+                        previous.approach.steps,
                 },
             }));
 
@@ -598,7 +764,242 @@ export default function HomeAdmin() {
                             </button>
                         </div>
                     </section>
+                    {/* WHY WEBCRAFT SECTION */}
+                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
+                        <h2 className="text-2xl font-semibold text-gray-900">
+                            Why Webcraft Section
+                        </h2>
 
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Section Label
+                            </label>
+                            <input
+                                value={form.whyWebcraft.label}
+                                onChange={(e) =>
+                                    handleWhyWebcraftChange("label", e.target.value)
+                                }
+                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Heading
+                            </label>
+                            <input
+                                value={form.whyWebcraft.heading}
+                                onChange={(e) =>
+                                    handleWhyWebcraftChange("heading", e.target.value)
+                                }
+                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Description
+                            </label>
+                            <textarea
+                                rows={5}
+                                value={form.whyWebcraft.description}
+                                onChange={(e) =>
+                                    handleWhyWebcraftChange("description", e.target.value)
+                                }
+                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Image Path
+                            </label>
+                            <input
+                                value={form.whyWebcraft.image}
+                                onChange={(e) =>
+                                    handleWhyWebcraftChange("image", e.target.value)
+                                }
+                                placeholder="/images/why.webp"
+                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                            />
+                        </div>
+
+                        <div className="space-y-4">
+                            <h3 className="text-lg font-semibold text-gray-900">
+                                Feature Cards
+                            </h3>
+
+                            {form.whyWebcraft.cards.map((card, index) => (
+                                <div
+                                    key={index}
+                                    className="space-y-4 rounded-xl border border-gray-200 p-5"
+                                >
+                                    <h4 className="font-semibold text-gray-800">
+                                        Card {index + 1}
+                                    </h4>
+
+                                    <div>
+                                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                                            Card Title
+                                        </label>
+                                        <input
+                                            value={card.title}
+                                            onChange={(e) =>
+                                                handleWhyWebcraftCardChange(
+                                                    index,
+                                                    "title",
+                                                    e.target.value
+                                                )
+                                            }
+                                            className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                                            Card Description
+                                        </label>
+                                        <textarea
+                                            rows={3}
+                                            value={card.description}
+                                            onChange={(e) =>
+                                                handleWhyWebcraftCardChange(
+                                                    index,
+                                                    "description",
+                                                    e.target.value
+                                                )
+                                            }
+                                            className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                    {/* APPROACH SECTION */}
+                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
+                        <h2 className="text-2xl font-semibold text-gray-900">
+                            Our Approach Section
+                        </h2>
+
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Section Label
+                            </label>
+                            <input
+                                value={form.approach.label}
+                                onChange={(e) =>
+                                    handleApproachChange("label", e.target.value)
+                                }
+                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Main Heading
+                            </label>
+                            <input
+                                value={form.approach.heading}
+                                onChange={(e) =>
+                                    handleApproachChange("heading", e.target.value)
+                                }
+                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Intro Description
+                            </label>
+                            <textarea
+                                rows={4}
+                                value={form.approach.introDescription}
+                                onChange={(e) =>
+                                    handleApproachChange("introDescription", e.target.value)
+                                }
+                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                            />
+                        </div>
+
+                        {form.approach.steps.map((step, index) => (
+                            <div
+                                key={step.num || index}
+                                className="space-y-4 rounded-xl border border-gray-200 p-5"
+                            >
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    Step {index + 1}
+                                </h3>
+
+                                <div>
+                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        Step Number
+                                    </label>
+                                    <input
+                                        value={step.num}
+                                        onChange={(e) =>
+                                            handleApproachStepChange(index, "num", e.target.value)
+                                        }
+                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        Step Title
+                                    </label>
+                                    <input
+                                        value={step.title}
+                                        onChange={(e) =>
+                                            handleApproachStepChange(index, "title", e.target.value)
+                                        }
+                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        Card Description
+                                    </label>
+                                    <textarea
+                                        rows={3}
+                                        value={step.card}
+                                        onChange={(e) =>
+                                            handleApproachStepChange(index, "card", e.target.value)
+                                        }
+                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        Highlight Text
+                                    </label>
+                                    <input
+                                        value={step.sub}
+                                        onChange={(e) =>
+                                            handleApproachStepChange(index, "sub", e.target.value)
+                                        }
+                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        Step Description
+                                    </label>
+                                    <textarea
+                                        rows={4}
+                                        value={step.desc}
+                                        onChange={(e) =>
+                                            handleApproachStepChange(index, "desc", e.target.value)
+                                        }
+                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </section>
                     {/* SAVE */}
                     <div className="flex flex-wrap items-center gap-4">
                         <button

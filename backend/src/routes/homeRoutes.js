@@ -64,9 +64,41 @@ const defaultHome = {
                 buttonText: "View All Services",
                 buttonUrl: "/services",
             },
+
+        ],
+    },
+
+    approach: {
+        label: "Our Approach",
+        heading: "We don't start with code.",
+        introDescription:
+            "Every engagement begins with understanding. Through structured research, market analysis, and technology assessment, we help you define the right problem — then design and build the right solution.",
+        steps: [
+            {
+                num: "01",
+                title: "Understand",
+                card: "Research, validate and define the opportunity before a line of code is written.",
+                sub: "We start with clarity.",
+                desc: "Research, validate, and define the opportunity. We listen carefully before we recommend — then we pressure-test the recommendation before we build.",
+            },
+            {
+                num: "02",
+                title: "Design",
+                card: "Architect the solution around product thinking, user value and scalability.",
+                sub: "We design for leverage.",
+                desc: "Architect the solution around product thinking, user value, and scalability. Every decision gets a written rationale — so it holds up six months later.",
+            },
+            {
+                num: "03",
+                title: "Deliver",
+                card: "Build, iterate and support at scale with full accountability from one team.",
+                sub: "We deliver, and we stay.",
+                desc: "Build, iterate, and support at scale. One team from first brief to last line of code — with full accountability, not handoffs.",
+            },
         ],
     },
 };
+
 
 // GET: Load Home Page content
 router.get("/", async (req, res) => {
@@ -105,6 +137,8 @@ router.put("/", async (req, res) => {
             "beliefDescription",
             "stats",
             "whatWeDo",
+            "whyWebcraft",
+            "approach",
         ];
 
         const updates = {};
