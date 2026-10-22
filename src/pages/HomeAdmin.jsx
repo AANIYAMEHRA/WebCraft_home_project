@@ -1,8 +1,32 @@
-
 import { useEffect, useState } from "react";
-
+ 
 const API = "http://localhost:5000/api/home";
-
+ 
+// Colors and fonts taken from the live Webcraft-IT site.
+const COLORS = {
+    navy: "#102b52",      // headings (hero "Smarter Decisions.")
+    text: "#253144",      // labels, inputs, body text
+    muted: "#5b6878",     // subtitle and helper copy
+    green: "#2aa27c",
+    teal: "#1f8a86",
+    blue: "#1b6f8c",      // gradient start (hero "Stronger Products.")
+    border: "#d7ebe4",
+    bg: "#f4faf8",
+};
+ 
+const FONT_HEADING = "'Fraunces', Georgia, 'Times New Roman', serif";
+const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif";
+ 
+// Heading scale, largest to smallest (priority order).
+const SIZE = {
+    h1: "65px",       // page title   — "Home Page CMS"
+    h2: "35px",       // section title — "Hero Content", "What We Do Section"
+    h3: "24px",       // item title   — "Service 1", "Card 1"
+    subtitle: "22px", // intro line under the title
+    label: "18px",    // field labels
+    body: "18px",     // inputs, buttons, messages
+};
+ 
 const DEFAULT_SERVICES = [
     {
         title: "AI Solutions",
@@ -29,7 +53,7 @@ const DEFAULT_SERVICES = [
         buttonUrl: "/services",
     },
 ];
-
+ 
 const DEFAULT_WHAT_WE_DO = {
     label: "WHAT WE DO",
     heading: "Four Capabilities, One Partner",
@@ -95,7 +119,7 @@ const DEFAULT_APPROACH = {
         },
     ],
 };
-
+ 
 const DEFAULT_PRODUCTS = {
     label: "Our Products",
     headingLine1: "Platforms Built From",
@@ -201,6 +225,68 @@ const DEFAULT_CTA_SECTION = {
     buttonText: "Book a Consultation →",
     buttonUrl: "/contact",
 };
+ 
+// Shared styles, used by every section below.
+const pageStyle = {
+    backgroundColor: COLORS.bg,
+    backgroundImage: [
+        "radial-gradient(circle at 0% 0%, rgba(42,162,124,0.10), transparent 40%)",
+        "linear-gradient(rgba(15,36,64,0.035) 1px, transparent 1px)",
+        "linear-gradient(90deg, rgba(15,36,64,0.035) 1px, transparent 1px)",
+    ].join(", "),
+    backgroundSize: "auto, 56px 56px, 56px 56px",
+    fontFamily: FONT_BODY,
+    color: COLORS.text,
+};
+ 
+const headingStyle = { fontFamily: FONT_HEADING, color: COLORS.navy };
+ 
+// Gradient text for "CMS". inline-block gives the gradient a box that covers the glyphs,
+// and WebkitTextFillColor stops the text color from hiding the gradient.
+const gradientTextStyle = {
+    display: "inline-block",
+    lineHeight: 1.15,
+    paddingBottom: "0.1em",
+    backgroundImage: `linear-gradient(90deg, ${COLORS.blue}, ${COLORS.green})`,
+    WebkitBackgroundClip: "text",
+    backgroundClip: "text",
+    color: "transparent",
+    WebkitTextFillColor: "transparent",
+};
+ 
+const cardStyle = {
+    backgroundColor: "#ffffff",
+    border: `1px solid ${COLORS.border}`,
+    boxShadow: "0 10px 30px -15px rgba(15,36,64,0.15)",
+};
+ 
+const itemStyle = {
+    backgroundColor: "#fbfdfc",
+    border: `1px solid ${COLORS.border}`,
+};
+ 
+const labelStyle = { color: COLORS.text, fontSize: SIZE.label };
+ 
+const inputClass =
+    "w-full rounded-xl border bg-white px-4 py-3 outline-none transition placeholder:text-[#8a9aa9] focus:border-[#2aa27c] focus:ring-4 focus:ring-[#2aa27c]/20";
+const inputStyle = {
+    borderColor: COLORS.border,
+    color: COLORS.text,
+    fontSize: SIZE.body,
+};
+ 
+const primaryButtonStyle = {
+    background: `linear-gradient(90deg, ${COLORS.green}, ${COLORS.teal})`,
+    boxShadow: "0 8px 20px -8px rgba(31,138,134,0.55)",
+    color: "#ffffff",
+};
+ 
+const outlineButtonStyle = {
+    borderColor: COLORS.border,
+    color: COLORS.text,
+    fontSize: SIZE.body,
+};
+ 
 export default function HomeAdmin() {
     const [form, setForm] = useState({
         heroChip: "",
@@ -222,23 +308,23 @@ export default function HomeAdmin() {
         aiStack: DEFAULT_AI_STACK,
         ctaSection: DEFAULT_CTA_SECTION,
     });
-
+ 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
-
+ 
     useEffect(() => {
         async function loadHome() {
             try {
                 const response = await fetch(API);
-
+ 
                 if (!response.ok) {
                     throw new Error("Failed to load Home content");
                 }
-
+ 
                 const data = await response.json();
-
+ 
                 setForm({
                     heroChip: data.heroChip ?? "",
                     headingLine1: data.headingLine1 ?? "",
@@ -248,7 +334,7 @@ export default function HomeAdmin() {
                     button1Url: data.button1Url ?? "",
                     button2Text: data.button2Text ?? "",
                     button2Url: data.button2Url ?? "",
-
+ 
                     beliefLabel: data.beliefLabel ?? "Our Belief",
                     beliefHeading:
                         data.beliefHeading ??
@@ -256,9 +342,9 @@ export default function HomeAdmin() {
                     beliefDescription:
                         data.beliefDescription ??
                         "We'd rather spend three months in research than three years rebuilding. It's a slower way to work. It's also the way that's kept us here since 2006 — and kept our clients with us long after the first engagement ended.",
-
+ 
                     stats: Array.isArray(data.stats) ? data.stats : [],
-
+ 
                     whatWeDo: {
                         label:
                             data.whatWeDo?.label ??
@@ -283,7 +369,9 @@ export default function HomeAdmin() {
                                 : DEFAULT_SERVICES.map((service) => ({
                                     ...service,
                                 })),
-                    }, whyWebcraft: {
+                    },
+ 
+                    whyWebcraft: {
                         label:
                             data.whyWebcraft?.label ??
                             DEFAULT_WHY_WEBCRAFT.label,
@@ -307,7 +395,7 @@ export default function HomeAdmin() {
                                     ...card,
                                 })),
                     },
-
+ 
                     approach: {
                         label:
                             data.approach?.label ??
@@ -325,7 +413,7 @@ export default function HomeAdmin() {
                             })
                         ),
                     },
-
+ 
                     products: {
                         label: data.products?.label ?? DEFAULT_PRODUCTS.label,
                         headingLine1:
@@ -347,6 +435,7 @@ export default function HomeAdmin() {
                                     meta: product.meta.map((item) => ({ ...item })),
                                 })),
                     },
+ 
                     aiStack: {
                         ...DEFAULT_AI_STACK,
                         ...(data.aiStack || {}),
@@ -363,6 +452,7 @@ export default function HomeAdmin() {
                                     ...card,
                                 })),
                     },
+ 
                     ctaSection: {
                         ...DEFAULT_CTA_SECTION,
                         ...(data.ctaSection || {}),
@@ -374,19 +464,19 @@ export default function HomeAdmin() {
                 setLoading(false);
             }
         }
-
+ 
         loadHome();
     }, []);
-
+ 
     function handleChange(event) {
         const { name, value } = event.target;
-
+ 
         setForm((previous) => ({
             ...previous,
             [name]: value,
         }));
     }
-
+ 
     function handleStatChange(index, field, value) {
         setForm((previous) => ({
             ...previous,
@@ -397,7 +487,7 @@ export default function HomeAdmin() {
             ),
         }));
     }
-
+ 
     function handleWhatWeDoChange(field, value) {
         setForm((previous) => ({
             ...previous,
@@ -407,6 +497,7 @@ export default function HomeAdmin() {
             },
         }));
     }
+ 
     function handleWhyWebcraftChange(field, value) {
         setForm((previous) => ({
             ...previous,
@@ -416,7 +507,7 @@ export default function HomeAdmin() {
             },
         }));
     }
-
+ 
     function handleWhyWebcraftCardChange(index, field, value) {
         setForm((previous) => ({
             ...previous,
@@ -430,6 +521,7 @@ export default function HomeAdmin() {
             },
         }));
     }
+ 
     function handleApproachChange(field, value) {
         setForm((previous) => ({
             ...previous,
@@ -439,7 +531,7 @@ export default function HomeAdmin() {
             },
         }));
     }
-
+ 
     function handleApproachStepChange(index, field, value) {
         setForm((previous) => ({
             ...previous,
@@ -453,7 +545,7 @@ export default function HomeAdmin() {
             },
         }));
     }
-
+ 
     function handleProductsChange(field, value) {
         setForm((previous) => ({
             ...previous,
@@ -463,6 +555,7 @@ export default function HomeAdmin() {
             },
         }));
     }
+ 
     function handleAiStackChange(field, value) {
         setForm((previous) => ({
             ...previous,
@@ -472,6 +565,7 @@ export default function HomeAdmin() {
             },
         }));
     }
+ 
     function handleCtaSectionChange(field, value) {
         setForm((previous) => ({
             ...previous,
@@ -481,6 +575,7 @@ export default function HomeAdmin() {
             },
         }));
     }
+ 
     function handleAiStackCardChange(index, field, value) {
         setForm((previous) => ({
             ...previous,
@@ -494,6 +589,7 @@ export default function HomeAdmin() {
             },
         }));
     }
+ 
     function handleProductItemChange(index, field, value) {
         setForm((previous) => ({
             ...previous,
@@ -507,7 +603,7 @@ export default function HomeAdmin() {
             },
         }));
     }
-
+ 
     function handleProductMetaChange(productIndex, metaIndex, field, value) {
         setForm((previous) => ({
             ...previous,
@@ -528,8 +624,7 @@ export default function HomeAdmin() {
             },
         }));
     }
-
-
+ 
     function handleServiceChange(index, field, value) {
         setForm((previous) => ({
             ...previous,
@@ -544,7 +639,7 @@ export default function HomeAdmin() {
             },
         }));
     }
-
+ 
     function addService() {
         setForm((previous) => ({
             ...previous,
@@ -562,7 +657,7 @@ export default function HomeAdmin() {
             },
         }));
     }
-
+ 
     function removeService(index) {
         setForm((previous) => ({
             ...previous,
@@ -574,15 +669,14 @@ export default function HomeAdmin() {
             },
         }));
     }
-
-
+ 
     async function handleSubmit(event) {
         event.preventDefault();
-
+ 
         setSaving(true);
         setMessage("");
         setError("");
-
+ 
         try {
             const response = await fetch(API, {
                 method: "PUT",
@@ -591,22 +685,22 @@ export default function HomeAdmin() {
                 },
                 body: JSON.stringify(form),
             });
-
+ 
             const data = await response.json();
-
+ 
             if (!response.ok) {
                 throw new Error(
                     data.message || "Failed to save Home content"
                 );
             }
-
+ 
             // Refresh the form using the saved response.
             const savedHome = data.home || data;
-
+ 
             setForm((previous) => ({
                 ...previous,
                 ...savedHome,
-
+ 
                 whatWeDo: {
                     ...previous.whatWeDo,
                     ...(savedHome.whatWeDo || {}),
@@ -614,7 +708,7 @@ export default function HomeAdmin() {
                         savedHome.whatWeDo?.services ??
                         previous.whatWeDo.services,
                 },
-
+ 
                 whyWebcraft: {
                     ...previous.whyWebcraft,
                     ...(savedHome.whyWebcraft || {}),
@@ -622,7 +716,7 @@ export default function HomeAdmin() {
                         savedHome.whyWebcraft?.cards ??
                         previous.whyWebcraft.cards,
                 },
-
+ 
                 approach: {
                     ...previous.approach,
                     ...(savedHome.approach || {}),
@@ -631,7 +725,7 @@ export default function HomeAdmin() {
                         previous.approach.steps,
                 },
             }));
-
+ 
             setMessage("Home content updated successfully!");
         } catch (err) {
             setError(err.message);
@@ -639,33 +733,42 @@ export default function HomeAdmin() {
             setSaving(false);
         }
     }
-
-
+ 
     if (loading) {
-        return <p className="p-8">Loading Home CMS...</p>;
+        return (
+            <p className="p-8" style={{ ...pageStyle, fontSize: SIZE.body }}>
+                Loading Home CMS...
+            </p>
+        );
     }
-
+ 
     return (
-        <main className="min-h-screen bg-gray-50 px-4 py-10">
-            <div className="mx-auto max-w-4xl">
-                <h1 className="mb-2 text-3xl font-bold text-gray-900">
-                    Home Page CMS
+        <main className="min-h-screen px-6 py-16" style={pageStyle}>
+            <div className="mx-auto max-w-5xl">
+                <h1
+                    className="mb-5 font-bold leading-[0.95] tracking-tight"
+                    style={{ ...headingStyle, fontSize: SIZE.h1 }}
+                >
+                    Home Page <span style={gradientTextStyle}>CMS</span>
                 </h1>
-
-                <p className="mb-8 text-gray-600">
+ 
+                <p
+                    className="mb-14"
+                    style={{ color: COLORS.muted, fontSize: SIZE.subtitle }}
+                >
                     Edit your Home page content from one place.
                 </p>
-
-                <form
-                    onSubmit={handleSubmit}
-                    className="space-y-6"
-                >
+ 
+                <form onSubmit={handleSubmit} className="space-y-10">
                     {/* HERO CONTENT */}
-                    <section className="space-y-4 rounded-xl bg-white p-6 shadow-sm">
-                        <h2 className="text-xl font-semibold">
+                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
+                        <h2
+                            className="font-bold leading-tight"
+                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                        >
                             Hero Content
                         </h2>
-
+ 
                         {[
                             ["heroChip", "Small Label"],
                             ["headingLine1", "Heading Line 1"],
@@ -685,11 +788,12 @@ export default function HomeAdmin() {
                             <div key={name}>
                                 <label
                                     htmlFor={name}
-                                    className="mb-1 block text-sm font-medium text-gray-700"
+                                    className="mb-2 block font-semibold"
+                                    style={labelStyle}
                                 >
                                     {label}
                                 </label>
-
+ 
                                 {[
                                     "description",
                                     "beliefDescription",
@@ -700,7 +804,8 @@ export default function HomeAdmin() {
                                         value={form[name]}
                                         onChange={handleChange}
                                         rows={4}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                                        className={`${inputClass} resize-y`}
+                                        style={inputStyle}
                                     />
                                 ) : (
                                     <input
@@ -708,26 +813,31 @@ export default function HomeAdmin() {
                                         name={name}
                                         value={form[name]}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                                        className={inputClass}
+                                        style={inputStyle}
                                     />
                                 )}
                             </div>
                         ))}
                     </section>
-
+ 
                     {/* HERO STATISTICS */}
-                    <section className="space-y-4 rounded-xl bg-white p-6 shadow-sm">
-                        <h2 className="text-xl font-semibold">
+                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
+                        <h2
+                            className="font-bold leading-tight"
+                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                        >
                             Hero Statistics
                         </h2>
-
+ 
                         {form.stats.map((stat, index) => (
                             <div
                                 key={index}
-                                className="grid grid-cols-1 gap-3 border-b border-gray-200 pb-4 sm:grid-cols-3"
+                                className="grid grid-cols-1 gap-4 border-b pb-6 sm:grid-cols-3"
+                                style={{ borderColor: COLORS.border }}
                             >
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium">
+                                    <label className="mb-2 block font-semibold" style={labelStyle}>
                                         Value
                                     </label>
                                     <input
@@ -740,12 +850,13 @@ export default function HomeAdmin() {
                                                 e.target.value
                                             )
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                                        className={inputClass}
+                                        style={inputStyle}
                                     />
                                 </div>
-
+ 
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium">
+                                    <label className="mb-2 block font-semibold" style={labelStyle}>
                                         Suffix
                                     </label>
                                     <input
@@ -757,12 +868,13 @@ export default function HomeAdmin() {
                                                 e.target.value
                                             )
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                                        className={inputClass}
+                                        style={inputStyle}
                                     />
                                 </div>
-
+ 
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium">
+                                    <label className="mb-2 block font-semibold" style={labelStyle}>
                                         Label
                                     </label>
                                     <input
@@ -774,228 +886,201 @@ export default function HomeAdmin() {
                                                 e.target.value
                                             )
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                                        className={inputClass}
+                                        style={inputStyle}
                                     />
                                 </div>
                             </div>
                         ))}
                     </section>
-
+ 
                     {/* WHAT WE DO SECTION */}
-                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
-                        <h2 className="text-2xl font-semibold text-gray-900">
+                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
+                        <h2
+                            className="font-bold leading-tight"
+                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                        >
                             What We Do Section
                         </h2>
-
+ 
                         <div>
-                            <label
-                                htmlFor="whatWeDoLabel"
-                                className="mb-1 block text-sm font-medium text-gray-700"
-                            >
+                            <label htmlFor="whatWeDoLabel" className="mb-2 block font-semibold" style={labelStyle}>
                                 Section Label
                             </label>
-
+ 
                             <input
                                 id="whatWeDoLabel"
                                 value={form.whatWeDo.label}
                                 onChange={(e) =>
-                                    handleWhatWeDoChange(
-                                        "label",
-                                        e.target.value
-                                    )
+                                    handleWhatWeDoChange("label", e.target.value)
                                 }
                                 placeholder="WHAT WE DO"
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={inputClass}
+                                style={inputStyle}
                             />
                         </div>
-
+ 
                         <div>
-                            <label
-                                htmlFor="whatWeDoHeading"
-                                className="mb-1 block text-sm font-medium text-gray-700"
-                            >
+                            <label htmlFor="whatWeDoHeading" className="mb-2 block font-semibold" style={labelStyle}>
                                 Main Heading
                             </label>
-
+ 
                             <input
                                 id="whatWeDoHeading"
                                 value={form.whatWeDo.heading}
                                 onChange={(e) =>
-                                    handleWhatWeDoChange(
-                                        "heading",
-                                        e.target.value
-                                    )
+                                    handleWhatWeDoChange("heading", e.target.value)
                                 }
                                 placeholder="Four Capabilities, One Partner"
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={inputClass}
+                                style={inputStyle}
                             />
                         </div>
-
+ 
                         <div>
-                            <label
-                                htmlFor="whatWeDoDescription"
-                                className="mb-1 block text-sm font-medium text-gray-700"
-                            >
+                            <label htmlFor="whatWeDoDescription" className="mb-2 block font-semibold" style={labelStyle}>
                                 Section Description
                             </label>
-
+ 
                             <textarea
                                 id="whatWeDoDescription"
                                 value={form.whatWeDo.description}
                                 onChange={(e) =>
-                                    handleWhatWeDoChange(
-                                        "description",
-                                        e.target.value
-                                    )
+                                    handleWhatWeDoChange("description", e.target.value)
                                 }
                                 rows={4}
                                 placeholder="We combine AI, research, products, and engineering services into a single, integrated offering — so everything works together."
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={`${inputClass} resize-y`}
+                                style={inputStyle}
                             />
                         </div>
-
+ 
                         {/* SERVICE CARDS */}
-                        <div className="space-y-4">
-                            <h3 className="text-lg font-semibold text-gray-900">
-                                Service Cards (
-                                {form.whatWeDo.services.length})
+                        <div className="space-y-5">
+                            <h3
+                                className="font-bold"
+                                style={{ ...headingStyle, fontSize: SIZE.h3 }}
+                            >
+                                Service Cards ({form.whatWeDo.services.length})
                             </h3>
-
-                            {form.whatWeDo.services.map(
-                                (service, index) => (
-                                    <div
-                                        key={index}
-                                        className="space-y-4 rounded-xl border border-gray-200 p-5"
-                                    >
-                                        <div className="flex items-center justify-between gap-3">
-                                            <h4 className="font-semibold text-gray-800">
-                                                Service {index + 1}
-                                            </h4>
-
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    removeService(index)
-                                                }
-                                                className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 hover:bg-red-50"
-                                            >
-                                                Remove
-                                            </button>
-                                        </div>
-
-                                        <div>
-                                            <label
-                                                htmlFor={`serviceTitle-${index}`}
-                                                className="mb-1 block text-sm font-medium text-gray-700"
-                                            >
-                                                Service Title
-                                            </label>
-
-                                            <input
-                                                id={`serviceTitle-${index}`}
-                                                value={service.title}
-                                                onChange={(e) =>
-                                                    handleServiceChange(
-                                                        index,
-                                                        "title",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                placeholder="Service title"
-                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label
-                                                htmlFor={`serviceDescription-${index}`}
-                                                className="mb-1 block text-sm font-medium text-gray-700"
-                                            >
-                                                Service Description
-                                            </label>
-
-                                            <textarea
-                                                id={`serviceDescription-${index}`}
-                                                value={service.description}
-                                                onChange={(e) =>
-                                                    handleServiceChange(
-                                                        index,
-                                                        "description",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                rows={3}
-                                                placeholder="Enter the original service description"
-                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label
-                                                htmlFor={`serviceButtonText-${index}`}
-                                                className="mb-1 block text-sm font-medium text-gray-700"
-                                            >
-                                                Button Text
-                                            </label>
-
-                                            <input
-                                                id={`serviceButtonText-${index}`}
-                                                value={service.buttonText}
-                                                onChange={(e) =>
-                                                    handleServiceChange(
-                                                        index,
-                                                        "buttonText",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                placeholder="Learn More"
-                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label
-                                                htmlFor={`serviceButtonUrl-${index}`}
-                                                className="mb-1 block text-sm font-medium text-gray-700"
-                                            >
-                                                Button URL
-                                            </label>
-
-                                            <input
-                                                id={`serviceButtonUrl-${index}`}
-                                                value={service.buttonUrl}
-                                                onChange={(e) =>
-                                                    handleServiceChange(
-                                                        index,
-                                                        "buttonUrl",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                placeholder="/services"
-                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
-                                            />
-                                        </div>
+ 
+                            {form.whatWeDo.services.map((service, index) => (
+                                <div
+                                    key={index}
+                                    className="space-y-5 rounded-2xl p-6"
+                                    style={itemStyle}
+                                >
+                                    <div className="flex items-center justify-between gap-3">
+                                        <h4
+                                            className="font-bold"
+                                            style={{ ...headingStyle, fontSize: SIZE.label }}
+                                        >
+                                            Service {index + 1}
+                                        </h4>
+ 
+                                        <button
+                                            type="button"
+                                            onClick={() => removeService(index)}
+                                            className="rounded-full border bg-white px-5 py-2.5 font-semibold transition hover:border-red-300 hover:text-red-600"
+                                            style={outlineButtonStyle}
+                                        >
+                                            Remove
+                                        </button>
                                     </div>
-                                )
-                            )}
-
+ 
+                                    <div>
+                                        <label htmlFor={`serviceTitle-${index}`} className="mb-2 block font-semibold" style={labelStyle}>
+                                            Service Title
+                                        </label>
+ 
+                                        <input
+                                            id={`serviceTitle-${index}`}
+                                            value={service.title}
+                                            onChange={(e) =>
+                                                handleServiceChange(index, "title", e.target.value)
+                                            }
+                                            placeholder="Service title"
+                                            className={inputClass}
+                                            style={inputStyle}
+                                        />
+                                    </div>
+ 
+                                    <div>
+                                        <label htmlFor={`serviceDescription-${index}`} className="mb-2 block font-semibold" style={labelStyle}>
+                                            Service Description
+                                        </label>
+ 
+                                        <textarea
+                                            id={`serviceDescription-${index}`}
+                                            value={service.description}
+                                            onChange={(e) =>
+                                                handleServiceChange(index, "description", e.target.value)
+                                            }
+                                            rows={3}
+                                            placeholder="Enter the original service description"
+                                            className={`${inputClass} resize-y`}
+                                            style={inputStyle}
+                                        />
+                                    </div>
+ 
+                                    <div>
+                                        <label htmlFor={`serviceButtonText-${index}`} className="mb-2 block font-semibold" style={labelStyle}>
+                                            Button Text
+                                        </label>
+ 
+                                        <input
+                                            id={`serviceButtonText-${index}`}
+                                            value={service.buttonText}
+                                            onChange={(e) =>
+                                                handleServiceChange(index, "buttonText", e.target.value)
+                                            }
+                                            placeholder="Learn More"
+                                            className={inputClass}
+                                            style={inputStyle}
+                                        />
+                                    </div>
+ 
+                                    <div>
+                                        <label htmlFor={`serviceButtonUrl-${index}`} className="mb-2 block font-semibold" style={labelStyle}>
+                                            Button URL
+                                        </label>
+ 
+                                        <input
+                                            id={`serviceButtonUrl-${index}`}
+                                            value={service.buttonUrl}
+                                            onChange={(e) =>
+                                                handleServiceChange(index, "buttonUrl", e.target.value)
+                                            }
+                                            placeholder="/services"
+                                            className={inputClass}
+                                            style={inputStyle}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+ 
                             <button
                                 type="button"
                                 onClick={addService}
-                                className="rounded-lg border border-gray-300 px-4 py-3 font-medium text-gray-800 hover:bg-gray-50"
+                                className="rounded-full border bg-white px-6 py-3 font-semibold transition hover:border-[#2aa27c] hover:text-[#1f8a86]"
+                                style={outlineButtonStyle}
                             >
                                 + Add Service
                             </button>
                         </div>
                     </section>
+ 
                     {/* WHY WEBCRAFT SECTION */}
-                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
-                        <h2 className="text-2xl font-semibold text-gray-900">
+                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
+                        <h2
+                            className="font-bold leading-tight"
+                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                        >
                             Why Webcraft Section
                         </h2>
-
+ 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                 Section Label
                             </label>
                             <input
@@ -1003,12 +1088,13 @@ export default function HomeAdmin() {
                                 onChange={(e) =>
                                     handleWhyWebcraftChange("label", e.target.value)
                                 }
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={inputClass}
+                                style={inputStyle}
                             />
                         </div>
-
+ 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                 Heading
                             </label>
                             <input
@@ -1016,12 +1102,13 @@ export default function HomeAdmin() {
                                 onChange={(e) =>
                                     handleWhyWebcraftChange("heading", e.target.value)
                                 }
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={inputClass}
+                                style={inputStyle}
                             />
                         </div>
-
+ 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                 Description
                             </label>
                             <textarea
@@ -1030,12 +1117,13 @@ export default function HomeAdmin() {
                                 onChange={(e) =>
                                     handleWhyWebcraftChange("description", e.target.value)
                                 }
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={`${inputClass} resize-y`}
+                                style={inputStyle}
                             />
                         </div>
-
+ 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                 Image Path
                             </label>
                             <input
@@ -1044,26 +1132,34 @@ export default function HomeAdmin() {
                                     handleWhyWebcraftChange("image", e.target.value)
                                 }
                                 placeholder="/images/why.webp"
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={inputClass}
+                                style={inputStyle}
                             />
                         </div>
-
-                        <div className="space-y-4">
-                            <h3 className="text-lg font-semibold text-gray-900">
+ 
+                        <div className="space-y-5">
+                            <h3
+                                className="font-bold"
+                                style={{ ...headingStyle, fontSize: SIZE.h3 }}
+                            >
                                 Feature Cards
                             </h3>
-
+ 
                             {form.whyWebcraft.cards.map((card, index) => (
                                 <div
                                     key={index}
-                                    className="space-y-4 rounded-xl border border-gray-200 p-5"
+                                    className="space-y-5 rounded-2xl p-6"
+                                    style={itemStyle}
                                 >
-                                    <h4 className="font-semibold text-gray-800">
+                                    <h4
+                                        className="font-bold"
+                                        style={{ ...headingStyle, fontSize: SIZE.label }}
+                                    >
                                         Card {index + 1}
                                     </h4>
-
+ 
                                     <div>
-                                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        <label className="mb-2 block font-semibold" style={labelStyle}>
                                             Card Title
                                         </label>
                                         <input
@@ -1075,12 +1171,13 @@ export default function HomeAdmin() {
                                                     e.target.value
                                                 )
                                             }
-                                            className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                            className={inputClass}
+                                            style={inputStyle}
                                         />
                                     </div>
-
+ 
                                     <div>
-                                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        <label className="mb-2 block font-semibold" style={labelStyle}>
                                             Card Description
                                         </label>
                                         <textarea
@@ -1093,21 +1190,26 @@ export default function HomeAdmin() {
                                                     e.target.value
                                                 )
                                             }
-                                            className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                            className={`${inputClass} resize-y`}
+                                            style={inputStyle}
                                         />
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </section>
+ 
                     {/* APPROACH SECTION */}
-                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
-                        <h2 className="text-2xl font-semibold text-gray-900">
+                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
+                        <h2
+                            className="font-bold leading-tight"
+                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                        >
                             Our Approach Section
                         </h2>
-
+ 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                 Section Label
                             </label>
                             <input
@@ -1115,12 +1217,13 @@ export default function HomeAdmin() {
                                 onChange={(e) =>
                                     handleApproachChange("label", e.target.value)
                                 }
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={inputClass}
+                                style={inputStyle}
                             />
                         </div>
-
+ 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                 Main Heading
                             </label>
                             <input
@@ -1128,12 +1231,13 @@ export default function HomeAdmin() {
                                 onChange={(e) =>
                                     handleApproachChange("heading", e.target.value)
                                 }
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={inputClass}
+                                style={inputStyle}
                             />
                         </div>
-
+ 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                 Intro Description
                             </label>
                             <textarea
@@ -1142,21 +1246,26 @@ export default function HomeAdmin() {
                                 onChange={(e) =>
                                     handleApproachChange("introDescription", e.target.value)
                                 }
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={`${inputClass} resize-y`}
+                                style={inputStyle}
                             />
                         </div>
-
+ 
                         {form.approach.steps.map((step, index) => (
                             <div
                                 key={step.num || index}
-                                className="space-y-4 rounded-xl border border-gray-200 p-5"
+                                className="space-y-5 rounded-2xl p-6"
+                                style={itemStyle}
                             >
-                                <h3 className="text-lg font-semibold text-gray-900">
+                                <h3
+                                    className="font-bold"
+                                    style={{ ...headingStyle, fontSize: SIZE.h3 }}
+                                >
                                     Step {index + 1}
                                 </h3>
-
+ 
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    <label className="mb-2 block font-semibold" style={labelStyle}>
                                         Step Number
                                     </label>
                                     <input
@@ -1164,12 +1273,13 @@ export default function HomeAdmin() {
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "num", e.target.value)
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                        className={inputClass}
+                                        style={inputStyle}
                                     />
                                 </div>
-
+ 
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    <label className="mb-2 block font-semibold" style={labelStyle}>
                                         Step Title
                                     </label>
                                     <input
@@ -1177,12 +1287,13 @@ export default function HomeAdmin() {
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "title", e.target.value)
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                        className={inputClass}
+                                        style={inputStyle}
                                     />
                                 </div>
-
+ 
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    <label className="mb-2 block font-semibold" style={labelStyle}>
                                         Card Description
                                     </label>
                                     <textarea
@@ -1191,12 +1302,13 @@ export default function HomeAdmin() {
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "card", e.target.value)
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                        className={`${inputClass} resize-y`}
+                                        style={inputStyle}
                                     />
                                 </div>
-
+ 
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    <label className="mb-2 block font-semibold" style={labelStyle}>
                                         Highlight Text
                                     </label>
                                     <input
@@ -1204,12 +1316,13 @@ export default function HomeAdmin() {
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "sub", e.target.value)
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                        className={inputClass}
+                                        style={inputStyle}
                                     />
                                 </div>
-
+ 
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    <label className="mb-2 block font-semibold" style={labelStyle}>
                                         Step Description
                                     </label>
                                     <textarea
@@ -1218,26 +1331,30 @@ export default function HomeAdmin() {
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "desc", e.target.value)
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                        className={`${inputClass} resize-y`}
+                                        style={inputStyle}
                                     />
                                 </div>
                             </div>
                         ))}
                     </section>
-
+ 
                     {/* PRODUCTS SECTION */}
-                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
-                        <h2 className="text-2xl font-semibold text-gray-900">
+                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
+                        <h2
+                            className="font-bold leading-tight"
+                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                        >
                             Products Section
                         </h2>
-
+ 
                         {[
                             ["label", "Section Label"],
                             ["headingLine1", "Heading Line 1"],
                             ["headingLine2", "Heading Line 2"],
                         ].map(([field, label]) => (
                             <div key={field}>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-2 block font-semibold" style={labelStyle}>
                                     {label}
                                 </label>
                                 <input
@@ -1245,20 +1362,25 @@ export default function HomeAdmin() {
                                     onChange={(e) =>
                                         handleProductsChange(field, e.target.value)
                                     }
-                                    className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                    className={inputClass}
+                                    style={inputStyle}
                                 />
                             </div>
                         ))}
-
+ 
                         {form.products.items.map((product, index) => (
                             <div
                                 key={index}
-                                className="space-y-4 rounded-xl border border-gray-200 p-5"
+                                className="space-y-5 rounded-2xl p-6"
+                                style={itemStyle}
                             >
-                                <h3 className="text-lg font-semibold text-gray-900">
+                                <h3
+                                    className="font-bold"
+                                    style={{ ...headingStyle, fontSize: SIZE.h3 }}
+                                >
                                     Product {index + 1}
                                 </h3>
-
+ 
                                 {[
                                     ["num", "Product Number"],
                                     ["nameLine1", "Name Line 1"],
@@ -1268,10 +1390,10 @@ export default function HomeAdmin() {
                                     ["buttonUrl", "Button URL"],
                                 ].map(([field, label]) => (
                                     <div key={field}>
-                                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        <label className="mb-2 block font-semibold" style={labelStyle}>
                                             {label}
                                         </label>
-
+ 
                                         {field === "summary" ? (
                                             <textarea
                                                 rows={4}
@@ -1283,7 +1405,8 @@ export default function HomeAdmin() {
                                                         e.target.value
                                                     )
                                                 }
-                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                                className={`${inputClass} resize-y`}
+                                                style={inputStyle}
                                             />
                                         ) : (
                                             <input
@@ -1295,23 +1418,27 @@ export default function HomeAdmin() {
                                                         e.target.value
                                                     )
                                                 }
-                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                                className={inputClass}
+                                                style={inputStyle}
                                             />
                                         )}
                                     </div>
                                 ))}
-
-                                <h4 className="font-semibold text-gray-800">
+ 
+                                <h4
+                                    className="font-bold"
+                                    style={{ ...headingStyle, fontSize: SIZE.label }}
+                                >
                                     Product Details
                                 </h4>
-
+ 
                                 {product.meta.map((item, metaIndex) => (
                                     <div
                                         key={metaIndex}
-                                        className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+                                        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
                                     >
                                         <div>
-                                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                                 Detail Label {metaIndex + 1}
                                             </label>
                                             <input
@@ -1324,12 +1451,13 @@ export default function HomeAdmin() {
                                                         e.target.value
                                                     )
                                                 }
-                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                                className={inputClass}
+                                                style={inputStyle}
                                             />
                                         </div>
-
+ 
                                         <div>
-                                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                                 Detail Value {metaIndex + 1}
                                             </label>
                                             <input
@@ -1342,7 +1470,8 @@ export default function HomeAdmin() {
                                                         e.target.value
                                                     )
                                                 }
-                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                                className={inputClass}
+                                                style={inputStyle}
                                             />
                                         </div>
                                     </div>
@@ -1350,13 +1479,16 @@ export default function HomeAdmin() {
                             </div>
                         ))}
                     </section>
-
+ 
                     {/* AI STACK SECTION */}
-                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
-                        <h2 className="text-2xl font-semibold text-gray-900">
+                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
+                        <h2
+                            className="font-bold leading-tight"
+                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                        >
                             AI Stack Section
                         </h2>
-
+ 
                         {[
                             ["label", "Section Label"],
                             ["headingLine1", "Heading Line 1"],
@@ -1365,7 +1497,7 @@ export default function HomeAdmin() {
                             ["buttonUrl", "Button URL"],
                         ].map(([field, label]) => (
                             <div key={field}>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-2 block font-semibold" style={labelStyle}>
                                     {label}
                                 </label>
                                 <input
@@ -1373,13 +1505,14 @@ export default function HomeAdmin() {
                                     onChange={(e) =>
                                         handleAiStackChange(field, e.target.value)
                                     }
-                                    className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                    className={inputClass}
+                                    style={inputStyle}
                                 />
                             </div>
                         ))}
-
+ 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                 Section Description
                             </label>
                             <textarea
@@ -1388,29 +1521,37 @@ export default function HomeAdmin() {
                                 onChange={(e) =>
                                     handleAiStackChange("description", e.target.value)
                                 }
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={`${inputClass} resize-y`}
+                                style={inputStyle}
                             />
                         </div>
-
-                        <h3 className="text-lg font-semibold text-gray-900">
+ 
+                        <h3
+                            className="font-bold"
+                            style={{ ...headingStyle, fontSize: SIZE.h3 }}
+                        >
                             AI Solution Cards
                         </h3>
-
+ 
                         {form.aiStack.cards.map((card, index) => (
                             <div
                                 key={index}
-                                className="space-y-4 rounded-xl border border-gray-200 p-5"
+                                className="space-y-5 rounded-2xl p-6"
+                                style={itemStyle}
                             >
-                                <h4 className="font-semibold text-gray-800">
+                                <h4
+                                    className="font-bold"
+                                    style={{ ...headingStyle, fontSize: SIZE.label }}
+                                >
                                     Card {index + 1}
                                 </h4>
-
+ 
                                 {[
                                     ["num", "Card Number"],
                                     ["title", "Card Title"],
                                 ].map(([field, label]) => (
                                     <div key={field}>
-                                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        <label className="mb-2 block font-semibold" style={labelStyle}>
                                             {label}
                                         </label>
                                         <input
@@ -1422,13 +1563,14 @@ export default function HomeAdmin() {
                                                     e.target.value
                                                 )
                                             }
-                                            className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                            className={inputClass}
+                                            style={inputStyle}
                                         />
                                     </div>
                                 ))}
-
+ 
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    <label className="mb-2 block font-semibold" style={labelStyle}>
                                         Card Description
                                     </label>
                                     <textarea
@@ -1441,19 +1583,23 @@ export default function HomeAdmin() {
                                                 e.target.value
                                             )
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                        className={`${inputClass} resize-y`}
+                                        style={inputStyle}
                                     />
                                 </div>
                             </div>
                         ))}
                     </section>
-
+ 
                     {/* CTA SECTION */}
-                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
-                        <h2 className="text-2xl font-semibold text-gray-900">
+                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
+                        <h2
+                            className="font-bold leading-tight"
+                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                        >
                             CTA Section
                         </h2>
-
+ 
                         {[
                             ["label", "Section Label"],
                             ["headingLine1", "Heading Line 1"],
@@ -1462,7 +1608,7 @@ export default function HomeAdmin() {
                             ["buttonUrl", "Button URL"],
                         ].map(([field, label]) => (
                             <div key={field}>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-2 block font-semibold" style={labelStyle}>
                                     {label}
                                 </label>
                                 <input
@@ -1470,13 +1616,14 @@ export default function HomeAdmin() {
                                     onChange={(e) =>
                                         handleCtaSectionChange(field, e.target.value)
                                     }
-                                    className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                    className={inputClass}
+                                    style={inputStyle}
                                 />
                             </div>
                         ))}
-
+ 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block font-semibold" style={labelStyle}>
                                 Description
                             </label>
                             <textarea
@@ -1485,29 +1632,39 @@ export default function HomeAdmin() {
                                 onChange={(e) =>
                                     handleCtaSectionChange("description", e.target.value)
                                 }
-                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                className={`${inputClass} resize-y`}
+                                style={inputStyle}
                             />
                         </div>
                     </section>
-
+ 
                     {/* SAVE */}
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-6">
                         <button
                             type="submit"
                             disabled={saving}
-                            className="rounded-lg bg-black px-6 py-3 font-medium text-white disabled:opacity-60"
+                            className="rounded-full px-10 py-4 font-semibold transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
+                            style={{ ...primaryButtonStyle, fontSize: SIZE.body }}
                         >
                             {saving ? "Saving..." : "Save Changes"}
                         </button>
-
+ 
                         {error && (
-                            <p className="text-sm text-red-600">
+                            <p
+                                role="alert"
+                                className="font-semibold"
+                                style={{ color: "#dc2626", fontSize: SIZE.body }}
+                            >
                                 {error}
                             </p>
                         )}
-
+ 
                         {message && (
-                            <p className="text-sm text-green-700">
+                            <p
+                                role="status"
+                                className="font-semibold"
+                                style={{ color: COLORS.teal, fontSize: SIZE.body }}
+                            >
                                 {message}
                             </p>
                         )}
@@ -1517,3 +1674,4 @@ export default function HomeAdmin() {
         </main>
     );
 }
+ 
