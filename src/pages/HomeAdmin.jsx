@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { notify } from "../components/adminToast";
+import CollapsibleSection from "../components/collapsibleSection";
  
 const API = "http://localhost:5000/api/home";
  
@@ -19,12 +21,12 @@ const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sa
  
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
-    h1: "65px",       // page title   — "Home Page CMS"
-    h2: "35px",       // section title — "Hero Content", "What We Do Section"
-    h3: "24px",       // item title   — "Service 1", "Card 1"
-    subtitle: "22px", // intro line under the title
+    h1: "50px",       // page title   — "Home Page CMS"
+    h2: "32px",       // section title — "Hero Content", "What We Do Section"
+    h3: "17px",       // item title   — "Service 1", "Card 1"
+    subtitle: "18px", // intro line under the title
     label: "18px",    // field labels
-    body: "18px",     // inputs, buttons, messages
+    body: "16px",     // inputs, buttons, messages
 };
  
 const DEFAULT_SERVICES = [
@@ -727,8 +729,10 @@ export default function HomeAdmin() {
             }));
  
             setMessage("Home content updated successfully!");
+            notify("success", "Home page saved successfully!");
         } catch (err) {
             setError(err.message);
+            notify("error", err.message);
         } finally {
             setSaving(false);
         }
@@ -759,15 +763,9 @@ export default function HomeAdmin() {
                     Edit your Home page content from one place.
                 </p>
  
-                <form onSubmit={handleSubmit} className="space-y-10">
+                <form id="admin-form" onSubmit={handleSubmit} className="space-y-10">
                     {/* HERO CONTENT */}
-                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            Hero Content
-                        </h2>
+                    <CollapsibleSection id="hero" title="Hero Content">
  
                         {[
                             ["heroChip", "Small Label"],
@@ -819,16 +817,10 @@ export default function HomeAdmin() {
                                 )}
                             </div>
                         ))}
-                    </section>
+                    </CollapsibleSection>
  
                     {/* HERO STATISTICS */}
-                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            Hero Statistics
-                        </h2>
+                    <CollapsibleSection id="statistics" title="Hero Statistics">
  
                         {form.stats.map((stat, index) => (
                             <div
@@ -892,16 +884,10 @@ export default function HomeAdmin() {
                                 </div>
                             </div>
                         ))}
-                    </section>
+                    </CollapsibleSection>
  
                     {/* WHAT WE DO SECTION */}
-                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            What We Do Section
-                        </h2>
+                    <CollapsibleSection id="what-we-do" title="What We Do Section">
  
                         <div>
                             <label htmlFor="whatWeDoLabel" className="mb-2 block font-semibold" style={labelStyle}>
@@ -1068,16 +1054,10 @@ export default function HomeAdmin() {
                                 + Add Service
                             </button>
                         </div>
-                    </section>
+                    </CollapsibleSection>
  
                     {/* WHY WEBCRAFT SECTION */}
-                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            Why Webcraft Section
-                        </h2>
+                    <CollapsibleSection id="why-webcraft" title="Why Webcraft Section">
  
                         <div>
                             <label className="mb-2 block font-semibold" style={labelStyle}>
@@ -1197,16 +1177,10 @@ export default function HomeAdmin() {
                                 </div>
                             ))}
                         </div>
-                    </section>
+                    </CollapsibleSection>
  
                     {/* APPROACH SECTION */}
-                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            Our Approach Section
-                        </h2>
+                    <CollapsibleSection id="approach" title="Our Approach Section">
  
                         <div>
                             <label className="mb-2 block font-semibold" style={labelStyle}>
@@ -1337,16 +1311,10 @@ export default function HomeAdmin() {
                                 </div>
                             </div>
                         ))}
-                    </section>
+                    </CollapsibleSection>
  
                     {/* PRODUCTS SECTION */}
-                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            Products Section
-                        </h2>
+                    <CollapsibleSection id="products" title="Products Section">
  
                         {[
                             ["label", "Section Label"],
@@ -1478,16 +1446,10 @@ export default function HomeAdmin() {
                                 ))}
                             </div>
                         ))}
-                    </section>
+                    </CollapsibleSection>
  
                     {/* AI STACK SECTION */}
-                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            AI Stack Section
-                        </h2>
+                    <CollapsibleSection id="ai-stack" title="AI Stack Section">
  
                         {[
                             ["label", "Section Label"],
@@ -1589,16 +1551,10 @@ export default function HomeAdmin() {
                                 </div>
                             </div>
                         ))}
-                    </section>
+                    </CollapsibleSection>
  
                     {/* CTA SECTION */}
-                    <section className="space-y-6 rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            CTA Section
-                        </h2>
+                    <CollapsibleSection id="cta" title="CTA Section">
  
                         {[
                             ["label", "Section Label"],
@@ -1636,7 +1592,7 @@ export default function HomeAdmin() {
                                 style={inputStyle}
                             />
                         </div>
-                    </section>
+                    </CollapsibleSection>
  
                     {/* SAVE */}
                     <div className="flex flex-wrap items-center gap-6">
@@ -1674,4 +1630,3 @@ export default function HomeAdmin() {
         </main>
     );
 }
- 

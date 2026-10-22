@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { notify } from "../components/adminToast";
  
 const API_URL = "http://localhost:5000/api/footer";
  
@@ -16,13 +17,13 @@ const COLORS = {
  
 // Footer colors, sampled from the live site's footer.
 const FOOTER = {
-    bg: "#091f48",
-    glow: "#1b4962",
+    bg: "#0f2752",
+    glow: "#123e55",
     mint: "#6ee7b7",
     white: "#ffffff",
     soft: "rgba(226,232,240,0.72)",
     faint: "rgba(226,232,240,0.5)",
-    line: "rgba(50, 40, 40, 0.12)",
+    line: "rgba(255,255,255,0.12)",
 };
  
 const FONT_HEADING = "'Fraunces', Georgia, 'Times New Roman', serif";
@@ -31,11 +32,11 @@ const FONT_MONO = "'JetBrains Mono', ui-monospace, 'Courier New', monospace";
  
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
-    h1: "65px",       // page title   — "Footer CMS"
-    h2: "40px",       // section title — "Footer Content"
-    subtitle: "24px", // intro line under the title
+    h1: "50px",       // page title   — "Footer CMS"
+    h2: "32px",       // section title — "Footer Content"
+    subtitle: "20px", // intro line under the title
     label: "18px",    // field labels
-    body: "18px",     // inputs, buttons, messages
+    body: "16px",     // inputs, buttons, messages
 };
  
 const pageStyle = {
@@ -52,11 +53,17 @@ const pageStyle = {
  
 const headingStyle = { fontFamily: FONT_HEADING, color: COLORS.navy };
  
+// Gradient text for "CMS". inline-block gives the gradient a box that covers the glyphs,
+// and WebkitTextFillColor stops the text color from hiding the gradient.
 const gradientTextStyle = {
+    display: "inline-block",
+    lineHeight: 1.15,
+    paddingBottom: "0.1em",
     backgroundImage: `linear-gradient(90deg, ${COLORS.blue}, ${COLORS.green})`,
     WebkitBackgroundClip: "text",
     backgroundClip: "text",
     color: "transparent",
+    WebkitTextFillColor: "transparent",
 };
  
 const cardStyle = {
@@ -147,9 +154,11 @@ export default function FooterAdmin() {
             }
  
             setMessage("Footer updated successfully!");
+            notify("success", "Footer saved successfully!");
             setMessageType("success");
         } catch (error) {
             setMessage(`Failed to save footer: ${error.message}`);
+            notify("error", error.message || "Failed to save footer.");
             setMessageType("error");
         } finally {
             setSaving(false);
@@ -197,7 +206,7 @@ export default function FooterAdmin() {
                     Edit your website footer content here.
                 </p>
  
-                <form onSubmit={saveFooter} className="space-y-10">
+                <form id="admin-form" onSubmit={saveFooter} className="space-y-10">
                     <section className="rounded-3xl p-10" style={cardStyle}>
                         <h2
                             className="mb-8 font-bold leading-tight"
@@ -364,4 +373,3 @@ export default function FooterAdmin() {
         </main>
     );
 }
- 
