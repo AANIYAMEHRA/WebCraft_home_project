@@ -96,6 +96,111 @@ const DEFAULT_APPROACH = {
     ],
 };
 
+const DEFAULT_PRODUCTS = {
+    label: "Our Products",
+    headingLine1: "Platforms Built From",
+    headingLine2: "Real Experience.",
+    items: [
+        {
+            num: "Product 001",
+            nameLine1: "Webcraft",
+            nameLine2: "HRMS.",
+            summary:
+                "Complete HR management — attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.",
+            meta: [
+                { label: "Category", value: "Enterprise HR" },
+                { label: "Users", value: "500+ companies" },
+                { label: "Pricing", value: "₹2,999/mo flat" },
+            ],
+            buttonText: "Learn more →",
+            buttonUrl: "/products",
+        },
+        {
+            num: "Product 002",
+            nameLine1: "Tutor",
+            nameLine2: "Wand.",
+            summary:
+                "AI-powered adaptive test prep for SAT, GRE, and more. 40K+ students, 2.7K+ teachers, 5000+ questions, and white-label options for institutes. The AI adjusts difficulty in real-time to each learner's pace.",
+            meta: [
+                { label: "Category", value: "Ed-Tech · AI" },
+                { label: "Reach", value: "40K+ students" },
+                { label: "Questions", value: "5,000+ bank" },
+            ],
+            buttonText: "Learn more →",
+            buttonUrl: "/products",
+        },
+        {
+            num: "Product 003",
+            nameLine1: "WCSchool",
+            nameLine2: "ERP.",
+            summary:
+                "School management platform — fees, schedules, exams, parent monitoring, and seamless communication between schools, parents, and students. One dashboard for the entire institution.",
+            meta: [
+                { label: "Category", value: "School Mgmt" },
+                { label: "Modules", value: "12+ integrated" },
+                { label: "Users", value: "Schools · Parents" },
+            ],
+            buttonText: "Learn more →",
+            buttonUrl: "/products",
+        },
+    ],
+};
+const DEFAULT_AI_STACK = {
+    label: "AI Solutions",
+    headingLine1: "The future belongs to businesses",
+    headingLine2: "that know before they act",
+    description:
+        "AI without research is noise. Research without AI is slow. Webcraft combines both — giving you the speed of intelligent automation and the confidence of informed strategy.",
+    cards: [
+        {
+            num: "01",
+            title: "Predictive Analytics",
+            description:
+                "Surface patterns in your data before they become problems — or opportunities — for your competitors. We build models that turn raw signals into actionable forecasts.",
+        },
+        {
+            num: "02",
+            title: "Primary Research",
+            description:
+                "Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves — then structure it for AI-ready decision-making.",
+        },
+        {
+            num: "03",
+            title: "Automation at Scale",
+            description:
+                "No-code RPA and conversational AI deployed across real workflows — cutting cost and accelerating timelines without replacing the teams who know the work best.",
+        },
+        {
+            num: "04",
+            title: "LLM & Gen AI",
+            description:
+                "Generative AI integrated into your products and processes — with proprietary data reliability, guardrails, and enterprise-grade security baked in from day one.",
+        },
+        {
+            num: "05",
+            title: "Market Intelligence",
+            description:
+                "Competitive landscapes and market analysis that back acquisition decisions before senior sign-off. Real intelligence, not recycled desk research.",
+        },
+        {
+            num: "06",
+            title: "AI Security & MLOps",
+            description:
+                "Fraud detection, predictive maintenance, and supply-chain optimisation — AI that processes and performs at scale with full auditability and compliance.",
+        },
+    ],
+    buttonText: "See All AI Solutions",
+    buttonUrl: "/ai-solutions",
+};
+const DEFAULT_CTA_SECTION = {
+    label: "Start A Conversation",
+    headingLine1: "Ready to make",
+    headingLine2: "smarter decisions?",
+    description:
+        "Whether you need AI strategy, market research, product development, or digital engineering — start with a conversation.",
+    buttonText: "Book a Consultation →",
+    buttonUrl: "/contact",
+};
 export default function HomeAdmin() {
     const [form, setForm] = useState({
         heroChip: "",
@@ -113,6 +218,9 @@ export default function HomeAdmin() {
         whatWeDo: DEFAULT_WHAT_WE_DO,
         whyWebcraft: DEFAULT_WHY_WEBCRAFT,
         approach: DEFAULT_APPROACH,
+        products: DEFAULT_PRODUCTS,
+        aiStack: DEFAULT_AI_STACK,
+        ctaSection: DEFAULT_CTA_SECTION,
     });
 
     const [loading, setLoading] = useState(true);
@@ -218,6 +326,47 @@ export default function HomeAdmin() {
                         ),
                     },
 
+                    products: {
+                        label: data.products?.label ?? DEFAULT_PRODUCTS.label,
+                        headingLine1:
+                            data.products?.headingLine1 ?? DEFAULT_PRODUCTS.headingLine1,
+                        headingLine2:
+                            data.products?.headingLine2 ?? DEFAULT_PRODUCTS.headingLine2,
+                        items:
+                            Array.isArray(data.products?.items) &&
+                                data.products.items.length > 0
+                                ? data.products.items.map((product, index) => ({
+                                    ...DEFAULT_PRODUCTS.items[index % DEFAULT_PRODUCTS.items.length],
+                                    ...product,
+                                    meta: Array.isArray(product.meta)
+                                        ? product.meta
+                                        : DEFAULT_PRODUCTS.items[index % DEFAULT_PRODUCTS.items.length].meta,
+                                }))
+                                : DEFAULT_PRODUCTS.items.map((product) => ({
+                                    ...product,
+                                    meta: product.meta.map((item) => ({ ...item })),
+                                })),
+                    },
+                    aiStack: {
+                        ...DEFAULT_AI_STACK,
+                        ...(data.aiStack || {}),
+                        cards:
+                            Array.isArray(data.aiStack?.cards) &&
+                                data.aiStack.cards.length > 0
+                                ? data.aiStack.cards.map((card, index) => ({
+                                    ...DEFAULT_AI_STACK.cards[
+                                    index % DEFAULT_AI_STACK.cards.length
+                                    ],
+                                    ...card,
+                                }))
+                                : DEFAULT_AI_STACK.cards.map((card) => ({
+                                    ...card,
+                                })),
+                    },
+                    ctaSection: {
+                        ...DEFAULT_CTA_SECTION,
+                        ...(data.ctaSection || {}),
+                    },
                 });
             } catch (err) {
                 setError(err.message);
@@ -300,6 +449,81 @@ export default function HomeAdmin() {
                     i === index
                         ? { ...step, [field]: value }
                         : step
+                ),
+            },
+        }));
+    }
+
+    function handleProductsChange(field, value) {
+        setForm((previous) => ({
+            ...previous,
+            products: {
+                ...previous.products,
+                [field]: value,
+            },
+        }));
+    }
+    function handleAiStackChange(field, value) {
+        setForm((previous) => ({
+            ...previous,
+            aiStack: {
+                ...previous.aiStack,
+                [field]: value,
+            },
+        }));
+    }
+    function handleCtaSectionChange(field, value) {
+        setForm((previous) => ({
+            ...previous,
+            ctaSection: {
+                ...previous.ctaSection,
+                [field]: value,
+            },
+        }));
+    }
+    function handleAiStackCardChange(index, field, value) {
+        setForm((previous) => ({
+            ...previous,
+            aiStack: {
+                ...previous.aiStack,
+                cards: previous.aiStack.cards.map((card, i) =>
+                    i === index
+                        ? { ...card, [field]: value }
+                        : card
+                ),
+            },
+        }));
+    }
+    function handleProductItemChange(index, field, value) {
+        setForm((previous) => ({
+            ...previous,
+            products: {
+                ...previous.products,
+                items: previous.products.items.map((product, i) =>
+                    i === index
+                        ? { ...product, [field]: value }
+                        : product
+                ),
+            },
+        }));
+    }
+
+    function handleProductMetaChange(productIndex, metaIndex, field, value) {
+        setForm((previous) => ({
+            ...previous,
+            products: {
+                ...previous.products,
+                items: previous.products.items.map((product, i) =>
+                    i === productIndex
+                        ? {
+                            ...product,
+                            meta: product.meta.map((item, j) =>
+                                j === metaIndex
+                                    ? { ...item, [field]: value }
+                                    : item
+                            ),
+                        }
+                        : product
                 ),
             },
         }));
@@ -1000,6 +1224,272 @@ export default function HomeAdmin() {
                             </div>
                         ))}
                     </section>
+
+                    {/* PRODUCTS SECTION */}
+                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
+                        <h2 className="text-2xl font-semibold text-gray-900">
+                            Products Section
+                        </h2>
+
+                        {[
+                            ["label", "Section Label"],
+                            ["headingLine1", "Heading Line 1"],
+                            ["headingLine2", "Heading Line 2"],
+                        ].map(([field, label]) => (
+                            <div key={field}>
+                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    {label}
+                                </label>
+                                <input
+                                    value={form.products[field]}
+                                    onChange={(e) =>
+                                        handleProductsChange(field, e.target.value)
+                                    }
+                                    className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                />
+                            </div>
+                        ))}
+
+                        {form.products.items.map((product, index) => (
+                            <div
+                                key={index}
+                                className="space-y-4 rounded-xl border border-gray-200 p-5"
+                            >
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    Product {index + 1}
+                                </h3>
+
+                                {[
+                                    ["num", "Product Number"],
+                                    ["nameLine1", "Name Line 1"],
+                                    ["nameLine2", "Name Line 2"],
+                                    ["summary", "Description"],
+                                    ["buttonText", "Button Text"],
+                                    ["buttonUrl", "Button URL"],
+                                ].map(([field, label]) => (
+                                    <div key={field}>
+                                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                                            {label}
+                                        </label>
+
+                                        {field === "summary" ? (
+                                            <textarea
+                                                rows={4}
+                                                value={product[field] ?? ""}
+                                                onChange={(e) =>
+                                                    handleProductItemChange(
+                                                        index,
+                                                        field,
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                            />
+                                        ) : (
+                                            <input
+                                                value={product[field] ?? ""}
+                                                onChange={(e) =>
+                                                    handleProductItemChange(
+                                                        index,
+                                                        field,
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                            />
+                                        )}
+                                    </div>
+                                ))}
+
+                                <h4 className="font-semibold text-gray-800">
+                                    Product Details
+                                </h4>
+
+                                {product.meta.map((item, metaIndex) => (
+                                    <div
+                                        key={metaIndex}
+                                        className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+                                    >
+                                        <div>
+                                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                                Detail Label {metaIndex + 1}
+                                            </label>
+                                            <input
+                                                value={item.label ?? ""}
+                                                onChange={(e) =>
+                                                    handleProductMetaChange(
+                                                        index,
+                                                        metaIndex,
+                                                        "label",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                                Detail Value {metaIndex + 1}
+                                            </label>
+                                            <input
+                                                value={item.value ?? ""}
+                                                onChange={(e) =>
+                                                    handleProductMetaChange(
+                                                        index,
+                                                        metaIndex,
+                                                        "value",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </section>
+
+                    {/* AI STACK SECTION */}
+                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
+                        <h2 className="text-2xl font-semibold text-gray-900">
+                            AI Stack Section
+                        </h2>
+
+                        {[
+                            ["label", "Section Label"],
+                            ["headingLine1", "Heading Line 1"],
+                            ["headingLine2", "Heading Line 2"],
+                            ["buttonText", "Button Text"],
+                            ["buttonUrl", "Button URL"],
+                        ].map(([field, label]) => (
+                            <div key={field}>
+                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    {label}
+                                </label>
+                                <input
+                                    value={form.aiStack[field] ?? ""}
+                                    onChange={(e) =>
+                                        handleAiStackChange(field, e.target.value)
+                                    }
+                                    className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                />
+                            </div>
+                        ))}
+
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Section Description
+                            </label>
+                            <textarea
+                                rows={4}
+                                value={form.aiStack.description ?? ""}
+                                onChange={(e) =>
+                                    handleAiStackChange("description", e.target.value)
+                                }
+                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                            />
+                        </div>
+
+                        <h3 className="text-lg font-semibold text-gray-900">
+                            AI Solution Cards
+                        </h3>
+
+                        {form.aiStack.cards.map((card, index) => (
+                            <div
+                                key={index}
+                                className="space-y-4 rounded-xl border border-gray-200 p-5"
+                            >
+                                <h4 className="font-semibold text-gray-800">
+                                    Card {index + 1}
+                                </h4>
+
+                                {[
+                                    ["num", "Card Number"],
+                                    ["title", "Card Title"],
+                                ].map(([field, label]) => (
+                                    <div key={field}>
+                                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                                            {label}
+                                        </label>
+                                        <input
+                                            value={card[field] ?? ""}
+                                            onChange={(e) =>
+                                                handleAiStackCardChange(
+                                                    index,
+                                                    field,
+                                                    e.target.value
+                                                )
+                                            }
+                                            className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                        />
+                                    </div>
+                                ))}
+
+                                <div>
+                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                        Card Description
+                                    </label>
+                                    <textarea
+                                        rows={4}
+                                        value={card.description ?? ""}
+                                        onChange={(e) =>
+                                            handleAiStackCardChange(
+                                                index,
+                                                "description",
+                                                e.target.value
+                                            )
+                                        }
+                                        className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </section>
+
+                    {/* CTA SECTION */}
+                    <section className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
+                        <h2 className="text-2xl font-semibold text-gray-900">
+                            CTA Section
+                        </h2>
+
+                        {[
+                            ["label", "Section Label"],
+                            ["headingLine1", "Heading Line 1"],
+                            ["headingLine2", "Heading Line 2"],
+                            ["buttonText", "Button Text"],
+                            ["buttonUrl", "Button URL"],
+                        ].map(([field, label]) => (
+                            <div key={field}>
+                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    {label}
+                                </label>
+                                <input
+                                    value={form.ctaSection[field] ?? ""}
+                                    onChange={(e) =>
+                                        handleCtaSectionChange(field, e.target.value)
+                                    }
+                                    className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                                />
+                            </div>
+                        ))}
+
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Description
+                            </label>
+                            <textarea
+                                rows={4}
+                                value={form.ctaSection.description ?? ""}
+                                onChange={(e) =>
+                                    handleCtaSectionChange("description", e.target.value)
+                                }
+                                className="w-full rounded-lg border border-gray-300 px-3 py-3"
+                            />
+                        </div>
+                    </section>
+
                     {/* SAVE */}
                     <div className="flex flex-wrap items-center gap-4">
                         <button

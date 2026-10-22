@@ -203,8 +203,186 @@ const homeSchema = new mongoose.Schema(
                 ],
             },
         },
-
-
+        products: {
+            label: {
+                type: String,
+                default: "Our Products",
+            },
+            headingLine1: {
+                type: String,
+                default: "Platforms Built From",
+            },
+            headingLine2: {
+                type: String,
+                default: "Real Experience.",
+            },
+            items: {
+                type: [
+                    {
+                        num: { type: String, default: "" },
+                        nameLine1: { type: String, default: "" },
+                        nameLine2: { type: String, default: "" },
+                        summary: { type: String, default: "" },
+                        meta: {
+                            type: [
+                                {
+                                    label: { type: String, default: "" },
+                                    value: { type: String, default: "" },
+                                },
+                            ],
+                            default: [],
+                        },
+                        buttonText: {
+                            type: String,
+                            default: "Learn more →",
+                        },
+                        buttonUrl: {
+                            type: String,
+                            default: "/products",
+                        },
+                    },
+                ],
+                default: [
+                    {
+                        num: "Product 001",
+                        nameLine1: "Webcraft",
+                        nameLine2: "HRMS.",
+                        summary:
+                            "Complete HR management — attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.",
+                        meta: [
+                            { label: "Category", value: "Enterprise HR" },
+                            { label: "Users", value: "500+ companies" },
+                            { label: "Pricing", value: "₹2,999/mo flat" },
+                        ],
+                        buttonText: "Learn more →",
+                        buttonUrl: "/products",
+                    },
+                    {
+                        num: "Product 002",
+                        nameLine1: "Tutor",
+                        nameLine2: "Wand.",
+                        summary:
+                            "AI-powered adaptive test prep for SAT, GRE, and more. 40K+ students, 2.7K+ teachers, 5000+ questions, and white-label options for institutes. The AI adjusts difficulty in real-time to each learner's pace.",
+                        meta: [
+                            { label: "Category", value: "Ed-Tech · AI" },
+                            { label: "Reach", value: "40K+ students" },
+                            { label: "Questions", value: "5,000+ bank" },
+                        ],
+                        buttonText: "Learn more →",
+                        buttonUrl: "/products",
+                    },
+                    {
+                        num: "Product 003",
+                        nameLine1: "WCSchool",
+                        nameLine2: "ERP.",
+                        summary:
+                            "School management platform — fees, schedules, exams, parent monitoring, and seamless communication between schools, parents, and students. One dashboard for the entire institution.",
+                        meta: [
+                            { label: "Category", value: "School Mgmt" },
+                            { label: "Modules", value: "12+ integrated" },
+                            { label: "Users", value: "Schools · Parents" },
+                        ],
+                        buttonText: "Learn more →",
+                        buttonUrl: "/products",
+                    },
+                ],
+            },
+        },
+        aiStack: {
+            label: {
+                type: String,
+                default: "AI Solutions",
+            },
+            headingLine1: {
+                type: String,
+                default: "The future belongs to businesses",
+            },
+            headingLine2: {
+                type: String,
+                default: "that know before they act",
+            },
+            description: {
+                type: String,
+                default:
+                    "AI without research is noise. Research without AI is slow. Webcraft combines both — giving you the speed of intelligent automation and the confidence of informed strategy.",
+            },
+            cards: {
+                type: [
+                    {
+                        num: { type: String, default: "" },
+                        title: { type: String, default: "" },
+                        description: { type: String, default: "" },
+                    },
+                ],
+                default: [
+                    {
+                        num: "01",
+                        title: "Predictive Analytics",
+                        description: "Surface patterns in your data before they become problems — or opportunities — for your competitors. We build models that turn raw signals into actionable forecasts.",
+                    },
+                    {
+                        num: "02",
+                        title: "Primary Research",
+                        description: "Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves — then structure it for AI-ready decision-making.",
+                    },
+                    {
+                        num: "03",
+                        title: "Automation at Scale",
+                        description: "No-code RPA and conversational AI deployed across real workflows — cutting cost and accelerating timelines without replacing the teams who know the work best.",
+                    },
+                    {
+                        num: "04",
+                        title: "LLM & Gen AI",
+                        description: "Generative AI integrated into your products and processes — with proprietary data reliability, guardrails, and enterprise-grade security baked in from day one.",
+                    },
+                    {
+                        num: "05",
+                        title: "Market Intelligence",
+                        description: "Competitive landscapes and market analysis that back acquisition decisions before senior sign-off. Real intelligence, not recycled desk research.",
+                    },
+                    {
+                        num: "06",
+                        title: "AI Security & MLOps",
+                        description: "Fraud detection, predictive maintenance, and supply-chain optimisation — AI that processes and performs at scale with full auditability and compliance.",
+                    },
+                ],
+            },
+            buttonText: {
+                type: String,
+                default: "See All AI Solutions",
+            },
+            buttonUrl: {
+                type: String,
+                default: "/ai-solutions",
+            },
+        },
+        ctaSection: {
+            label: {
+                type: String,
+                default: "Start A Conversation",
+            },
+            headingLine1: {
+                type: String,
+                default: "Ready to make",
+            },
+            headingLine2: {
+                type: String,
+                default: "smarter decisions?",
+            },
+            description: {
+                type: String,
+                default:
+                    "Whether you need AI strategy, market research, product development, or digital engineering — start with a conversation.",
+            },
+            buttonText: {
+                type: String,
+                default: "Book a Consultation →",
+            },
+            buttonUrl: {
+                type: String,
+                default: "/contact",
+            },
+        },
         stats: {
             type: [
                 {
