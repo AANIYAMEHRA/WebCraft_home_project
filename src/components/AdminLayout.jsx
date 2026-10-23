@@ -32,23 +32,18 @@ const itemClass =
 const subItemClass =
     "group relative flex items-center gap-2 whitespace-nowrap py-2 pl-10 pr-2 text-[15px] transition-colors";
  
-const hoverLabel = (isActive) =>
-    `transition-all duration-300 ${
-        isActive
-            ? "font-bold italic text-white [font-family:'Fraunces',Georgia,serif]"
-            : "font-medium text-white/80 group-hover:font-bold group-hover:italic group-hover:text-white group-hover:[font-family:'Fraunces',Georgia,serif]"
-    }`;
+// Same look for every item: bold, upright, white.
+const hoverLabel = () =>
+    "font-bold not-italic text-white [font-family:'Fraunces',Georgia,serif] transition-colors duration-300";
  
-const arrowClass = (isActive) =>
-    `ml-auto text-[#6ee7b7] transition duration-300 ${
-        isActive
-            ? "opacity-100"
-            : "opacity-0 group-hover:translate-x-1 group-hover:opacity-100"
-    }`;
+// Arrow is always visible.
+const arrowClass = () =>
+    "ml-auto text-[#6ee7b7] transition duration-300";
  
+// Underline is always visible; the open page's underline is brighter.
 const underlineClass = (isActive, indented) =>
-    `absolute bottom-1 ${indented ? "left-10" : "left-4"} right-4 h-[2px] origin-left rounded-full bg-[#6ee7b7] transition-transform duration-300 ${
-        isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+    `absolute bottom-1 ${indented ? "left-10" : "left-4"} right-4 h-[2px] origin-left scale-x-100 rounded-full bg-[#6ee7b7] transition-opacity duration-300 ${
+        isActive ? "opacity-100" : "opacity-40"
     }`;
  
 // The label, arrow and hover underline shared by every sidebar item.

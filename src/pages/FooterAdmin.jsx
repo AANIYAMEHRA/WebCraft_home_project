@@ -35,7 +35,7 @@ const SIZE = {
     h1: "50px",       // page title   — "Footer CMS"
     h2: "32px",       // section title — "Footer Content"
     subtitle: "20px", // intro line under the title
-    label: "18px",    // field labels
+    label: "16px",    // field labels
     body: "16px",     // inputs, buttons, messages
 };
  
@@ -232,6 +232,9 @@ export default function FooterAdmin() {
  
                                     <input
                                         id={`footer-${key}`}
+                                        placeholder={`Enter ${key
+                                            .replace(/([A-Z])/g, " $1")
+                                            .toLowerCase()}`}
                                         type="text"
                                         value={value}
                                         onChange={(event) =>
@@ -275,6 +278,23 @@ export default function FooterAdmin() {
                                     {preview.kicker}
                                 </p>
                             )}
+ 
+                            {!preview.kicker &&
+                                !preview.heading &&
+                                !preview.headingEmphasis &&
+                                !preview.email &&
+                                !preview.brandTagline &&
+                                !preview.bottomText && (
+                                    <p
+                                        className="mb-8 font-semibold"
+                                        style={{
+                                            color: FOOTER.soft,
+                                            fontSize: SIZE.body,
+                                        }}
+                                    >
+                                        No footer content yet. Fill in the fields above.
+                                    </p>
+                                )}
  
                             <h3
                                 className="font-bold leading-[1.05]"

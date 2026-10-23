@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { notify } from "../components/adminToast";
-
+import ConfirmDialog from "../components/ConfirmDialog";
+ 
 const API_URL = "http://localhost:5000/api/header";
-
+ 
 // Colors and fonts taken from the live Webcraft-IT site (image 2).
 const COLORS = {
     navy: "#163764",   // headings (hero "Smarter Decisions.")
@@ -14,10 +15,10 @@ const COLORS = {
     border: "#d7ebe4",
     bg: "#f4faf8",
 };
-
+ 
 const FONT_HEADING = "'Fraunces', Georgia, 'Times New Roman', serif";
 const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif";
-
+ 
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
     h1: "50px",       // page title   — "Header CMS"
@@ -26,7 +27,7 @@ const SIZE = {
     label: "18px",    // field labels
     body: "16px",     // inputs, nav links, buttons
 };
-
+ 
 const pageStyle = {
     backgroundColor: COLORS.bg,
     backgroundImage: [
@@ -38,9 +39,9 @@ const pageStyle = {
     fontFamily: FONT_BODY,
     color: COLORS.text,
 };
-
+ 
 const headingStyle = { fontFamily: FONT_HEADING, color: COLORS.navy };
-
+ 
 // Gradient text for "CMS". inline-block gives the gradient a box that covers the glyphs,
 // and WebkitTextFillColor stops the text color from hiding the gradient.
 const gradientTextStyle = {
@@ -53,13 +54,13 @@ const gradientTextStyle = {
     color: "transparent",
     WebkitTextFillColor: "transparent",
 };
-
+ 
 const cardStyle = {
     backgroundColor: "#ffffff",
     border: `1px solid ${COLORS.border}`,
     boxShadow: "0 10px 30px -15px rgba(15,36,64,0.15)",
 };
-
+ 
 const inputClass =
     "w-full rounded-xl border bg-white px-4 py-3 outline-none transition placeholder:text-[#8a9aa9] focus:border-[#2aa27c] focus:ring-4 focus:ring-[#2aa27c]/20";
 const inputStyle = {
@@ -67,16 +68,22 @@ const inputStyle = {
     color: COLORS.text,
     fontSize: SIZE.body,
 };
-
+ 
 const primaryButtonStyle = {
     background: `linear-gradient(90deg, ${COLORS.green}, ${COLORS.teal})`,
     boxShadow: "0 8px 20px -8px rgba(31,138,134,0.55)",
     color: "#ffffff",
 };
-
+ 
 const secondaryButtonClass =
     "rounded-full border bg-white px-6 py-3 font-semibold transition hover:border-[#2aa27c] hover:text-[#1f8a86]";
-
+ 
+const outlineButtonStyle = {
+    borderColor: COLORS.border,
+    color: COLORS.text,
+    fontSize: SIZE.body,
+};
+ 
 export default function HeaderAdmin() {
     const [header, setHeader] = useState({
         logoUrl: "/logo.svg",
@@ -84,25 +91,27 @@ export default function HeaderAdmin() {
         contactText: "Contact Us",
         contactUrl: "/contact",
     });
-
+ 
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-
+    const fileInputRef = useRef(null);
+    const [pendingRemove, setPendingRemove] = useState(null);
+ 
     useEffect(() => {
         async function loadHeader() {
             try {
                 const response = await fetch(API_URL);
-
+ 
                 if (!response.ok) {
                     throw new Error("Could not load header data.");
                 }
-
+ 
                 const data = await response.json();
-
+ 
                 setHeader({
-                    logoUrl: data.logoUrl || "/logo.svg",
+                    logoUrl: data.logoUrl ?? "/logo.svg",
                     links: Array.isArray(data.links) ? data.links : [],
                     contactText: data.contactText || "Contact Us",
                     contactUrl: data.contactUrl || "/contact",
@@ -117,10 +126,10 @@ export default function HeaderAdmin() {
                 setLoading(false);
             }
         }
-
+ 
         loadHeader();
     }, []);
-
+ 
     function updateLink(index, field, value) {
         setHeader((current) => ({
             ...current,
@@ -129,28 +138,62 @@ export default function HeaderAdmin() {
             ),
         }));
     }
-
+ 
     function addLink() {
         setHeader((current) => ({
             ...current,
             links: [...current.links, { label: "", to: "/" }],
         }));
     }
-
+ 
     function removeLink(index) {
+        setPendingRemove(index);
+    }
+ 
+    function confirmRemoveLink() {
+        const index = pendingRemove;
+        setPendingRemove(null);
+ 
         setHeader((current) => ({
             ...current,
             links: current.links.filter((_, i) => i !== index),
         }));
     }
-
+ 
+    // Reads the chosen logo file and stores it as the logo.
+    // Limited to 70 KB so the saved data stays under the backend's 100 KB request limit.
+    function handleLogoFile(event) {
+        const file = event.target.files?.[0];
+        event.target.value = "";
+ 
+        if (!file) return;
+ 
+        if (!file.type.startsWith("image/")) {
+            notify("error", "Please choose an image file.");
+            return;
+        }
+ 
+        if (file.size > 70 * 1024) {
+            notify("error", "Logo must be smaller than 70 KB.");
+            return;
+        }
+ 
+        const reader = new FileReader();
+        reader.onload = () =>
+            setHeader((current) => ({
+                ...current,
+                logoUrl: reader.result,
+            }));
+        reader.readAsDataURL(file);
+    }
+ 
     async function saveHeader(event) {
         event.preventDefault();
-
+ 
         setSaving(true);
         setMessage("");
         setMessageType("");
-
+ 
         try {
             const response = await fetch(API_URL, {
                 method: "PUT",
@@ -159,16 +202,16 @@ export default function HeaderAdmin() {
                 },
                 body: JSON.stringify(header),
             });
-
+ 
             const data = await response.json();
-
+ 
             if (!response.ok) {
                 throw new Error(data.message || "Failed to save header.");
             }
-
+ 
             if (data.header) {
                 setHeader({
-                    logoUrl: data.header.logoUrl || "/logo.svg",
+                    logoUrl: data.header.logoUrl ?? "/logo.svg",
                     links: Array.isArray(data.header.links)
                         ? data.header.links
                         : [],
@@ -176,7 +219,7 @@ export default function HeaderAdmin() {
                     contactUrl: data.header.contactUrl || "/contact",
                 });
             }
-
+ 
             setMessage("Header updated successfully!");
             notify("success", "Header saved successfully!");
             setMessageType("success");
@@ -188,7 +231,7 @@ export default function HeaderAdmin() {
             setSaving(false);
         }
     }
-
+ 
     if (loading) {
         return (
             <p className="p-6" style={{ ...pageStyle, fontSize: SIZE.body }}>
@@ -196,7 +239,7 @@ export default function HeaderAdmin() {
             </p>
         );
     }
-
+ 
     return (
         <main className="min-h-screen px-6 py-16" style={pageStyle}>
             <div className="mx-auto max-w-5xl">
@@ -206,14 +249,14 @@ export default function HeaderAdmin() {
                 >
                     Header <span style={gradientTextStyle}>CMS</span>
                 </h1>
-
+ 
                 <p
                     className="mb-14"
                     style={{ color: COLORS.muted, fontSize: SIZE.subtitle }}
                 >
                     Edit your website's header content here.
                 </p>
-
+ 
                 {message && messageType === "error" && (
                     <p
                         role="alert"
@@ -224,7 +267,7 @@ export default function HeaderAdmin() {
                         {message}
                     </p>
                 )}
-
+ 
                 <form id="admin-form" onSubmit={saveHeader} className="space-y-10">
                     <section className="rounded-3xl p-10" style={cardStyle}>
                         <h2
@@ -233,7 +276,7 @@ export default function HeaderAdmin() {
                         >
                             Logo Settings
                         </h2>
-
+ 
                         <div>
                             <label
                                 htmlFor="logoUrl"
@@ -242,23 +285,57 @@ export default function HeaderAdmin() {
                             >
                                 Logo URL
                             </label>
-
-                            <input
-                                id="logoUrl"
-                                type="text"
-                                value={header.logoUrl}
-                                onChange={(event) =>
-                                    setHeader((current) => ({
-                                        ...current,
-                                        logoUrl: event.target.value,
-                                    }))
-                                }
-                                className={inputClass}
-                                style={inputStyle}
-                            />
+ 
+                            <div className="flex flex-wrap items-center gap-4">
+                                <input
+                                    id="logoUrl"
+                                    type="text"
+                                    readOnly
+                                    placeholder="No logo added. Click Browse to add one."
+                                    value={
+                                        header.logoUrl.startsWith("data:")
+                                            ? "Uploaded logo file"
+                                            : header.logoUrl
+                                    }
+                                    className={`${inputClass} min-w-0 flex-1`}
+                                    style={inputStyle}
+                                />
+ 
+                                <button
+                                    type="button"
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className={secondaryButtonClass}
+                                    style={outlineButtonStyle}
+                                >
+                                    Browse
+                                </button>
+ 
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setHeader((current) => ({
+                                            ...current,
+                                            logoUrl: "",
+                                        }))
+                                    }
+                                    disabled={!header.logoUrl}
+                                    className={`${secondaryButtonClass} disabled:cursor-not-allowed disabled:opacity-50`}
+                                    style={outlineButtonStyle}
+                                >
+                                    Remove
+                                </button>
+ 
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleLogoFile}
+                                    className="hidden"
+                                />
+                            </div>
                         </div>
                     </section>
-
+ 
                     <section className="rounded-3xl p-10" style={cardStyle}>
                         <h2
                             className="mb-8 font-bold leading-tight"
@@ -266,7 +343,7 @@ export default function HeaderAdmin() {
                         >
                             Navigation Links
                         </h2>
-
+ 
                         <div className="space-y-5">
                             {header.links.map((link, index) => (
                                 <div
@@ -287,7 +364,7 @@ export default function HeaderAdmin() {
                                         className={inputClass}
                                         style={inputStyle}
                                     />
-
+ 
                                     <input
                                         aria-label={`Link ${index + 1} URL`}
                                         placeholder="URL (e.g. /about)"
@@ -302,7 +379,7 @@ export default function HeaderAdmin() {
                                         className={inputClass}
                                         style={inputStyle}
                                     />
-
+ 
                                     <button
                                         type="button"
                                         onClick={() => removeLink(index)}
@@ -318,7 +395,7 @@ export default function HeaderAdmin() {
                                 </div>
                             ))}
                         </div>
-
+ 
                         <button
                             type="button"
                             onClick={addLink}
@@ -332,7 +409,7 @@ export default function HeaderAdmin() {
                             Add Link
                         </button>
                     </section>
-
+ 
                     <section className="rounded-3xl p-10" style={cardStyle}>
                         <h2
                             className="mb-8 font-bold leading-tight"
@@ -340,7 +417,7 @@ export default function HeaderAdmin() {
                         >
                             Contact Button Settings
                         </h2>
-
+ 
                         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                             <div>
                                 <label
@@ -350,9 +427,10 @@ export default function HeaderAdmin() {
                                 >
                                     Contact Button Text
                                 </label>
-
+ 
                                 <input
                                     id="contactText"
+                                    placeholder="Enter button text, e.g. Contact Us"
                                     type="text"
                                     value={header.contactText}
                                     onChange={(event) =>
@@ -365,7 +443,7 @@ export default function HeaderAdmin() {
                                     style={inputStyle}
                                 />
                             </div>
-
+ 
                             <div>
                                 <label
                                     htmlFor="contactUrl"
@@ -374,7 +452,7 @@ export default function HeaderAdmin() {
                                 >
                                     Contact Button URL
                                 </label>
-
+ 
                                 <input
                                     id="contactUrl"
                                     type="text"
@@ -391,7 +469,7 @@ export default function HeaderAdmin() {
                             </div>
                         </div>
                     </section>
-
+ 
                     {/* Live preview: replicates the public header bar from the live site */}
                     <section className="rounded-3xl p-10" style={cardStyle}>
                         <h2
@@ -400,17 +478,30 @@ export default function HeaderAdmin() {
                         >
                             Live Preview
                         </h2>
-
+ 
                         <div className="flex flex-wrap items-center justify-between gap-8 rounded-2xl bg-white px-8 py-6">
-                            <img
-                                src={header.logoUrl}
-                                alt="Webcraft-IT logo"
-                                className="h-12 w-auto"
-                                onError={(event) =>
-                                    (event.currentTarget.style.display = "none")
-                                }
-                            />
-
+                            {header.logoUrl ? (
+                                <img
+                                    src={header.logoUrl}
+                                    alt="Webcraft-IT logo"
+                                    className="h-12 w-auto"
+                                    onError={(event) => {
+                                        if (!event.currentTarget.src.endsWith("/logo.svg")) {
+                                            event.currentTarget.src = "/logo.svg";
+                                        } else {
+                                            event.currentTarget.style.display = "none";
+                                        }
+                                    }}
+                                />
+                            ) : (
+                                <span
+                                    className="font-semibold"
+                                    style={{ color: COLORS.muted, fontSize: SIZE.body }}
+                                >
+                                    No logo added yet
+                                </span>
+                            )}
+ 
                             <nav
                                 className="flex flex-wrap items-center gap-14 font-medium"
                                 style={{ fontSize: SIZE.body }}
@@ -432,7 +523,7 @@ export default function HeaderAdmin() {
                                     </span>
                                 ))}
                             </nav>
-
+ 
                             <span
                                 className="inline-flex items-center gap-3 rounded-full px-8 py-4 font-semibold"
                                 style={{ ...primaryButtonStyle, fontSize: SIZE.body }}
@@ -441,7 +532,7 @@ export default function HeaderAdmin() {
                             </span>
                         </div>
                     </section>
-
+ 
                     <div className="flex flex-wrap items-center gap-6">
                         <button
                             type="submit"
@@ -451,7 +542,7 @@ export default function HeaderAdmin() {
                         >
                             {saving ? "Saving..." : "Save Changes"}
                         </button>
-
+ 
                         {message && messageType === "success" && (
                             <p
                                 role="status"
@@ -465,6 +556,16 @@ export default function HeaderAdmin() {
                     </div>
                 </form>
             </div>
+            {pendingRemove !== null && (
+                <ConfirmDialog
+                    title="Remove navigation link?"
+                    message={`Are you sure you want to delete "${header.links[pendingRemove]?.label || "this link"}" from the navigation menu? The change will be applied when you click Save Changes.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    onConfirm={confirmRemoveLink}
+                    onCancel={() => setPendingRemove(null)}
+                />
+            )}
         </main>
     );
 }

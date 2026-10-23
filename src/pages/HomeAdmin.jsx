@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
-import CollapsibleSection from "../components/collapsibleSection";
+import CollapsibleSection from "../components/CollapsibleSection";
+import ConfirmDialog from "../components/ConfirmDialog";
  
 const API = "http://localhost:5000/api/home";
  
@@ -21,12 +22,12 @@ const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sa
  
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
-    h1: "50px",       // page title   — "Home Page CMS"
-    h2: "32px",       // section title — "Hero Content", "What We Do Section"
-    h3: "17px",       // item title   — "Service 1", "Card 1"
-    subtitle: "18px", // intro line under the title
+    h1: "40px",       // page title   — "Home Page CMS"
+    h2: "35px",       // section title — "Hero Content", "What We Do Section"
+    h3: "18px",       // item title   — "Service 1", "Card 1"
+    subtitle: "22px", // intro line under the title
     label: "18px",    // field labels
-    body: "16px",     // inputs, buttons, messages
+    body: "18px",     // inputs, buttons, messages
 };
  
 const DEFAULT_SERVICES = [
@@ -289,6 +290,38 @@ const outlineButtonStyle = {
     fontSize: SIZE.body,
 };
  
+// Hero fields that must be filled in before saving.
+const REQUIRED_HERO = ["headingLine1", "headingLine2", "button1Text", "button1Url"];
+ 
+// Links must start with "/" (site page) or "http(s)://" (external address).
+const LINK_PATTERN = /^(\/|https?:\/\/)/;
+ 
+// Returns an error message for the first problem found, or "" when the form is valid.
+function validateHome(form) {
+    const missing = REQUIRED_HERO.filter(
+        (field) => !String(form[field] ?? "").trim()
+    );
+ 
+    if (missing.length > 0) {
+        return "Please fill in all required fields marked with *.";
+    }
+ 
+    const links = [
+        form.button1Url,
+        form.button2Url,
+        form.aiStack?.buttonUrl,
+        form.ctaSection?.buttonUrl,
+        ...(form.whatWeDo?.services || []).map((service) => service.buttonUrl),
+        ...(form.products?.items || []).map((product) => product.buttonUrl),
+    ];
+ 
+    if (links.some((link) => link && !LINK_PATTERN.test(link.trim()))) {
+        return "Links must start with / (for example /contact) or http:// / https://.";
+    }
+ 
+    return "";
+}
+ 
 export default function HomeAdmin() {
     const [form, setForm] = useState({
         heroChip: "",
@@ -315,6 +348,7 @@ export default function HomeAdmin() {
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [pendingRemove, setPendingRemove] = useState(null);
  
     useEffect(() => {
         async function loadHome() {
@@ -661,6 +695,12 @@ export default function HomeAdmin() {
     }
  
     function removeService(index) {
+        setPendingRemove(index);
+    }
+ 
+    function confirmRemoveService() {
+        const index = pendingRemove;
+        setPendingRemove(null);
         setForm((previous) => ({
             ...previous,
             whatWeDo: {
@@ -674,6 +714,14 @@ export default function HomeAdmin() {
  
     async function handleSubmit(event) {
         event.preventDefault();
+ 
+        const validationError = validateHome(form);
+ 
+        if (validationError) {
+            setError(validationError);
+            notify("error", validationError);
+            return;
+        }
  
         setSaving(true);
         setMessage("");
@@ -747,7 +795,7 @@ export default function HomeAdmin() {
     }
  
     return (
-        <main className="min-h-screen px-6 py-16" style={pageStyle}>
+        <main className="min-h-screen px-6 py-8" style={pageStyle}>
             <div className="mx-auto max-w-5xl">
                 <h1
                     className="mb-5 font-bold leading-[0.95] tracking-tight"
@@ -757,7 +805,7 @@ export default function HomeAdmin() {
                 </h1>
  
                 <p
-                    className="mb-14"
+                    className="mb-8"
                     style={{ color: COLORS.muted, fontSize: SIZE.subtitle }}
                 >
                     Edit your Home page content from one place.
@@ -790,6 +838,9 @@ export default function HomeAdmin() {
                                     style={labelStyle}
                                 >
                                     {label}
+                                    {REQUIRED_HERO.includes(name) && (
+                                        <span style={{ color: "#dc2626" }}> *</span>
+                                    )}
                                 </label>
  
                                 {[
@@ -798,6 +849,7 @@ export default function HomeAdmin() {
                                 ].includes(name) ? (
                                     <textarea
                                         id={name}
+                                        placeholder={`Enter ${label.toLowerCase()}`}
                                         name={name}
                                         value={form[name]}
                                         onChange={handleChange}
@@ -808,6 +860,7 @@ export default function HomeAdmin() {
                                 ) : (
                                     <input
                                         id={name}
+                                        placeholder={`Enter ${label.toLowerCase()}`}
                                         name={name}
                                         value={form[name]}
                                         onChange={handleChange}
@@ -835,6 +888,7 @@ export default function HomeAdmin() {
                                     <input
                                         type="number"
                                         value={stat.value ?? ""}
+                                        placeholder="Enter value, e.g. 500"
                                         onChange={(e) =>
                                             handleStatChange(
                                                 index,
@@ -853,6 +907,7 @@ export default function HomeAdmin() {
                                     </label>
                                     <input
                                         value={stat.suffix ?? ""}
+                                        placeholder="Enter suffix, e.g. +"
                                         onChange={(e) =>
                                             handleStatChange(
                                                 index,
@@ -871,6 +926,7 @@ export default function HomeAdmin() {
                                     </label>
                                     <input
                                         value={stat.label ?? ""}
+                                        placeholder="Enter label"
                                         onChange={(e) =>
                                             handleStatChange(
                                                 index,
@@ -1065,6 +1121,7 @@ export default function HomeAdmin() {
                             </label>
                             <input
                                 value={form.whyWebcraft.label}
+                                placeholder="Enter section label"
                                 onChange={(e) =>
                                     handleWhyWebcraftChange("label", e.target.value)
                                 }
@@ -1079,6 +1136,7 @@ export default function HomeAdmin() {
                             </label>
                             <input
                                 value={form.whyWebcraft.heading}
+                                placeholder="Enter heading"
                                 onChange={(e) =>
                                     handleWhyWebcraftChange("heading", e.target.value)
                                 }
@@ -1094,6 +1152,7 @@ export default function HomeAdmin() {
                             <textarea
                                 rows={5}
                                 value={form.whyWebcraft.description}
+                                placeholder="Enter description"
                                 onChange={(e) =>
                                     handleWhyWebcraftChange("description", e.target.value)
                                 }
@@ -1144,6 +1203,7 @@ export default function HomeAdmin() {
                                         </label>
                                         <input
                                             value={card.title}
+                                            placeholder="Enter card title"
                                             onChange={(e) =>
                                                 handleWhyWebcraftCardChange(
                                                     index,
@@ -1163,6 +1223,7 @@ export default function HomeAdmin() {
                                         <textarea
                                             rows={3}
                                             value={card.description}
+                                            placeholder="Enter card description"
                                             onChange={(e) =>
                                                 handleWhyWebcraftCardChange(
                                                     index,
@@ -1188,6 +1249,7 @@ export default function HomeAdmin() {
                             </label>
                             <input
                                 value={form.approach.label}
+                                placeholder="Enter section label"
                                 onChange={(e) =>
                                     handleApproachChange("label", e.target.value)
                                 }
@@ -1202,6 +1264,7 @@ export default function HomeAdmin() {
                             </label>
                             <input
                                 value={form.approach.heading}
+                                placeholder="Enter main heading"
                                 onChange={(e) =>
                                     handleApproachChange("heading", e.target.value)
                                 }
@@ -1217,6 +1280,7 @@ export default function HomeAdmin() {
                             <textarea
                                 rows={4}
                                 value={form.approach.introDescription}
+                                placeholder="Enter intro description"
                                 onChange={(e) =>
                                     handleApproachChange("introDescription", e.target.value)
                                 }
@@ -1244,6 +1308,7 @@ export default function HomeAdmin() {
                                     </label>
                                     <input
                                         value={step.num}
+                                        placeholder="Enter step number, e.g. 01"
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "num", e.target.value)
                                         }
@@ -1258,6 +1323,7 @@ export default function HomeAdmin() {
                                     </label>
                                     <input
                                         value={step.title}
+                                        placeholder="Enter step title"
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "title", e.target.value)
                                         }
@@ -1273,6 +1339,7 @@ export default function HomeAdmin() {
                                     <textarea
                                         rows={3}
                                         value={step.card}
+                                        placeholder="Enter card description"
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "card", e.target.value)
                                         }
@@ -1287,6 +1354,7 @@ export default function HomeAdmin() {
                                     </label>
                                     <input
                                         value={step.sub}
+                                        placeholder="Enter highlight text"
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "sub", e.target.value)
                                         }
@@ -1302,6 +1370,7 @@ export default function HomeAdmin() {
                                     <textarea
                                         rows={4}
                                         value={step.desc}
+                                        placeholder="Enter step description"
                                         onChange={(e) =>
                                             handleApproachStepChange(index, "desc", e.target.value)
                                         }
@@ -1327,6 +1396,7 @@ export default function HomeAdmin() {
                                 </label>
                                 <input
                                     value={form.products[field]}
+                                    placeholder={`Enter ${label.toLowerCase()}`}
                                     onChange={(e) =>
                                         handleProductsChange(field, e.target.value)
                                     }
@@ -1365,6 +1435,7 @@ export default function HomeAdmin() {
                                         {field === "summary" ? (
                                             <textarea
                                                 rows={4}
+                                                placeholder={`Enter ${label.toLowerCase()}`}
                                                 value={product[field] ?? ""}
                                                 onChange={(e) =>
                                                     handleProductItemChange(
@@ -1378,6 +1449,7 @@ export default function HomeAdmin() {
                                             />
                                         ) : (
                                             <input
+                                                placeholder={`Enter ${label.toLowerCase()}`}
                                                 value={product[field] ?? ""}
                                                 onChange={(e) =>
                                                     handleProductItemChange(
@@ -1411,6 +1483,7 @@ export default function HomeAdmin() {
                                             </label>
                                             <input
                                                 value={item.label ?? ""}
+                                                placeholder="Enter detail label"
                                                 onChange={(e) =>
                                                     handleProductMetaChange(
                                                         index,
@@ -1430,6 +1503,7 @@ export default function HomeAdmin() {
                                             </label>
                                             <input
                                                 value={item.value ?? ""}
+                                                placeholder="Enter detail value"
                                                 onChange={(e) =>
                                                     handleProductMetaChange(
                                                         index,
@@ -1464,6 +1538,7 @@ export default function HomeAdmin() {
                                 </label>
                                 <input
                                     value={form.aiStack[field] ?? ""}
+                                    placeholder={`Enter ${label.toLowerCase()}`}
                                     onChange={(e) =>
                                         handleAiStackChange(field, e.target.value)
                                     }
@@ -1480,6 +1555,7 @@ export default function HomeAdmin() {
                             <textarea
                                 rows={4}
                                 value={form.aiStack.description ?? ""}
+                                placeholder="Enter section description"
                                 onChange={(e) =>
                                     handleAiStackChange("description", e.target.value)
                                 }
@@ -1518,6 +1594,7 @@ export default function HomeAdmin() {
                                         </label>
                                         <input
                                             value={card[field] ?? ""}
+                                            placeholder={`Enter ${label.toLowerCase()}`}
                                             onChange={(e) =>
                                                 handleAiStackCardChange(
                                                     index,
@@ -1538,6 +1615,7 @@ export default function HomeAdmin() {
                                     <textarea
                                         rows={4}
                                         value={card.description ?? ""}
+                                        placeholder="Enter card description"
                                         onChange={(e) =>
                                             handleAiStackCardChange(
                                                 index,
@@ -1569,6 +1647,7 @@ export default function HomeAdmin() {
                                 </label>
                                 <input
                                     value={form.ctaSection[field] ?? ""}
+                                    placeholder={`Enter ${label.toLowerCase()}`}
                                     onChange={(e) =>
                                         handleCtaSectionChange(field, e.target.value)
                                     }
@@ -1585,6 +1664,7 @@ export default function HomeAdmin() {
                             <textarea
                                 rows={4}
                                 value={form.ctaSection.description ?? ""}
+                                placeholder="Enter description"
                                 onChange={(e) =>
                                     handleCtaSectionChange("description", e.target.value)
                                 }
@@ -1627,6 +1707,16 @@ export default function HomeAdmin() {
                     </div>
                 </form>
             </div>
+            {pendingRemove !== null && (
+                <ConfirmDialog
+                    title="Remove service?"
+                    message={`Are you sure you want to delete "${form.whatWeDo.services[pendingRemove]?.title || "this service"}" from the services list? The change will be applied when you click Save Changes.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    onConfirm={confirmRemoveService}
+                    onCancel={() => setPendingRemove(null)}
+                />
+            )}
         </main>
     );
 }
