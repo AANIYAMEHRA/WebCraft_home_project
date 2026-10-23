@@ -6,6 +6,8 @@ import useReveal from "../hooks/useReveal";
 import useMagnet from "../hooks/useMagnet";
 import { heroChips, milestones, ways, values, philSteps, stats } from "./aboutData";
 
+
+
 gsap.registerPlugin(ScrollTrigger);
 
 /* ------------------------------------------------------------------ */
