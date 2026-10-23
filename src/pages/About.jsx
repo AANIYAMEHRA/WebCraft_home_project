@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -7,6 +7,35 @@ import useMagnet from "../hooks/useMagnet";
 import { heroChips, milestones, ways, values, philSteps, stats } from "./aboutData";
 
 gsap.registerPlugin(ScrollTrigger);
+const API = "http://localhost:5000/api/about";
+
+const DEFAULT_SECTION_CONTENT = {
+    heroHeading1: "The Company",
+    heroHeading2: "Behind the Work",
+    heroDescription:
+        "Founded in 2006, Webcraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner — serving 3000+ clients with a team of 230+ professionals.",
+    storyLabel: "Our Story",
+    waysLabel: "What We Help You Do",
+    waysHeading: "Six Ways We Create Value",
+    valuesLabel: "Our Values",
+    valuesHeading: "What We Believe In",
+    philosophyLabel: "How We Work",
+    philosophyHeading: "Our Delivery Philosophy",
+    philosophyDescription:
+        "Every engagement follows a rhythm we've refined across two decades — four stages that carry a project from first conversation to long-term stewardship.",
+    statsLabel: "By the Numbers",
+    statsHeading: "Two decades, counted carefully.",
+    careersLabel: "Careers",
+    careersHeading: "We're hiring. Come build with us.",
+    careersDescription:
+        "If the values on this page sound like your kind of work, we'd like to hear from you.",
+    careersButton: "See Open Roles →",
+    ctaLabel: "Let's Work Together",
+    ctaHeading: "Let's work together.",
+    ctaDescription:
+        "Whether you're exploring a new product direction or modernizing an existing system — we'd like to hear about it.",
+    ctaButton: "Start a Conversation →",
+};
 
 /* ------------------------------------------------------------------ */
 /*  Odometer digit counter (By the Numbers)                            */
@@ -59,6 +88,54 @@ function Odometer({ target, ariaLabel }) {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 export default function About() {
+    const [aboutContent, setAboutContent] = useState({
+        heroChips,
+        milestones,
+        ways,
+        values,
+        philSteps,
+        stats,
+        sectionContent: DEFAULT_SECTION_CONTENT,
+    });
+
+    useEffect(() => {
+        async function loadAboutContent() {
+            try {
+                const response = await fetch(API);
+
+                if (!response.ok) {
+                    throw new Error("Failed to load About content");
+                }
+
+                const result = await response.json();
+                const data = result.about || result;
+
+                setAboutContent((previous) => ({
+                    ...previous,
+                    ...data,
+                    heroChips:
+                        data.heroChips?.length ? data.heroChips : previous.heroChips,
+                    milestones:
+                        data.milestones?.length ? data.milestones : previous.milestones,
+                    ways: data.ways?.length ? data.ways : previous.ways,
+                    values: data.values?.length ? data.values : previous.values,
+                    philSteps:
+                        data.philSteps?.length ? data.philSteps : previous.philSteps,
+                    stats: data.stats?.length ? data.stats : previous.stats,
+                    sectionContent: {
+                        ...DEFAULT_SECTION_CONTENT,
+                        ...(data.sectionContent || {}),
+                    },
+                }));
+            } catch (error) {
+                console.error("About CMS load error:", error);
+            }
+        }
+
+        loadAboutContent();
+    }, []);
+
+    const content = aboutContent.sectionContent;
     const pageRef = useRef(null);
     const yearRef = useRef(null);
     const contextRef = useRef(null);
@@ -141,7 +218,10 @@ export default function About() {
                             const step = p < 0.3 ? 0 : p < 0.55 ? 1 : p < 0.8 ? 2 : 3;
                             circles.forEach((c, i) => c.classList.toggle("active", i === step));
                             cards.forEach((c, i) => c.classList.toggle("active", i === step));
-                            if (desc) desc.textContent = philSteps[step].desc;
+                            if (desc) {
+                                desc.textContent =
+                                    aboutContent.philSteps[step]?.desc || "";
+                            }
                         },
                     },
                 });
@@ -174,13 +254,17 @@ export default function About() {
                         <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
                             {/* Left: copy */}
                             <div className="lg:col-span-3">
-                                <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">About Webcraft</span>
+                                <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">
+                                    {content.heroLabel || "About Webcraft"}
+                                </span>
                                 <h1 className="reveal text-5xl lg:text-6xl font-extrabold text-gm-deep leading-[1.08] tracking-tight" style={{ transitionDelay: "0.1s" }}>
-                                    The Company<br />
-                                    <span className="bg-gradient-to-r from-gm-teal via-gm-blue to-gm-green bg-clip-text text-transparent">Behind the Work</span>
+                                    {content.heroHeading1}<br />
+                                    <span className="bg-gradient-to-r from-gm-teal via-gm-blue to-gm-green bg-clip-text text-transparent">
+                                        {content.heroHeading2}
+                                    </span>
                                 </h1>
                                 <p className="reveal text-lg text-gm-muted mt-6 max-w-2xl leading-relaxed" style={{ transitionDelay: "0.2s" }}>
-                                    Founded in 2006, Webcraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner — serving 3000+ clients with a team of 230+ professionals.
+                                    {content.heroDescription}
                                 </p>
                             </div>
 
@@ -200,7 +284,7 @@ export default function About() {
                                     </div>
 
                                     {/* Floating chips */}
-                                    {heroChips.map((chip) => (
+                                    {aboutContent.heroChips.map((chip) => (
                                         <div
                                             key={chip.label}
                                             className={`absolute ${chip.pos} bg-white rounded-2xl shadow-lg ${chip.box} border px-3 py-2 flex items-center gap-2 hero-card-float`}
@@ -232,15 +316,17 @@ export default function About() {
                 <section className="story-section bg-white" id="storySection">
                     <div className="story-inner max-w-7xl mx-auto px-6 lg:px-8">
                         <aside className="story-sticky">
-                            <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">Our Story</span>
+                            <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">{content.storyLabel}</span>
                             <div className="story-year-wrap">
-                                <span className="story-year" ref={yearRef}>{milestones[0].year}</span>
+                                <span className="story-year" ref={yearRef}>{(aboutContent.milestones[0] || milestones[0]).year}</span>
                             </div>
-                            <div className="story-context" ref={contextRef}>{milestones[0].context}</div>
+                            <div className="story-context" ref={contextRef}>
+                                {content.storyIntro}
+                            </div>
                         </aside>
 
                         <div className="story-milestones">
-                            {milestones.map((m) => (
+                            {aboutContent.milestones.map((m) => (
                                 <article className="story-mile" key={m.year} data-year={m.year} data-context={m.context}>
                                     <div className="story-mile__year">{m.year} · {m.tag}</div>
                                     <h3 className="story-mile__title">{m.title[0]}<em>{m.title[1]}</em>{m.title[2]}</h3>
@@ -259,7 +345,7 @@ export default function About() {
                     </div>
 
                     <div className="ways-stack max-w-5xl mx-auto px-6 lg:px-8">
-                        {ways.map((w, i) => (
+                        {aboutContent.ways.map((w, i) => (
                             <article className={`way-card-light${w.last ? " way-card-light--last" : ""}`} key={i}>
                                 <div>
                                     <div className="way-card-light__num" aria-hidden="true">Way 0{i + 1}</div>
@@ -295,7 +381,7 @@ export default function About() {
                             <h2 className="reveal values-heading" style={{ transitionDelay: "0.1s" }}>What We <em>Believe In</em></h2>
                         </div>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {values.map((v) => (
+                            {aboutContent.values.map((v) => (
                                 <div key={v.title} className="reveal bg-gm-ghost rounded-3xl p-8 border border-gm-teal/8" style={{ transitionDelay: v.delay }}>
                                     <h3 className="font-bold text-lg mb-3 text-gm-teal">{v.title}</h3>
                                     <p className="text-sm text-gm-muted leading-relaxed">{v.body}</p>
@@ -329,7 +415,7 @@ export default function About() {
                                         </div>
                                     </div>
                                     <div className="phil-cards">
-                                        {philSteps.map((s) => (
+                                        {aboutContent.philSteps.map((s) => (
                                             <div className="phil-cd" key={s.title}>
                                                 <h3 className="phil-cd__title">{s.title}</h3>
                                                 <p className="phil-cd__body">{s.body}</p>
@@ -350,7 +436,7 @@ export default function About() {
                             <h2 className="reveal numbers-heading">Two decades,<br /><em>counted carefully.</em></h2>
                         </div>
                         <div className="numbers-grid">
-                            {stats.map((s) => (
+                            {aboutContent.stats.map((s) => (
                                 <div className="num-stat" key={s.label}>
                                     <div className="num-stat__value">
                                         <Odometer target={s.target} ariaLabel={s.aria} />

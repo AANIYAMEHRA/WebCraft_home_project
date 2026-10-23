@@ -6,6 +6,7 @@ import AdminDashboard from './pages/AdminDashboard.jsx'
 import FooterAdmin from './pages/FooterAdmin.jsx'
 import HeaderAdmin from './pages/HeaderAdmin.jsx'
 import HomeAdmin from './pages/HomeAdmin.jsx'
+import AboutAdmin from './pages/AboutAdmin.jsx'
 import About from './pages/About.jsx'
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+
       </Route>
 
       {/* Admin CMS: every page shares the sidebar, navbar and save message */}
@@ -22,6 +24,7 @@ export default function App() {
         <Route index element={<AdminDashboard />} />
         <Route path="header" element={<HeaderAdmin />} />
         <Route path="home" element={<HomeAdmin />} />
+        <Route path="about" element={<AboutAdmin />} />
         <Route path="footer" element={<FooterAdmin />} />
       </Route>
     </Routes>

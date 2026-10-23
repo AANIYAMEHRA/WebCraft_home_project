@@ -11,6 +11,7 @@ const NAV_ITEMS = [
     { to: "/admin", label: "Dashboard", end: true },
     { to: "/admin/header", label: "Header CMS" },
     { to: HOME_PATH, label: "Home Page CMS", dropdown: true },
+    { to: "/admin/about", label: "About Page CMS" },
     { to: "/admin/footer", label: "Footer CMS" },
 ];
  

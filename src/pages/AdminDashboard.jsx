@@ -1,5 +1,6 @@
+
 import { Link } from "react-router-dom";
- 
+
 const COLORS = {
     navy: "#102b52",
     border: "#d7ebe4",
@@ -7,9 +8,9 @@ const COLORS = {
     teal: "#1f8a86",
     mint: "#e8f6f1",
 };
- 
+
 const FONT_HEADING = "'Fraunces', Georgia, 'Times New Roman', serif";
- 
+
 const CARDS = [
     {
         to: "/admin/header",
@@ -22,19 +23,24 @@ const CARDS = [
         text: "Hero, statistics, services, products, AI stack and CTA.",
     },
     {
+        to: "/admin/about",
+        title: "About Page CMS",
+        text: "Edit About page content, milestones, values and statistics.",
+    },
+    {
         to: "/admin/footer",
         title: "Footer CMS",
         text: "Footer text, tagline, email and bottom line.",
     },
 ];
- 
+
 export default function AdminDashboard() {
     return (
         <div>
             <p className="mb-8 text-[18px] text-[#5b6878]">
                 Choose a section to edit. Use Save Changes in the top bar to save.
             </p>
- 
+
             <div className="grid gap-6 md:grid-cols-3">
                 {CARDS.map((card) => (
                     <Link
@@ -63,7 +69,7 @@ export default function AdminDashboard() {
                             >
                                 {card.title}
                             </span>
- 
+
                             <span
                                 aria-hidden="true"
                                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white transition-transform duration-300 group-hover:translate-x-1"
@@ -85,7 +91,7 @@ export default function AdminDashboard() {
                                 </svg>
                             </span>
                         </div>
- 
+
                         <p
                             className="border-t px-8 py-6 text-[16px] text-[#5b6878]"
                             style={{ borderColor: COLORS.border }}
