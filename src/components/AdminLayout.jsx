@@ -6,12 +6,13 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 const VIEW_SITE_URL = "http://localhost:5173";
  
 const HOME_PATH = "/admin/home";
+const ABOUT_PATH = "/admin/about";
  
 const NAV_ITEMS = [
     { to: "/admin", label: "Dashboard", end: true },
     { to: "/admin/header", label: "Header CMS" },
     { to: HOME_PATH, label: "Home Page CMS", dropdown: true },
-    { to: "/admin/about", label: "About Page CMS" },
+    { to: ABOUT_PATH, label: "About Page CMS", dropdown: true },
     { to: "/admin/footer", label: "Footer CMS" },
 ];
  
@@ -27,6 +28,26 @@ const HOME_SECTIONS = [
     { id: "ai-stack", label: "AI Solutions" },
     { id: "cta", label: "CTA Section" },
 ];
+ 
+// Sections of the About page, shown in this order under "About Page CMS".
+// The id must match the id on the section in AboutAdmin.jsx.
+const ABOUT_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "chips", label: "Hero Chips" },
+    { id: "story", label: "Our Story" },
+    { id: "ways", label: "Six Ways" },
+    { id: "values", label: "Our Values" },
+    { id: "philosophy", label: "Delivery Philosophy" },
+    { id: "stats", label: "By the Numbers" },
+    { id: "careers", label: "Careers Section" },
+    { id: "cta", label: "CTA Section" },
+];
+ 
+// Section dropdown under each page that has one.
+const SECTION_MENUS = {
+    [HOME_PATH]: HOME_SECTIONS,
+    [ABOUT_PATH]: ABOUT_SECTIONS,
+};
  
 const itemClass =
     "group relative flex items-center gap-3 px-4 py-4 text-[21px] transition-colors";
@@ -69,14 +90,17 @@ export default function AdminLayout() {
     const location = useLocation();
     const [toast, setToast] = useState(null);
  
-    // The Home sections dropdown. Closed until Home Page CMS is clicked.
-    const onHomePage = location.pathname.startsWith(HOME_PATH);
-    const [homeOpen, setHomeOpen] = useState(false);
+    // The page whose section dropdown is open (for example "/admin/home"), or null.
+    // Every dropdown is closed until its item is clicked.
+    const [openMenu, setOpenMenu] = useState(null);
  
-    // Open the dropdown when entering the Home page, close it when leaving.
+    // Open the dropdown of the page being entered, and close the others.
     useEffect(() => {
-        setHomeOpen(onHomePage);
-    }, [onHomePage]);
+        const page = Object.keys(SECTION_MENUS).find((path) =>
+            location.pathname.startsWith(path)
+        );
+        setOpenMenu(page ?? null);
+    }, [location.pathname]);
  
     // Listen for messages sent by the pages (see adminToast.js).
     useEffect(() => {
@@ -135,14 +159,16 @@ export default function AdminLayout() {
         }
     }
  
-    // Clicking Home Page CMS opens or closes its sections.
-    function handleDropdownClick() {
-        if (onHomePage && homeOpen) {
-            // Closing: also close every section open in the main page.
+    // Clicking a dropdown item opens its sections; clicking it again closes them
+    // and also closes every section open in the main page.
+    function handleDropdownClick(item) {
+        const onThisPage = location.pathname.startsWith(item.to);
+ 
+        if (onThisPage && openMenu === item.to) {
             window.dispatchEvent(new CustomEvent("home-sections-collapse"));
-            setHomeOpen(false);
+            setOpenMenu(null);
         } else {
-            setHomeOpen(true);
+            setOpenMenu(item.to);
         }
     }
  
@@ -166,57 +192,57 @@ export default function AdminLayout() {
                 </div>
  
                 <nav className="flex flex-col gap-1">
-                    {NAV_ITEMS.map((item) => (
-                        <div key={item.to}>
-                            <NavLink
-                                to={item.to}
-                                end={item.end}
-                                className={itemClass}
-                                onClick={
-                                    item.dropdown
-                                        ? handleDropdownClick
-                                        : undefined
-                                }
-                            >
-                                {({ isActive }) => (
-                                    <NavContent
-                                        label={item.label}
-                                        isActive={isActive}
-                                        open={
-                                            item.dropdown
-                                                ? homeOpen
-                                                : undefined
-                                        }
-                                    />
+                    {NAV_ITEMS.map((item) => {
+                        const sections = SECTION_MENUS[item.to];
+                        const isOpen = item.dropdown && openMenu === item.to;
+ 
+                        return (
+                            <div key={item.to}>
+                                <NavLink
+                                    to={item.to}
+                                    end={item.end}
+                                    className={itemClass}
+                                    onClick={
+                                        item.dropdown
+                                            ? () => handleDropdownClick(item)
+                                            : undefined
+                                    }
+                                >
+                                    {({ isActive }) => (
+                                        <NavContent
+                                            label={item.label}
+                                            isActive={isActive}
+                                            open={item.dropdown ? isOpen : undefined}
+                                        />
+                                    )}
+                                </NavLink>
+ 
+                                {/* Page sections, shown only while the dropdown is open */}
+                                {isOpen && location.pathname.startsWith(item.to) && (
+                                    <div className="mb-2 mt-1 flex flex-col">
+                                        {sections.map((section) => {
+                                            const isActive =
+                                                location.hash === `#${section.id}`;
+ 
+                                            return (
+                                                <Link
+                                                    key={section.id}
+                                                    to={`${item.to}#${section.id}`}
+                                                    className={subItemClass}
+                                                >
+                                                    <NavContent
+                                                        label={section.label}
+                                                        isActive={isActive}
+                                                        indented
+                                                    />
+                                                </Link>
+                                            );
+                                        })}
+                                    </div>
                                 )}
-                            </NavLink>
- 
-                            {/* Home page sections, shown only while the dropdown is open */}
-                            {item.dropdown && onHomePage && homeOpen && (
-                                <div className="mb-2 mt-1 flex flex-col">
-                                    {HOME_SECTIONS.map((section) => {
-                                        const isActive =
-                                            onHomePage &&
-                                            location.hash === `#${section.id}`;
- 
-                                        return (
-                                            <Link
-                                                key={section.id}
-                                                to={`${HOME_PATH}#${section.id}`}
-                                                className={subItemClass}
-                                            >
-                                                <NavContent
-                                                    label={section.label}
-                                                    isActive={isActive}
-                                                    indented
-                                                />
-                                            </Link>
-                                        );
-                                    })}
-                                </div>
-                            )}
-                        </div>
-                    ))}
+                            </div>
+                        );
+                    })}
                 </nav>
             </aside>
  

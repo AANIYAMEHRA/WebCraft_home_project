@@ -6,7 +6,7 @@ const API_URL = "http://localhost:5000/api/header";
  
 // Colors and fonts taken from the live Webcraft-IT site (image 2).
 const COLORS = {
-    navy: "#163764",   // headings (hero "Smarter Decisions.")
+    navy: "#102a4f",   // headings (hero "Smarter Decisions.")
     text: "#313f56",   // nav links, labels, input text
     muted: "#5b6878",  // subtitles and helper copy (hero paragraph)
     green: "#2aa27c",
@@ -21,10 +21,10 @@ const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sa
  
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
-    h1: "50px",       // page title   — "Header CMS"
-    h2: "30px",       // section title — "Logo Settings", "Navigation Links"
-    subtitle: "20px", // intro line under the title
-    label: "18px",    // field labels
+    h1: "40px",       // page title   — "Header CMS"
+    h2: "32px",       // section title — "Logo Settings", "Navigation Links"
+    subtitle: "18px", // intro line under the title
+    label: "16px",    // field labels
     body: "16px",     // inputs, nav links, buttons
 };
  

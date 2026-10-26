@@ -7,7 +7,7 @@ const API = "http://localhost:5000/api/home";
  
 // Colors and fonts taken from the live Webcraft-IT site.
 const COLORS = {
-    navy: "#102b52",      // headings (hero "Smarter Decisions.")
+    navy: "#102a4f",      // headings (hero "Smarter Decisions.")
     text: "#253144",      // labels, inputs, body text
     muted: "#5b6878",     // subtitle and helper copy
     green: "#2aa27c",
@@ -23,11 +23,11 @@ const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sa
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
     h1: "40px",       // page title   — "Home Page CMS"
-    h2: "35px",       // section title — "Hero Content", "What We Do Section"
+    h2: "32px",       // section title — "Hero Content", "What We Do Section"
     h3: "18px",       // item title   — "Service 1", "Card 1"
-    subtitle: "22px", // intro line under the title
-    label: "18px",    // field labels
-    body: "18px",     // inputs, buttons, messages
+    subtitle: "18px", // intro line under the title
+    label: "16px",    // field labels
+    body: "16px",     // inputs, buttons, messages
 };
  
 const DEFAULT_SERVICES = [

@@ -5,8 +5,8 @@ const API_URL = "http://localhost:5000/api/footer";
  
 // Colors and fonts taken from the live Webcraft-IT site.
 const COLORS = {
-    navy: "#0c1f3a",      // headings (hero "Smarter Decisions.")
-    text: "#1e293b",      // labels, input text
+    navy: "#102a4f",      // headings (hero "Smarter Decisions.")
+    text: "#071a39",      // labels, input text
     muted: "#5b6878",     // subtitle and helper copy
     green: "#2aa27c",
     teal: "#1f8a86",
@@ -32,9 +32,9 @@ const FONT_MONO = "'JetBrains Mono', ui-monospace, 'Courier New', monospace";
  
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
-    h1: "50px",       // page title   — "Footer CMS"
+    h1: "40px",       // page title   — "Footer CMS"
     h2: "32px",       // section title — "Footer Content"
-    subtitle: "20px", // intro line under the title
+    subtitle: "18px", // intro line under the title
     label: "16px",    // field labels
     body: "16px",     // inputs, buttons, messages
 };
