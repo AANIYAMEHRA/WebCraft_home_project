@@ -255,7 +255,7 @@ export default function About() {
                             {/* Left: copy */}
                             <div className="lg:col-span-3">
                                 <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">
-                                    {content.heroLabel || "About Webcraft"}
+                                    {content.heroLabel ?? ""}
                                 </span>
                                 <h1 className="reveal text-5xl lg:text-6xl font-extrabold text-gm-deep leading-[1.08] tracking-tight" style={{ transitionDelay: "0.1s" }}>
                                     {content.heroHeading1}<br />
@@ -340,8 +340,13 @@ export default function About() {
                 {/* =================== SIX WAYS (sticky stacking cards) =================== */}
                 <section className="ways-section bg-gm-ghost" id="waysSection">
                     <div className="ways-head max-w-7xl mx-auto px-6 lg:px-8">
-                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">What We Help You Do</span>
-                        <h2 className="reveal ways-heading">Six Ways We <em>Create Value</em></h2>
+                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                            {content.waysLabel ?? ""}
+                        </span>
+
+                        <h2 className="reveal ways-heading">
+                            {content.waysHeading ?? ""}
+                        </h2>
                     </div>
 
                     <div className="ways-stack max-w-5xl mx-auto px-6 lg:px-8">
@@ -377,8 +382,12 @@ export default function About() {
                     </div>
                     <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="text-center mb-16">
-                            <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">Our Values</span>
-                            <h2 className="reveal values-heading" style={{ transitionDelay: "0.1s" }}>What We <em>Believe In</em></h2>
+                            <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">
+                                {content.valuesLabel ?? ""}
+                            </span>
+                            <h2 className="reveal values-heading" style={{ transitionDelay: "0.1s" }}>
+                                {content.valuesHeading ?? ""}
+                            </h2>
                         </div>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {aboutContent.values.map((v) => (
@@ -397,10 +406,14 @@ export default function About() {
                         <div className="phil-sticky">
                             <div className="phil-inner max-w-7xl mx-auto px-6 lg:px-8 text-center">
                                 <div className="phil-head">
-                                    <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">How We Work</span>
-                                    <h2 className="phil-heading">Our Delivery <em>Philosophy</em></h2>
+                                    <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                                        {content.philosophyLabel ?? ""}
+                                    </span>
+                                    <h2 className="phil-heading">
+                                        {content.philosophyHeading ?? ""}
+                                    </h2>
                                     <p className="phil-desc" ref={philDescRef}>
-                                        Every engagement follows a rhythm we've refined across two decades — four stages that carry a project from first conversation to long-term stewardship.
+                                        {content.philosophyDescription ?? ""}
                                     </p>
                                 </div>
 
@@ -432,8 +445,12 @@ export default function About() {
                 <section className="numbers-section bg-white py-20 lg:py-28" id="numbersSection">
                     <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="mb-14">
-                            <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">By the Numbers</span>
-                            <h2 className="reveal numbers-heading">Two decades,<br /><em>counted carefully.</em></h2>
+                            <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                                {content.statsLabel ?? ""}
+                            </span>
+                            <h2 className="reveal numbers-heading">
+                                {content.statsHeading ?? ""}
+                            </h2>
                         </div>
                         <div className="numbers-grid">
                             {aboutContent.stats.map((s) => (
@@ -454,30 +471,50 @@ export default function About() {
                 <section className="careers-section bg-gm-ghost py-24 lg:py-32 text-center relative overflow-hidden" id="careersSection">
                     <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(800px circle at 50% 50%, rgba(42,157,143,0.05), transparent 60%)" }} />
                     <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">Careers</span>
-                        <h2 className="reveal careers-title">We're <em>hiring.</em><br />Come build with us.</h2>
+                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                            {content.careersLabel ?? ""}
+                        </span>
+
+                        <h2 className="reveal careers-title">
+                            {content.careersHeading ?? ""}
+                        </h2>
+
                         <p className="reveal careers-body">
-                            If the values on this page sound like your kind of work, we'd like to hear from you. We hire slowly, onboard carefully, and keep people for a long time. Open roles across engineering, design, and research — in Indore, Bengaluru, and Amsterdam.
+                            {content.careersDescription ?? ""}
                         </p>
                         <div className="careers-magnet-wrap" ref={careersWrapRef}>
-                            <Link to="/contact" className="careers-magnet-btn" ref={careersBtnRef}>See Open Roles →</Link>
+                            <Link to="/contact" className="careers-magnet-btn" ref={careersBtnRef}>
+                                {content.careersButton ?? ""}
+                            </Link>
                         </div>
                     </div>
                 </section>
 
                 {/* ================================ CTA ================================ */}
+
+                {/* ================================ CTA ================================ */}
                 <section className="page-cta" aria-label="Call to action">
                     <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative">
-                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">Let's Work Together</span>
-                        <h2 className="reveal page-cta__title">Let's work<br /><em>together.</em></h2>
+                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                            {content.ctaLabel ?? ""}
+                        </span>
+
+                        <h2 className="reveal page-cta__title">
+                            {content.ctaHeading ?? ""}
+                        </h2>
+
                         <p className="reveal page-cta__body">
-                            Whether you're exploring a new product direction or modernizing an existing system — we'd like to hear about it.
+                            {content.ctaDescription ?? ""}
                         </p>
+
                         <div className="page-magnet-wrap" ref={ctaWrapRef}>
-                            <Link to="/contact" className="page-magnet-btn" ref={ctaBtnRef}>Start a Conversation →</Link>
+                            <Link to="/contact" className="page-magnet-btn" ref={ctaBtnRef}>
+                                {content.ctaButton ?? ""}
+                            </Link>
                         </div>
                     </div>
                 </section>
+
             </main>
         </div>
     );
