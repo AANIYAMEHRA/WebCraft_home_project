@@ -23,7 +23,8 @@
   <a href="#-getting-started">Getting started</a> ·
   <a href="#-screenshots">Screenshots</a>
 </p>
----
+<br>
+<img width="1914" height="970" alt="image" src="https://github.com/user-attachments/assets/c647fdad-2cdd-45d8-b951-063003170dc8" />
  
 ## 🎯 Highlights
  
