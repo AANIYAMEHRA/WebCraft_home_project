@@ -2,7 +2,8 @@
  
 The public website for Webcraft-IT, with an admin CMS for editing the Header, Home, About and Footer content without touching code.
  
-![Home page](docs/screenshots/home.png)
+![Uploading image.png…]()
+
  
 ## Features
  
