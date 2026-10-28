@@ -201,7 +201,7 @@ Contributions are welcome.
 4. Open a pull request into `feature/header-cms`, and describe what changed and why.
 ## 👤 Author
  
-**Aaniya Mehra** · [GitHub](https://github.com/AANIYAMEHRA) · [LinkedIn](https://www.linkedin.com/in/your-profile) · [Email](mailto:you@example.com)
+**Aniya Mehra** · [GitHub](https://github.com/AANIYAMEHRA) · [LinkedIn]((https://www.linkedin.com/in/aniya-mehra-743a0a2b1/)) · [Email](mailto:maanya335@gmail.com)
  
 Built as a full-stack project covering frontend UI, REST API design, database modelling and a custom admin CMS.
  
