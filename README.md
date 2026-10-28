@@ -220,7 +220,9 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <td><img width="1875" height="956" alt="image" src="https://github.com/user-attachments/assets/c3fde28a-7295-4fe0-8673-84f8336b41fc" /></td>
   </tr>
 </table>
-**Admin CMS**
+
+
+**6. Admin CMS website**
  
 <table>
   <tr>
@@ -236,8 +238,8 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <th align="center">About Page CMS</th>
   </tr>
   <tr>
-    <td><img src="docs/screenshots/admin-home.png" alt="Home Page CMS" width="100%" /></td>
-    <td><img src="docs/screenshots/admin-about.png" alt="About Page CMS" width="100%" /></td>
+    <td><img width="421" height="917" alt="image" src="https://github.com/user-attachments/assets/e35a3a55-6db3-432d-af92-0f6ec8be3e8e" /></td>
+    <td><img width="1881" height="968" alt="image" src="https://github.com/user-attachments/assets/4e3bb040-6ee3-4b0b-bbeb-819a124df3ea" /></td>
   </tr>
   <tr>
     <th align="center">Footer CMS</th>
