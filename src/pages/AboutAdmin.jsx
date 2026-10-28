@@ -2,36 +2,41 @@ import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
 import ConfirmDialog from "../components/ConfirmDialog";
+import {
+    INPUT_GRID,
+    PageTitle,
+    SIZE,
+    SaveBar,
+    Field,
+    IconUpload,
+    ItemHeader,
+    isBlank,
+    itemClass,
+    itemStyle,
+    pageStyle,
+    secondaryButtonClass,
+    outlineButtonStyle,
+} from "../components/AdminUi";
  
 const API = "http://localhost:5000/api/about";
  
-// Colors and fonts taken from the live Webcraft-IT site.
-const COLORS = {
-    navy: "#102a4f",      // headings (hero "Smarter Decisions.")
-    text: "#253144",      // labels, inputs, body text
-    muted: "#5b6878",     // subtitle and helper copy
-    green: "#2aa27c",
-    teal: "#1f8a86",
-    blue: "#1b6f8c",      // gradient start (hero "Stronger Products.")
-    border: "#d7ebe4",
-    bg: "#f4faf8",
-};
+// Default icon for a hero chip that has no icon, so the original sun icon comes back.
+const DEFAULT_CHIP_ICON =
+    "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z";
  
-const FONT_HEADING = "'Fraunces', Georgia, 'Times New Roman', serif";
-const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif";
- 
-// Heading scale, largest to smallest (priority order).
-const SIZE = {
-    h1: "40px",       // page title   — "About Page CMS"
-    h2: "32px",       // section title — "Hero Section", "Our Story"
-    h3: "18px",       // item title   — "Milestone 1", "Way 1"
-    subtitle: "18px", // intro line under the title
-    label: "16px",    // field labels
-    body: "16px",     // inputs, buttons, messages
-};
- 
-// Fields that must be filled in before saving.
-const REQUIRED_FIELDS = ["heroHeading1", "heroHeading2", "heroDescription", "ctaHeading"];
+// Mandatory fields. Everything else on the page is optional.
+const REQUIRED_FIELDS = [
+    "heroHeading1",
+    "heroHeading2",
+    "heroDescription",
+    "waysHeading",
+    "valuesHeading",
+    "philosophyHeading",
+    "statsHeading",
+    "careersHeading",
+    "ctaHeading",
+    "ctaButton",
+];
  
 // Names used in the removal dialog.
 const REMOVE_LABELS = {
@@ -79,87 +84,15 @@ const EMPTY_ABOUT = {
     },
 };
  
-// Shared styles, used by every section below.
-const pageStyle = {
-    backgroundColor: COLORS.bg,
-    backgroundImage: [
-        "radial-gradient(circle at 0% 0%, rgba(42,162,124,0.10), transparent 40%)",
-        "linear-gradient(rgba(15,36,64,0.035) 1px, transparent 1px)",
-        "linear-gradient(90deg, rgba(15,36,64,0.035) 1px, transparent 1px)",
-    ].join(", "),
-    backgroundSize: "auto, 56px 56px, 56px 56px",
-    fontFamily: FONT_BODY,
-    color: COLORS.text,
-};
- 
-const headingStyle = { fontFamily: FONT_HEADING, color: COLORS.navy };
- 
-const labelStyle = { color: COLORS.text, fontSize: SIZE.label };
- 
-// Gradient text for "CMS". inline-block gives the gradient a box that covers the glyphs,
-// and WebkitTextFillColor stops the text color from hiding the gradient.
-const gradientTextStyle = {
-    display: "inline-block",
-    lineHeight: 1.15,
-    paddingBottom: "0.1em",
-    backgroundImage: `linear-gradient(90deg, ${COLORS.blue}, ${COLORS.green})`,
-    WebkitBackgroundClip: "text",
-    backgroundClip: "text",
-    color: "transparent",
-    WebkitTextFillColor: "transparent",
-};
- 
-const inputClass =
-    "w-full rounded-xl border bg-white px-4 py-3 outline-none transition placeholder:text-[#8a9aa9] focus:border-[#2aa27c] focus:ring-4 focus:ring-[#2aa27c]/20";
-const inputStyle = {
-    borderColor: COLORS.border,
-    color: COLORS.text,
-    fontSize: SIZE.body,
-};
- 
-const primaryButtonStyle = {
-    background: `linear-gradient(90deg, ${COLORS.green}, ${COLORS.teal})`,
-    boxShadow: "0 8px 20px -8px rgba(31,138,134,0.55)",
-    color: "#ffffff",
-};
- 
-const outlineButtonStyle = {
-    borderColor: COLORS.border,
-    color: COLORS.text,
-    fontSize: SIZE.body,
-};
- 
-const secondaryButtonClass =
-    "rounded-full border bg-white px-6 py-3 font-semibold transition hover:border-[#2aa27c] hover:text-[#1f8a86]";
-const removeButtonClass =
-    "rounded-full border bg-white px-5 py-2.5 font-semibold transition hover:border-red-300 hover:text-red-600";
- 
-const itemClass = "space-y-5 rounded-2xl p-6";
-const itemStyle = {
-    backgroundColor: "#fbfdfc",
-    border: `1px solid ${COLORS.border}`,
-};
- 
-const INPUT_GRID = "grid grid-cols-1 gap-4 sm:grid-cols-2";
- 
-// Returns an error message for the first problem found, or "" when the content is valid.
-function validateAbout(form) {
-    const missing = REQUIRED_FIELDS.filter(
-        (field) => !String(form.sectionContent[field] ?? "").trim()
-    );
- 
-    if (missing.length > 0) {
-        return "Please fill in all required fields marked with *.";
-    }
- 
-    return "";
-}
- 
 // Fills in any missing keys so every field has a value to show.
 function mergeAbout(about) {
     return {
         ...EMPTY_ABOUT,
         ...about,
+        heroChips: (about.heroChips ?? []).map((chip) => ({
+            ...chip,
+            icon: chip.icon || DEFAULT_CHIP_ICON,
+        })),
         sectionContent: {
             ...EMPTY_ABOUT.sectionContent,
             ...(about.sectionContent || {}),
@@ -167,50 +100,11 @@ function mergeAbout(about) {
     };
 }
  
-// A labelled input. The hint text is shown while the field is empty.
-function Field({ label, value, onChange, multiline = false, required = false }) {
-    const common = {
-        value: value ?? "",
-        onChange: (event) => onChange(event.target.value),
-        placeholder: `Enter ${label.toLowerCase()}`,
-        className: inputClass,
-        style: inputStyle,
-    };
+// Returns an error message when a mandatory field is empty, or "" when the content is valid.
+function validateAbout(form) {
+    const missing = REQUIRED_FIELDS.some((field) => isBlank(form.sectionContent[field]));
  
-    return (
-        <div>
-            <label className="mb-2 block font-semibold" style={labelStyle}>
-                {label}
-                {required && <span style={{ color: "#dc2626" }}> *</span>}
-            </label>
- 
-            {multiline ? (
-                <textarea rows={4} className={`${inputClass} resize-y`} {...common} />
-            ) : (
-                <input {...common} />
-            )}
-        </div>
-    );
-}
- 
-// Title row of an item card, with its Remove button.
-function ItemHeader({ title, onRemove }) {
-    return (
-        <div className="flex items-center justify-between gap-3">
-            <h4 className="font-bold" style={{ ...headingStyle, fontSize: SIZE.label }}>
-                {title}
-            </h4>
- 
-            <button
-                type="button"
-                onClick={onRemove}
-                className={removeButtonClass}
-                style={outlineButtonStyle}
-            >
-                Remove
-            </button>
-        </div>
-    );
+    return missing ? "Some required fields are empty. Please fill in all fields marked with *." : "";
 }
  
 export default function AboutAdmin() {
@@ -230,9 +124,7 @@ export default function AboutAdmin() {
                 if (!response.ok) throw new Error("Could not load About content.");
  
                 const data = await response.json();
-                const about = data.about || data;
- 
-                if (active) setForm(mergeAbout(about));
+                if (active) setForm(mergeAbout(data.about || data));
             } catch (err) {
                 if (active) setError(err.message || "Failed to load content.");
             } finally {
@@ -244,6 +136,7 @@ export default function AboutAdmin() {
         return () => { active = false; };
     }, []);
  
+    // Updates one field of a list item, e.g. the year of milestone 2.
     function updateField(section, index, key, value) {
         setForm((previous) => ({
             ...previous,
@@ -253,6 +146,7 @@ export default function AboutAdmin() {
         }));
     }
  
+    // Updates one part of a three-part title, e.g. the second word of way 1.
     function updateTitlePart(section, index, part, value) {
         setForm((previous) => ({
             ...previous,
@@ -261,9 +155,7 @@ export default function AboutAdmin() {
                     ? {
                         ...item,
                         title: Array.isArray(item.title)
-                            ? item.title.map((partValue, j) =>
-                                j === part ? value : partValue
-                            )
+                            ? item.title.map((partValue, j) => (j === part ? value : partValue))
                             : item.title,
                     }
                     : item
@@ -271,13 +163,10 @@ export default function AboutAdmin() {
         }));
     }
  
-    function updateSectionContent(key, value) {
+    function updateContent(key, value) {
         setForm((previous) => ({
             ...previous,
-            sectionContent: {
-                ...previous.sectionContent,
-                [key]: value,
-            },
+            sectionContent: { ...previous.sectionContent, [key]: value },
         }));
     }
  
@@ -310,6 +199,7 @@ export default function AboutAdmin() {
  
         if (validationError) {
             setError(validationError);
+            setMessage("");
             notify("error", validationError);
             return;
         }
@@ -331,9 +221,7 @@ export default function AboutAdmin() {
                 throw new Error(data.message || "Could not save About content.");
             }
  
-            if (data.about) {
-                setForm(mergeAbout(data.about));
-            }
+            if (data.about) setForm(mergeAbout(data.about));
  
             setMessage("About page content saved successfully.");
             notify("success", "About page saved successfully!");
@@ -353,54 +241,29 @@ export default function AboutAdmin() {
         );
     }
  
+    const content = form.sectionContent;
+ 
+    // Props that bind a field to one key of the section content.
+    const text = (key) => ({ value: content[key], onChange: (v) => updateContent(key, v) });
+ 
     return (
         <main className="min-h-screen px-6 py-8" style={pageStyle}>
             <div className="mx-auto max-w-5xl">
-                <h1
-                    className="mb-5 font-bold leading-[0.95] tracking-tight"
-                    style={{ ...headingStyle, fontSize: SIZE.h1 }}
-                >
-                    About Page <span style={gradientTextStyle}>CMS</span>
-                </h1>
- 
-                <p
-                    className="mb-8"
-                    style={{ color: COLORS.muted, fontSize: SIZE.subtitle }}
-                >
-                    Edit About page content and save your changes.
-                </p>
+                <PageTitle name="About Page" intro="Edit About page content and save your changes." />
  
                 <form id="admin-form" onSubmit={handleSubmit} className="space-y-10">
-                    {/* HERO SECTION */}
+                    {/* HERO CONTENT */}
                     <CollapsibleSection id="hero" title="Hero Content">
                         <div className={INPUT_GRID}>
-                            <Field
-                                label="First Heading Line"
-                                required
-                                value={form.sectionContent.heroHeading1}
-                                onChange={(v) => updateSectionContent("heroHeading1", v)}
-                            />
-                            <Field
-                                label="Second Heading Line"
-                                required
-                                value={form.sectionContent.heroHeading2}
-                                onChange={(v) => updateSectionContent("heroHeading2", v)}
-                            />
+                            <Field label="First Heading Line" required {...text("heroHeading1")} />
+                            <Field label="Second Heading Line" required {...text("heroHeading2")} />
                         </div>
  
-                        <Field
-                            label="Hero Description"
-                            required
-                            multiline
-                            value={form.sectionContent.heroDescription}
-                            onChange={(v) => updateSectionContent("heroDescription", v)}
-                        />
- 
+                        <Field label="Hero Description" required multiline {...text("heroDescription")} />
                     </CollapsibleSection>
  
                     {/* HERO CHIPS */}
                     <CollapsibleSection id="chips" title="Hero Chips">
- 
                         {form.heroChips.map((chip, i) => (
                             <div key={i} className={itemClass} style={itemStyle}>
                                 <ItemHeader
@@ -421,8 +284,7 @@ export default function AboutAdmin() {
                                     />
                                 </div>
  
-                                <Field
-                                    label="SVG Icon Path"
+                                <IconUpload
                                     value={chip.icon}
                                     onChange={(v) => updateField("heroChips", i, "icon", v)}
                                 />
@@ -451,11 +313,7 @@ export default function AboutAdmin() {
  
                     {/* OUR STORY */}
                     <CollapsibleSection id="story" title="Our Story — Milestones">
-                        <Field
-                            label="Section Label"
-                            value={form.sectionContent.storyLabel}
-                            onChange={(v) => updateSectionContent("storyLabel", v)}
-                        />
+                        <Field label="Section Label" {...text("storyLabel")} />
  
                         {form.milestones.map((item, i) => (
                             <div key={i} className={itemClass} style={itemStyle}>
@@ -524,16 +382,8 @@ export default function AboutAdmin() {
                     {/* SIX WAYS */}
                     <CollapsibleSection id="ways" title="Six Ways We Create Value">
                         <div className={INPUT_GRID}>
-                            <Field
-                                label="Section Label"
-                                value={form.sectionContent.waysLabel}
-                                onChange={(v) => updateSectionContent("waysLabel", v)}
-                            />
-                            <Field
-                                label="Section Heading"
-                                value={form.sectionContent.waysHeading}
-                                onChange={(v) => updateSectionContent("waysHeading", v)}
-                            />
+                            <Field label="Section Label" {...text("waysLabel")} />
+                            <Field label="Section Heading" required {...text("waysHeading")} />
                         </div>
  
                         {form.ways.map((item, i) => (
@@ -561,8 +411,7 @@ export default function AboutAdmin() {
                                     onChange={(v) => updateField("ways", i, "body", v)}
                                 />
  
-                                <Field
-                                    label="SVG Icon Path"
+                                <IconUpload
                                     value={item.icon}
                                     onChange={(v) => updateField("ways", i, "icon", v)}
                                 />
@@ -589,16 +438,8 @@ export default function AboutAdmin() {
                     {/* OUR VALUES */}
                     <CollapsibleSection id="values" title="Our Values">
                         <div className={INPUT_GRID}>
-                            <Field
-                                label="Section Label"
-                                value={form.sectionContent.valuesLabel}
-                                onChange={(v) => updateSectionContent("valuesLabel", v)}
-                            />
-                            <Field
-                                label="Section Heading"
-                                value={form.sectionContent.valuesHeading}
-                                onChange={(v) => updateSectionContent("valuesHeading", v)}
-                            />
+                            <Field label="Section Label" {...text("valuesLabel")} />
+                            <Field label="Section Heading" required {...text("valuesHeading")} />
                         </div>
  
                         {form.values.map((item, i) => (
@@ -627,13 +468,7 @@ export default function AboutAdmin() {
                             type="button"
                             className={secondaryButtonClass}
                             style={outlineButtonStyle}
-                            onClick={() =>
-                                addItem("values", {
-                                    title: "New Value",
-                                    body: "",
-                                    delay: "0.1s",
-                                })
-                            }
+                            onClick={() => addItem("values", { title: "New Value", body: "", delay: "0.1s" })}
                         >
                             + Add Value
                         </button>
@@ -642,24 +477,11 @@ export default function AboutAdmin() {
                     {/* DELIVERY PHILOSOPHY */}
                     <CollapsibleSection id="philosophy" title="Delivery Philosophy">
                         <div className={INPUT_GRID}>
-                            <Field
-                                label="Section Label"
-                                value={form.sectionContent.philosophyLabel}
-                                onChange={(v) => updateSectionContent("philosophyLabel", v)}
-                            />
-                            <Field
-                                label="Section Heading"
-                                value={form.sectionContent.philosophyHeading}
-                                onChange={(v) => updateSectionContent("philosophyHeading", v)}
-                            />
+                            <Field label="Section Label" {...text("philosophyLabel")} />
+                            <Field label="Section Heading" required {...text("philosophyHeading")} />
                         </div>
  
-                        <Field
-                            label="Intro Description"
-                            multiline
-                            value={form.sectionContent.philosophyDescription}
-                            onChange={(v) => updateSectionContent("philosophyDescription", v)}
-                        />
+                        <Field label="Intro Description" multiline {...text("philosophyDescription")} />
  
                         {form.philSteps.map((item, i) => (
                             <div key={i} className={itemClass} style={itemStyle}>
@@ -694,13 +516,7 @@ export default function AboutAdmin() {
                             type="button"
                             className={secondaryButtonClass}
                             style={outlineButtonStyle}
-                            onClick={() =>
-                                addItem("philSteps", {
-                                    title: "New Step",
-                                    body: "",
-                                    desc: "",
-                                })
-                            }
+                            onClick={() => addItem("philSteps", { title: "New Step", body: "", desc: "" })}
                         >
                             + Add Step
                         </button>
@@ -709,16 +525,8 @@ export default function AboutAdmin() {
                     {/* BY THE NUMBERS */}
                     <CollapsibleSection id="stats" title="By the Numbers — Statistics">
                         <div className={INPUT_GRID}>
-                            <Field
-                                label="Section Label"
-                                value={form.sectionContent.statsLabel}
-                                onChange={(v) => updateSectionContent("statsLabel", v)}
-                            />
-                            <Field
-                                label="Section Heading"
-                                value={form.sectionContent.statsHeading}
-                                onChange={(v) => updateSectionContent("statsHeading", v)}
-                            />
+                            <Field label="Section Label" {...text("statsLabel")} />
+                            <Field label="Section Heading" required {...text("statsHeading")} />
                         </div>
  
                         {form.stats.map((item, i) => (
@@ -773,96 +581,31 @@ export default function AboutAdmin() {
                         </button>
                     </CollapsibleSection>
  
-                    {/* CAREERS AND CTA */}
+                    {/* CAREERS */}
                     <CollapsibleSection id="careers" title="Careers Section">
                         <div className={INPUT_GRID}>
-                            <Field
-                                label="Careers Label"
-                                value={form.sectionContent.careersLabel}
-                                onChange={(v) => updateSectionContent("careersLabel", v)}
-                            />
-                            <Field
-                                label="Careers Heading"
-                                value={form.sectionContent.careersHeading}
-                                onChange={(v) => updateSectionContent("careersHeading", v)}
-                            />
+                            <Field label="Careers Label" {...text("careersLabel")} />
+                            <Field label="Careers Heading" required {...text("careersHeading")} />
                         </div>
  
-                        <Field
-                            label="Careers Description"
-                            multiline
-                            value={form.sectionContent.careersDescription}
-                            onChange={(v) => updateSectionContent("careersDescription", v)}
-                        />
+                        <Field label="Careers Description" multiline {...text("careersDescription")} />
  
-                        <Field
-                            label="Careers Button Text"
-                            value={form.sectionContent.careersButton}
-                            onChange={(v) => updateSectionContent("careersButton", v)}
-                        />
+                        <Field label="Careers Button Text" {...text("careersButton")} />
                     </CollapsibleSection>
  
-                    {/* CTA SECTION */}
+                    {/* CTA */}
                     <CollapsibleSection id="cta" title="CTA Section">
                         <div className={INPUT_GRID}>
-                            <Field
-                                label="CTA Label"
-                                value={form.sectionContent.ctaLabel}
-                                onChange={(v) => updateSectionContent("ctaLabel", v)}
-                            />
-                            <Field
-                                label="CTA Heading"
-                                required
-                                value={form.sectionContent.ctaHeading}
-                                onChange={(v) => updateSectionContent("ctaHeading", v)}
-                            />
+                            <Field label="CTA Label" {...text("ctaLabel")} />
+                            <Field label="CTA Heading" required {...text("ctaHeading")} />
                         </div>
  
-                        <Field
-                            label="CTA Description"
-                            multiline
-                            value={form.sectionContent.ctaDescription}
-                            onChange={(v) => updateSectionContent("ctaDescription", v)}
-                        />
+                        <Field label="CTA Description" multiline {...text("ctaDescription")} />
  
-                        <Field
-                            label="CTA Button Text"
-                            value={form.sectionContent.ctaButton}
-                            onChange={(v) => updateSectionContent("ctaButton", v)}
-                        />
+                        <Field label="CTA Button Text" required {...text("ctaButton")} />
                     </CollapsibleSection>
  
-                    {/* SAVE */}
-                    <div className="flex flex-wrap items-center gap-6">
-                        <button
-                            type="submit"
-                            disabled={saving}
-                            className="rounded-full px-10 py-4 font-semibold transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
-                            style={{ ...primaryButtonStyle, fontSize: SIZE.body }}
-                        >
-                            {saving ? "Saving..." : "Save Changes"}
-                        </button>
- 
-                        {error && (
-                            <p
-                                role="alert"
-                                className="font-semibold"
-                                style={{ color: "#dc2626", fontSize: SIZE.body }}
-                            >
-                                {error}
-                            </p>
-                        )}
- 
-                        {message && (
-                            <p
-                                role="status"
-                                className="font-semibold"
-                                style={{ color: COLORS.teal, fontSize: SIZE.body }}
-                            >
-                                {message}
-                            </p>
-                        )}
-                    </div>
+                    <SaveBar saving={saving} error={error} message={message} />
                 </form>
             </div>
  

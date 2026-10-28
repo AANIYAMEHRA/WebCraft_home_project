@@ -6,7 +6,7 @@ const API_URL = "http://localhost:5000/api/footer";
 // Colors and fonts taken from the live Webcraft-IT site.
 const COLORS = {
     navy: "#102a4f",      // headings (hero "Smarter Decisions.")
-    text: "#071a39",      // labels, input text
+    text: "#1e293b",      // labels, input text
     muted: "#5b6878",     // subtitle and helper copy
     green: "#2aa27c",
     teal: "#1f8a86",
@@ -17,7 +17,7 @@ const COLORS = {
  
 // Footer colors, sampled from the live site's footer.
 const FOOTER = {
-    bg: "#0f2752",
+    bg: "#102a4f",
     glow: "#123e55",
     mint: "#6ee7b7",
     white: "#ffffff",
@@ -32,8 +32,8 @@ const FONT_MONO = "'JetBrains Mono', ui-monospace, 'Courier New', monospace";
  
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
-    h1: "40px",       // page title   — "Footer CMS"
-    h2: "32px",       // section title — "Footer Content"
+    h1: "45px",       // page title   — "Footer CMS"
+    h2: "30px",       // section title — "Footer Content"
     subtitle: "18px", // intro line under the title
     label: "16px",    // field labels
     body: "16px",     // inputs, buttons, messages
@@ -186,9 +186,6 @@ export default function FooterAdmin() {
             !excludedFields.includes(key)
     );
  
-    // Preview values, read from the same fields the form edits.
-    const preview = Object.fromEntries(textFields);
- 
     return (
         <main className="min-h-screen px-6 py-16" style={pageStyle}>
             <div className="mx-auto max-w-5xl">
@@ -251,110 +248,6 @@ export default function FooterAdmin() {
                         </div>
                     </section>
  
-                    {/* Live preview: matches the dark footer on the live site */}
-                    <section className="rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="mb-8 font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            Live Preview
-                        </h2>
- 
-                        <div
-                            className="rounded-2xl px-10 py-14"
-                            style={{
-                                background: `linear-gradient(135deg, ${FOOTER.glow} 0%, ${FOOTER.bg} 45%, ${FOOTER.bg} 100%)`,
-                            }}
-                        >
-                            {preview.kicker && (
-                                <p
-                                    className="mb-8 uppercase tracking-[0.35em]"
-                                    style={{
-                                        color: FOOTER.mint,
-                                        fontFamily: FONT_MONO,
-                                        fontSize: "16px",
-                                    }}
-                                >
-                                    {preview.kicker}
-                                </p>
-                            )}
- 
-                            {!preview.kicker &&
-                                !preview.heading &&
-                                !preview.headingEmphasis &&
-                                !preview.email &&
-                                !preview.brandTagline &&
-                                !preview.bottomText && (
-                                    <p
-                                        className="mb-8 font-semibold"
-                                        style={{
-                                            color: FOOTER.soft,
-                                            fontSize: SIZE.body,
-                                        }}
-                                    >
-                                        No footer content yet. Fill in the fields above.
-                                    </p>
-                                )}
- 
-                            <h3
-                                className="font-bold leading-[1.05]"
-                                style={{
-                                    fontFamily: FONT_HEADING,
-                                    color: FOOTER.white,
-                                    fontSize: "72px",
-                                }}
-                            >
-                                {preview.heading}
-                                {preview.heading && preview.headingEmphasis ? " " : ""}
-                                {preview.headingEmphasis && (
-                                    <em style={{ color: FOOTER.mint }}>
-                                        {preview.headingEmphasis}
-                                    </em>
-                                )}
-                            </h3>
- 
-                            {preview.email && (
-                                <p
-                                    className="mt-10 font-semibold italic"
-                                    style={{
-                                        fontFamily: FONT_HEADING,
-                                        color: FOOTER.white,
-                                        fontSize: "36px",
-                                    }}
-                                >
-                                    {preview.email}{" "}
-                                    <span style={{ color: FOOTER.mint }}>→</span>
-                                </p>
-                            )}
- 
-                            <div
-                                className="mt-14 border-t pt-8"
-                                style={{ borderColor: FOOTER.line }}
-                            >
-                                {preview.brandTagline && (
-                                    <p
-                                        className="text-[20px]"
-                                        style={{ color: FOOTER.soft }}
-                                    >
-                                        {preview.brandTagline}
-                                    </p>
-                                )}
- 
-                                {preview.bottomText && (
-                                    <p
-                                        className="mt-8 uppercase tracking-[0.2em]"
-                                        style={{
-                                            color: FOOTER.faint,
-                                            fontFamily: FONT_MONO,
-                                            fontSize: "14px",
-                                        }}
-                                    >
-                                        © 2026 {preview.bottomText}
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-                    </section>
  
                     {/* Save button and status message on the same line */}
                     <div className="flex flex-wrap items-center gap-6">

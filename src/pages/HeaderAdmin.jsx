@@ -21,8 +21,8 @@ const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sa
  
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
-    h1: "40px",       // page title   — "Header CMS"
-    h2: "32px",       // section title — "Logo Settings", "Navigation Links"
+    h1: "45px",       // page title   — "Header CMS"
+    h2: "30px",       // section title — "Logo Settings", "Navigation Links"
     subtitle: "18px", // intro line under the title
     label: "16px",    // field labels
     body: "16px",     // inputs, nav links, buttons
@@ -98,6 +98,7 @@ export default function HeaderAdmin() {
     const [saving, setSaving] = useState(false);
     const fileInputRef = useRef(null);
     const [pendingRemove, setPendingRemove] = useState(null);
+    const [confirmingLogoRemove, setConfirmingLogoRemove] = useState(false);
  
     useEffect(() => {
         async function loadHeader() {
@@ -270,23 +271,25 @@ export default function HeaderAdmin() {
  
                 <form id="admin-form" onSubmit={saveHeader} className="space-y-10">
                     <section className="rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="mb-8 font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            Logo Settings
-                        </h2>
+                        <div className="flex flex-col gap-8 md:flex-row md:items-stretch md:justify-between">
+                            <div className="flex min-w-0 flex-1 flex-col justify-between gap-4">
+                                <div>
+                                <h2
+                                    className="mb-2 font-bold leading-tight"
+                                    style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                                >
+                                    Logo Settings
+                                </h2>
  
-                        <div>
-                            <label
-                                htmlFor="logoUrl"
-                                className="mb-2 block font-semibold"
-                                style={{ color: COLORS.text, fontSize: SIZE.label }}
-                            >
-                                Logo URL
-                            </label>
+                                <label
+                                    htmlFor="logoUrl"
+                                    className="mb-2 block font-semibold"
+                                    style={{ color: COLORS.text, fontSize: SIZE.label }}
+                                >
+                                    Logo URL
+                                </label>
+                                </div>
  
-                            <div className="flex flex-wrap items-center gap-4">
                                 <input
                                     id="logoUrl"
                                     type="text"
@@ -297,43 +300,85 @@ export default function HeaderAdmin() {
                                             ? "Uploaded logo file"
                                             : header.logoUrl
                                     }
-                                    className={`${inputClass} min-w-0 flex-1`}
+                                    className={`${inputClass} min-w-0`}
                                     style={inputStyle}
                                 />
+                            </div>
  
-                                <button
-                                    type="button"
-                                    onClick={() => fileInputRef.current?.click()}
-                                    className={secondaryButtonClass}
-                                    style={outlineButtonStyle}
+                            {/* Preview sits just above the Browse and Remove buttons */}
+                            <div className="flex shrink-0 flex-col items-end gap-4">
+                                <div
+                                    className="relative flex h-28 w-48 items-center justify-center overflow-hidden rounded-2xl border bg-white p-4 shadow-sm"
+                                    style={{ borderColor: COLORS.border }}
                                 >
-                                    Browse
-                                </button>
+                                    {header.logoUrl ? (
+                                        <img
+                                            src={header.logoUrl}
+                                            alt="Current logo"
+                                            className="max-h-full max-w-full object-contain"
+                                        />
+                                    ) : (
+                                        <span
+                                            className="text-center font-semibold"
+                                            style={{ color: COLORS.muted, fontSize: SIZE.body }}
+                                        >
+                                            No logo
+                                        </span>
+                                    )}
  
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        setHeader((current) => ({
-                                            ...current,
-                                            logoUrl: "",
-                                        }))
-                                    }
-                                    disabled={!header.logoUrl}
-                                    className={`${secondaryButtonClass} disabled:cursor-not-allowed disabled:opacity-50`}
-                                    style={outlineButtonStyle}
-                                >
-                                    Remove
-                                </button>
+                                    {/* Pencil when a logo is added, camera when there is none */}
+                                    <button
+                                        type="button"
+                                        onClick={() => fileInputRef.current?.click()}
+                                        aria-label={header.logoUrl ? "Change logo" : "Upload logo"}
+                                        title={header.logoUrl ? "Change logo" : "Upload logo"}
+                                        className="absolute bottom-2 right-2 flex h-9 w-9 items-center justify-center rounded-full border bg-white shadow-md transition hover:brightness-95"
+                                        style={{ borderColor: COLORS.border, color: COLORS.teal }}
+                                    >
+                                        {header.logoUrl ? (
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                                <path d="M12 20h9" />
+                                                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                                            </svg>
+                                        ) : (
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                                <path d="M4 7h3l2-3h6l2 3h3v12H4z" />
+                                                <circle cx="12" cy="13" r="4" />
+                                            </svg>
+                                        )}
+                                    </button>
+                                </div>
  
-                                <input
-                                    ref={fileInputRef}
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleLogoFile}
-                                    className="hidden"
-                                />
+                                <div className="flex items-center gap-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className={secondaryButtonClass}
+                                        style={outlineButtonStyle}
+                                    >
+                                        Browse
+                                    </button>
+ 
+                                    <button
+                                        type="button"
+                                        onClick={() => setConfirmingLogoRemove(true)}
+                                        disabled={!header.logoUrl}
+                                        className={`${secondaryButtonClass} disabled:cursor-not-allowed disabled:opacity-50`}
+                                        style={outlineButtonStyle}
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
                             </div>
                         </div>
+ 
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleLogoFile}
+                            className="hidden"
+                        />
                     </section>
  
                     <section className="rounded-3xl p-10" style={cardStyle}>
@@ -470,68 +515,6 @@ export default function HeaderAdmin() {
                         </div>
                     </section>
  
-                    {/* Live preview: replicates the public header bar from the live site */}
-                    <section className="rounded-3xl p-10" style={cardStyle}>
-                        <h2
-                            className="mb-8 font-bold leading-tight"
-                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
-                        >
-                            Live Preview
-                        </h2>
- 
-                        <div className="flex flex-wrap items-center justify-between gap-8 rounded-2xl bg-white px-8 py-6">
-                            {header.logoUrl ? (
-                                <img
-                                    src={header.logoUrl}
-                                    alt="Webcraft-IT logo"
-                                    className="h-12 w-auto"
-                                    onError={(event) => {
-                                        if (!event.currentTarget.src.endsWith("/logo.svg")) {
-                                            event.currentTarget.src = "/logo.svg";
-                                        } else {
-                                            event.currentTarget.style.display = "none";
-                                        }
-                                    }}
-                                />
-                            ) : (
-                                <span
-                                    className="font-semibold"
-                                    style={{ color: COLORS.muted, fontSize: SIZE.body }}
-                                >
-                                    No logo added yet
-                                </span>
-                            )}
- 
-                            <nav
-                                className="flex flex-wrap items-center gap-14 font-medium"
-                                style={{ fontSize: SIZE.body }}
-                            >
-                                {header.links.map((link, index) => (
-                                    <span
-                                        key={index}
-                                        className="pb-2"
-                                        style={
-                                            index === 0
-                                                ? {
-                                                      color: COLORS.green,
-                                                      borderBottom: `3px solid ${COLORS.green}`,
-                                                  }
-                                                : { color: COLORS.text }
-                                        }
-                                    >
-                                        {link.label || "Untitled"}
-                                    </span>
-                                ))}
-                            </nav>
- 
-                            <span
-                                className="inline-flex items-center gap-3 rounded-full px-8 py-4 font-semibold"
-                                style={{ ...primaryButtonStyle, fontSize: SIZE.body }}
-                            >
-                                {header.contactText} <span aria-hidden>→</span>
-                            </span>
-                        </div>
-                    </section>
  
                     <div className="flex flex-wrap items-center gap-6">
                         <button
@@ -556,6 +539,22 @@ export default function HeaderAdmin() {
                     </div>
                 </form>
             </div>
+            {confirmingLogoRemove && (
+                <ConfirmDialog
+                    title="Remove logo?"
+                    message="Are you sure you want to delete this logo? The change will be applied when you click Save Changes."
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    onConfirm={() => {
+                        setConfirmingLogoRemove(false);
+                        setHeader((current) => ({
+                            ...current,
+                            logoUrl: "",
+                        }));
+                    }}
+                    onCancel={() => setConfirmingLogoRemove(false)}
+                />
+            )}
             {pendingRemove !== null && (
                 <ConfirmDialog
                     title="Remove navigation link?"

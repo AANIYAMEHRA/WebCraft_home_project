@@ -50,23 +50,25 @@ const SECTION_MENUS = {
 };
  
 const itemClass =
-    "group relative flex items-center gap-3 px-4 py-4 text-[21px] transition-colors";
+    "group relative flex items-center gap-3 px-4 py-4 text-[18px] transition-colors";
 const subItemClass =
     "group relative flex items-center gap-2 whitespace-nowrap py-2 pl-10 pr-2 text-[15px] transition-colors";
  
-// Same look for every item: bold, upright, white.
+// Same look for every item: bold, upright, white on the navy sidebar.
 const hoverLabel = () =>
     "font-bold not-italic text-white [font-family:'Fraunces',Georgia,serif] transition-colors duration-300";
  
-// Arrow is always visible.
+// Arrow is always visible, in mint.
 const arrowClass = () =>
     "ml-auto text-[#6ee7b7] transition duration-300";
  
-// Underline is always visible; the open page's underline is brighter.
-const underlineClass = (isActive, indented) =>
-    `absolute bottom-1 ${indented ? "left-10" : "left-4"} right-4 h-[2px] origin-left scale-x-100 rounded-full bg-[#6ee7b7] transition-opacity duration-300 ${
-        isActive ? "opacity-100" : "opacity-40"
-    }`;
+// Underline is always visible, in mint.
+const underlineClass = (indented) =>
+    `absolute bottom-1 ${indented ? "left-10" : "left-4"} right-4 h-[2px] origin-left scale-x-100 rounded-full bg-[#6ee7b7]`;
+ 
+// The selected or hovered item stays fully visible; every other item is faded.
+const fadeClass = (isActive) =>
+    `transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"}`;
  
 // The label, arrow and hover underline shared by every sidebar item.
 // `open` turns the arrow down for dropdown items.
@@ -81,7 +83,7 @@ function NavContent({ label, isActive, indented = false, open }) {
             >
                 →
             </span>
-            <span className={underlineClass(isActive, indented)} />
+            <span className={underlineClass(indented)} />
         </>
     );
 }
@@ -182,7 +184,10 @@ export default function AdminLayout() {
     return (
         <div className="flex min-h-screen bg-[#f5faf8] font-sans text-[#253144]">
             {/* SIDEBAR */}
-            <aside className="fixed inset-y-0 left-0 hidden w-72 flex-col overflow-y-auto bg-[#0b2350] px-5 py-8 md:flex">
+            <aside
+                className="fixed inset-y-0 left-0 hidden w-72 flex-col overflow-y-auto bg-[#0b2350] px-5 py-8 md:flex"
+                style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif" }}
+            >
                 <div className="mb-10 px-2">
                     <img
                         src="/logo.svg"
@@ -201,7 +206,7 @@ export default function AdminLayout() {
                                 <NavLink
                                     to={item.to}
                                     end={item.end}
-                                    className={itemClass}
+                                    className={({ isActive }) => `${itemClass} ${fadeClass(isActive)}`}
                                     onClick={
                                         item.dropdown
                                             ? () => handleDropdownClick(item)
@@ -228,7 +233,7 @@ export default function AdminLayout() {
                                                 <Link
                                                     key={section.id}
                                                     to={`${item.to}#${section.id}`}
-                                                    className={subItemClass}
+                                                    className={`${subItemClass} ${fadeClass(isActive)}`}
                                                 >
                                                     <NavContent
                                                         label={section.label}

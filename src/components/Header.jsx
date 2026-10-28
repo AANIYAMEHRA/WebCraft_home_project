@@ -43,7 +43,7 @@ export default function Header() {
         const data = await response.json()
         if (!cancelled) {
           setHeaderData({
-            logoUrl: data.logoUrl || '/logo.svg',
+            logoUrl: data.logoUrl ?? '/logo.svg',
             links:
               Array.isArray(data.links) && data.links.length > 0
                 ? data.links
@@ -107,8 +107,8 @@ export default function Header() {
       id="navbar"
       role="banner"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-          ? 'bg-white/90 backdrop-blur-xl shadow-sm border-b border-gm-teal/5'
-          : ''
+        ? 'bg-white/90 backdrop-blur-xl shadow-sm border-b border-gm-teal/5'
+        : ''
         }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -118,96 +118,98 @@ export default function Header() {
             className="flex items-center gap-2 z-50"
             aria-label="Webcraft Home"
           >
-            <img
-              src={headerData.logoUrl}
-              alt="Webcraft IT"
-              className="h-10 w-auto"
-            />
+            {headerData.logoUrl && (
+              <img
+                src={headerData.logoUrl}
+                alt="Webcraft IT"
+                className="h-10 w-auto"
+              />
+            )}
           </Link>
           {/* Desktop navigation */}
-<nav
-className="hidden lg:flex items-center gap-1"
-aria-label="Main navigation"
->
-{headerData.links.map((link) => (
-<NavLink
-key={`${link.to}-${link.label}`}
-to={link.to}
-end={link.to === '/'}
-className={desktopLink}
->
-{link.label}
-</NavLink>
-))}
-<Link
-to={headerData.contactUrl}
-className="ml-4 inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-gm-teal to-gm-green text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-gm-teal/25 transition-all"
->
-{headerData.contactText}
-<Arrow />
-</Link>
-</nav>
-{/* Mobile hamburger button */}
-<button
-ref={menuButtonRef}
-type="button"
-onClick={() => setMenuOpen((open) => !open)}
-className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 z-50"
-aria-expanded={menuOpen}
-aria-controls="mobile-navigation"
-aria-label="Toggle navigation menu"
->
-<span
-className="block w-6 h-0.5 bg-gm-deep transition-all duration-300 origin-center"
-style={{
-transform: menuOpen
-? 'rotate(45deg) translate(4px,4px)'
-: '',
-}}
-/>
-<span
-className="block w-6 h-0.5 bg-gm-deep transition-all duration-300"
-style={{ opacity: menuOpen ? 0 : 1 }}
-/>
-<span
-className="block h-0.5 bg-gm-deep transition-all duration-300 origin-center"
-style={{
-width: menuOpen ? '1.5rem' : '1rem',
-transform: menuOpen
-? 'rotate(-45deg) translate(4px,-4px)'
-: '',
-}}
-/>
-</button>
-</div>
-</div>
-{/* Mobile navigation */}
-<div
-className={`mobile-menu ${menuOpen ? 'open' : ''} fixed inset-0 bg-white/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 lg:hidden`}
-id="mobile-navigation"
-role="navigation"
-aria-label="Mobile navigation"
-aria-hidden={!menuOpen}
->
-{headerData.links.map((link) => (
-<NavLink
-key={`${link.to}-${link.label}`}
-to={link.to}
-end={link.to === '/'}
-className={mobileLink}
-tabIndex={menuOpen ? undefined : -1}
->
-{link.label}
-</NavLink>
-))}
-<Link
-to={headerData.contactUrl}
-className="mt-4 px-8 py-3 bg-gradient-to-r from-gm-teal to-gm-green text-white font-semibold rounded-full"
-tabIndex={menuOpen ? undefined : -1}
->
-{headerData.contactText}
-</Link>
-</div>
-</header>
-)
+          <nav
+            className="hidden lg:flex items-center gap-1"
+            aria-label="Main navigation"
+          >
+            {headerData.links.map((link) => (
+              <NavLink
+                key={`${link.to}-${link.label}`}
+                to={link.to}
+                end={link.to === '/'}
+                className={desktopLink}
+              >
+                {link.label}
+              </NavLink>
+            ))}
+            <Link
+              to={headerData.contactUrl}
+              className="ml-4 inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-gm-teal to-gm-green text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-gm-teal/25 transition-all"
+            >
+              {headerData.contactText}
+              <Arrow />
+            </Link>
+          </nav>
+          {/* Mobile hamburger button */}
+          <button
+            ref={menuButtonRef}
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 z-50"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            aria-label="Toggle navigation menu"
+          >
+            <span
+              className="block w-6 h-0.5 bg-gm-deep transition-all duration-300 origin-center"
+              style={{
+                transform: menuOpen
+                  ? 'rotate(45deg) translate(4px,4px)'
+                  : '',
+              }}
+            />
+            <span
+              className="block w-6 h-0.5 bg-gm-deep transition-all duration-300"
+              style={{ opacity: menuOpen ? 0 : 1 }}
+            />
+            <span
+              className="block h-0.5 bg-gm-deep transition-all duration-300 origin-center"
+              style={{
+                width: menuOpen ? '1.5rem' : '1rem',
+                transform: menuOpen
+                  ? 'rotate(-45deg) translate(4px,-4px)'
+                  : '',
+              }}
+            />
+          </button>
+        </div>
+      </div>
+      {/* Mobile navigation */}
+      <div
+        className={`mobile-menu ${menuOpen ? 'open' : ''} fixed inset-0 bg-white/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 lg:hidden`}
+        id="mobile-navigation"
+        role="navigation"
+        aria-label="Mobile navigation"
+        aria-hidden={!menuOpen}
+      >
+        {headerData.links.map((link) => (
+          <NavLink
+            key={`${link.to}-${link.label}`}
+            to={link.to}
+            end={link.to === '/'}
+            className={mobileLink}
+            tabIndex={menuOpen ? undefined : -1}
+          >
+            {link.label}
+          </NavLink>
+        ))}
+        <Link
+          to={headerData.contactUrl}
+          className="mt-4 px-8 py-3 bg-gradient-to-r from-gm-teal to-gm-green text-white font-semibold rounded-full"
+          tabIndex={menuOpen ? undefined : -1}
+        >
+          {headerData.contactText}
+        </Link>
+      </div>
+    </header>
+  )
 }
