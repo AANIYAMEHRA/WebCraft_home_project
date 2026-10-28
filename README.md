@@ -207,9 +207,8 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <td>Footer CMS and the public footer</td>
   </tr>
 </table>
-## 🖼 Screenshots
  
-**Public website**
+**5. Public website**
  
 <table>
   <tr>
