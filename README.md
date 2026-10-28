@@ -1,5 +1,6 @@
 <p align="center">
-  <img src="docs/images/banner.svg" alt="Webcraft-IT CMS banner" width="100%" />
+  <img width="240" height="72" alt="image" src="https://github.com/user-attachments/assets/e41357ac-7ee0-479a-b74a-2c2af42d3788" />
+
 </p>
 <h1 align="center">Webcraft-IT Website</h1>
  
