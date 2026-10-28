@@ -53,14 +53,38 @@
 <p align="center">
   <img src="docs/images/tech-stack.svg" alt="Tech stack: React 18, Vite 5, Tailwind CSS 3, GSAP, Express 4, MongoDB with Mongoose 8" width="100%" />
 </p>
-| Layer | Technology | Why |
-| --- | --- | --- |
-| Frontend | React 18, React Router 6, Vite | Component-based UI, nested admin routes, fast builds |
-| Styling | Tailwind CSS 3 | Consistent design tokens and responsive layouts |
-| Motion | GSAP + ScrollTrigger | Smooth, scroll-linked section animations |
-| Backend | Node.js, Express 4 | Lightweight REST endpoints (GET and PUT per content type) |
-| Database | MongoDB, Mongoose 8 | Flexible document models for page content |
- 
+<table>
+  <tr>
+    <th align="left">Layer</th>
+    <th align="left">Technology</th>
+    <th align="left">Why</th>
+  </tr>
+  <tr>
+    <td>Frontend</td>
+    <td>React 18, React Router 6, Vite</td>
+    <td>Component-based UI, nested admin routes, fast builds</td>
+  </tr>
+  <tr>
+    <td>Styling</td>
+    <td>Tailwind CSS 3</td>
+    <td>Consistent design tokens and responsive layouts</td>
+  </tr>
+  <tr>
+    <td>Motion</td>
+    <td>GSAP + ScrollTrigger</td>
+    <td>Smooth, scroll-linked section animations</td>
+  </tr>
+  <tr>
+    <td>Backend</td>
+    <td>Node.js, Express 4</td>
+    <td>Lightweight REST endpoints (GET and PUT per content type)</td>
+  </tr>
+  <tr>
+    <td>Database</td>
+    <td>MongoDB, Mongoose 8</td>
+    <td>Flexible document models for page content</td>
+  </tr>
+</table>
 ## 🏗 Architecture
  
 <p align="center">
@@ -132,23 +156,55 @@ In a second terminal, start the frontend from the project root:
 npm run dev
 ```
  
-| What | Where |
-| --- | --- |
-| Public site | http://localhost:5173 |
-| Admin CMS | http://localhost:5173/admin |
-| Backend API | http://localhost:5000/api |
- 
+<table>
+  <tr>
+    <th align="left">What</th>
+    <th align="left">Where</th>
+  </tr>
+  <tr>
+    <td>Public site</td>
+    <td>http://localhost:5173</td>
+  </tr>
+  <tr>
+    <td>Admin CMS</td>
+    <td>http://localhost:5173/admin</td>
+  </tr>
+  <tr>
+    <td>Backend API</td>
+    <td>http://localhost:5000/api</td>
+  </tr>
+</table>
 ## 🔌 API
  
 Each content type has a `GET` route to read it and a `PUT` route to save it.
  
-| Method | Endpoint | Used by |
-| --- | --- | --- |
-| `GET` / `PUT` | `/api/header` | Header CMS and the public header |
-| `GET` / `PUT` | `/api/home` | Home CMS and the public Home page |
-| `GET` / `PUT` | `/api/about` | About CMS and the public About page |
-| `GET` / `PUT` | `/api/footer` | Footer CMS and the public footer |
- 
+<table>
+  <tr>
+    <th align="left">Method</th>
+    <th align="left">Endpoint</th>
+    <th align="left">Used by</th>
+  </tr>
+  <tr>
+    <td><code>GET</code> / <code>PUT</code></td>
+    <td><code>/api/header</code></td>
+    <td>Header CMS and the public header</td>
+  </tr>
+  <tr>
+    <td><code>GET</code> / <code>PUT</code></td>
+    <td><code>/api/home</code></td>
+    <td>Home CMS and the public Home page</td>
+  </tr>
+  <tr>
+    <td><code>GET</code> / <code>PUT</code></td>
+    <td><code>/api/about</code></td>
+    <td>About CMS and the public About page</td>
+  </tr>
+  <tr>
+    <td><code>GET</code> / <code>PUT</code></td>
+    <td><code>/api/footer</code></td>
+    <td>Footer CMS and the public footer</td>
+  </tr>
+</table>
 ## 🖼 Screenshots
  
 **Public website**
@@ -201,7 +257,7 @@ Contributions are welcome.
 4. Open a pull request into `feature/header-cms`, and describe what changed and why.
 ## 👤 Author
  
-**Aniya Mehra** · [GitHub](https://github.com/AANIYAMEHRA) · [LinkedIn]((https://www.linkedin.com/in/aniya-mehra-743a0a2b1/)) · [Email](mailto:maanya335@gmail.com)
+**Aniya Mehra** · [GitHub](https://github.com/AANIYAMEHRA) · [LinkedIn](https://www.linkedin.com/in/aniya-mehra-743a0a2b1/) · [Email](mailto:maanya335@gmail.com)
  
 Built as a full-stack project covering frontend UI, REST API design, database modelling and a custom admin CMS.
  
