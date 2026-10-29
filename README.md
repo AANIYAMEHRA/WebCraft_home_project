@@ -1,3 +1,8 @@
+<p align="center">
+<img width="240" height="72" alt="image" src="https://github.com/user-attachments/assets/505983bd-20e0-4b76-bf05-37d46f2e8704" />
+</p>
+
+
 <h1 align="center">Webcraft-IT Website</h1>
  
 <p align="center">
@@ -19,7 +24,6 @@
   <a href="#-getting-started">Getting started</a> ·
   <a href="#-screenshots">Screenshots</a>
 </p>
----
  
 ## 🎯 Highlights
  
@@ -47,6 +51,7 @@
 - Logo and icon uploads: choose an SVG and the app stores its drawing path, with a camera or pencil button for each icon
 - Confirmation dialogs before any item, icon or logo is removed
 - Toast notifications for every save, error and validation message
+  
 ## 🛠 Tech stack
  
 <p align="center">
@@ -84,6 +89,7 @@
     <td>Flexible document models for page content</td>
   </tr>
 </table>
+
 ## 🏗 Architecture
  
 <p align="center">
@@ -102,6 +108,7 @@ Each content type (`header`, `home`, `about`, `footer`) has its own model, route
 - The admin area is not yet protected by login. Adding authentication (for example, JWT-based sessions) is the next priority before public deployment.
 - No automated tests yet. Planned: API route tests and component tests for the admin forms.
 - Deployment notes (hosting for the frontend, backend and MongoDB Atlas) are still to be written.
+  
 ## 📁 Project structure
  
 ```
@@ -183,6 +190,7 @@ npm run dev
     <td>http://localhost:5000/api</td>
   </tr>
 </table>
+
 ## 🔌 API
  
 Each content type has a `GET` route to read it and a `PUT` route to save it.
@@ -214,6 +222,7 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <td>Footer CMS and the public footer</td>
   </tr>
 </table>
+
 ## 🖼 Screenshots
  
 **Overview**
@@ -221,6 +230,7 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
 <p align="center">
   <img width="1914" height="970" alt="Webcraft-IT overview" src="https://github.com/user-attachments/assets/c647fdad-2cdd-45d8-b951-063003170dc8" />
 </p>
+
 **Public website**
  
 <table>
@@ -233,6 +243,7 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <td><img src="https://github.com/user-attachments/assets/c3fde28a-7295-4fe0-8673-84f8336b41fc" alt="Public About page" width="100%" /></td>
   </tr>
 </table>
+
 **Admin CMS**
  
 <table>
@@ -273,6 +284,7 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <td><img src="https://github.com/user-attachments/assets/0d14d277-4613-4bd0-a5f4-c8ba17825cdd" alt="Footer CMS main" width="100%" /></td>
   </tr>
 </table>
+
 ## 🤝 Contributing
  
 Contributions are welcome.
@@ -281,6 +293,7 @@ Contributions are welcome.
 2. Make your changes and test them locally with both servers running.
 3. Commit with a short message that says what changed, for example `Add validation to Footer CMS`.
 4. Open a pull request into `feature/header-cms`, and describe what changed and why.
+   
 ## 👤 Author
  
 **Aniya Mehra** · [GitHub](https://github.com/AANIYAMEHRA) · [LinkedIn](https://www.linkedin.com/in/aniya-mehra-743a0a2b1/) · [Email](mailto:maanya335@gmail.com)
