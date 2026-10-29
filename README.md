@@ -1,5 +1,5 @@
 <p align="center">
-<img width="240" height="72" alt="image" src="https://github.com/user-attachments/assets/d8a04245-3d15-472c-a1bb-994cf2d703ad" />
+<img width="648" height="301" alt="image" src="https://github.com/user-attachments/assets/37d501a9-f50e-409d-81a6-a181415152f6" />
 </p>
 <h1 align="center">Webcraft-IT Website</h1>
  
