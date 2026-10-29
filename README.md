@@ -251,9 +251,8 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <th align="center">Footer CMS</th>
     <th align="center">Footer CMS Main</th>
     <td><img width="1909" height="967" alt="image" src="https://github.com/user-attachments/assets/ce968fde-3eac-4f58-9428-9d7c43c0e12b" /></td>
+   <td><img width="1908" height="963" alt="image" src="https://github.com/user-attachments/assets/0d14d277-4613-4bd0-a5f4-c8ba17825cdd" /></td>
   </tr>
-  <tr>
-    <td><img width="1908" height="963" alt="image" src="https://github.com/user-attachments/assets/0d14d277-4613-4bd0-a5f4-c8ba17825cdd" /></td>
 </table>
 
 ## 🤝 Contributing
