@@ -53,10 +53,7 @@
 - Toast notifications for every save, error and validation message
   
 ## 🛠 Tech stack
- 
-<p align="center">
-  <img src="docs/images/tech-stack.svg" alt="Tech stack: React 18, Vite 5, Tailwind CSS 3, GSAP, Express 4, MongoDB with Mongoose 8" width="100%" />
-</p>
+
 <table>
   <tr>
     <th align="left">Layer</th>
