@@ -1,18 +1,14 @@
-
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import AdminLayout from './components/AdminLayout.jsx'
-
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import AiSolutions from './pages/AiSolutions.jsx'
-
 import HomeAdmin from './pages/HomeAdmin.jsx'
 import AboutAdmin from './pages/AboutAdmin.jsx'
 import HeaderAdmin from './pages/HeaderAdmin.jsx'
 import FooterAdmin from './pages/FooterAdmin.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
-
 export default function App() {
   return (
     <Routes>
@@ -23,7 +19,7 @@ export default function App() {
         <Route path="/ai-solutions" element={<AiSolutions />} />
       </Route>
 
-      {/* Admin CMS with shared sidebar and top navbar */}
+      {/* Admin CMS */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
         <Route path="home" element={<HomeAdmin />} />
