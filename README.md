@@ -240,8 +240,11 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <th align="center">About Page CMS</th>
   </tr>
   <tr>
-    <td><img width="1881" height="968" alt="image" src="https://github.com/user-attachments/assets/4e3bb040-6ee3-4b0b-bbeb-819a124df3ea" /></td>
-    <td><img width="1881" height="968" alt="image" src="https://github.com/user-attachments/assets/4e3bb040-6ee3-4b0b-bbeb-819a124df3ea" /></td>
+    <td><img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/195753e5-a312-4e8d-b43c-1d607992ef52" />
+    <img width="1442" height="960" alt="image" src="https://github.com/user-attachments/assets/7aa59b41-c518-4f70-9fec-11307eb476c2" /></td>
+    <td><img width="1907" height="917" alt="image" src="https://github.com/user-attachments/assets/7c1ad37c-48bf-48df-86e0-c1eeec5a9fbb" />
+      <img width="1483" height="963" alt="image" src="https://github.com/user-attachments/assets/80d1dc11-bcc2-4ef1-8697-2e4f6287e750" />
+</td>
   </tr>
   <tr>
     <th align="center">Footer CMS</th>
