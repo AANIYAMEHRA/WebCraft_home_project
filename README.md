@@ -92,9 +92,22 @@
 
 ## 🏗 Architecture
  
-<p align="center">
-  <img src="docs/images/architecture.svg" alt="Architecture: the admin CMS and public site both talk to the Express API, which reads and writes MongoDB" width="100%" />
-</p>
+```mermaid
+flowchart LR
+    Editor([Editor]) --> Admin["Admin CMS<br/>React · /admin"]
+    Visitor([Visitor]) --> Public["Public site<br/>/ and /about"]
+    Admin -- "GET / PUT" --> API["Express API<br/>/api/section"]
+    Public -- "GET only" --> API
+    API -- "read / write" --> DB[("MongoDB<br/>Mongoose models")]
+ 
+    classDef brand fill:#102a4f,stroke:#6ee7b7,color:#ffffff
+    classDef accent fill:#1f8a86,stroke:#6ee7b7,color:#ffffff
+    classDef light fill:#f4faf8,stroke:#2aa27c,color:#102a4f
+    class Admin,Public brand
+    class API accent
+    class DB,Editor,Visitor light
+```
+ 
 Each content type (`header`, `home`, `about`, `footer`) has its own model, route and admin page. The public pages read the same content back, so an edit appears on the live site after saving.
  
 ### Key design decisions
