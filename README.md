@@ -1,5 +1,6 @@
 <p align="center">
-  <img width="240" height="72" alt="image" src="https://github.com/user-attachments/assets/e41357ac-7ee0-479a-b74a-2c2af42d3788" />
+  
+
 
 </p>
 <h1 align="center">Webcraft-IT Website</h1>
@@ -87,6 +88,7 @@
     <td>Flexible document models for page content</td>
   </tr>
 </table>
+
 ## 🏗 Architecture
  
 <p align="center">
@@ -176,6 +178,7 @@ npm run dev
     <td>http://localhost:5000/api</td>
   </tr>
 </table>
+
 ## 🔌 API
  
 Each content type has a `GET` route to read it and a `PUT` route to save it.
@@ -251,9 +254,7 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <td></td>
   </tr>
   <tr>
-    <td><img src="docs/screenshots/admin-footer.png" alt="Footer CMS" width="100%" /></td>
     <td></td>
-  </tr>
 </table>
 ## 🤝 Contributing
  
