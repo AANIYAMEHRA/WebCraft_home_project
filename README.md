@@ -230,10 +230,10 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <th align="center">Header CMS</th>
   </tr>
   <tr>
-    <td><img width="1871" height="907" alt="image" src="https://github.com/user-attachments/assets/9b715366-0f35-4edb-9bd3-e41eeffe2df6" /></td>
+    <td><img width="1871" height="907" alt="image" src="https://github.com/user-attachments/assets/9b715366-0f35-4edb-9bd3-e41eeffe2df6" />
+    <img width="1881" height="234" alt="image" src="https://github.com/user-attachments/assets/d2e063dd-8b68-44a0-ae93-7b36ec6dc224" /></td>
     <td><img width="1867" height="835" alt="image" src="https://github.com/user-attachments/assets/1c12f7e8-706c-423b-af2e-572e5924e024" />
-    <img width="1442" height="960" alt="image" src="https://github.com/user-attachments/assets/b31acea1-2073-411f-950d-a9fc25aba820" />
-</td>
+    <img width="1458" height="964" alt="image" src="https://github.com/user-attachments/assets/8e75cf79-8e49-4d73-b7fe-c41ea9eb462c" /></td>
   </tr>
   <tr>
     <th align="center">Home Page CMS</th>
