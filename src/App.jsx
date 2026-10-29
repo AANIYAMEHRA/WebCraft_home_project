@@ -4,12 +4,11 @@ import AdminLayout from './components/AdminLayout.jsx'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import AiSolutions from './pages/AiSolutions.jsx'
-import AdminDashboard from './pages/AdminDashboard.jsx'
-import FooterAdmin from './pages/FooterAdmin.jsx'
-import HeaderAdmin from './pages/HeaderAdmin.jsx'
 import HomeAdmin from './pages/HomeAdmin.jsx'
 import AboutAdmin from './pages/AboutAdmin.jsx'
-
+import HeaderAdmin from './pages/HeaderAdmin.jsx'
+import FooterAdmin from './pages/FooterAdmin.jsx'
+import AdminDashboard from './pages/AdminDashboard.jsx'
 export default function App() {
   return (
     <Routes>
@@ -23,9 +22,9 @@ export default function App() {
       {/* Admin CMS */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
-        <Route path="header" element={<HeaderAdmin />} />
         <Route path="home" element={<HomeAdmin />} />
         <Route path="about" element={<AboutAdmin />} />
+        <Route path="header" element={<HeaderAdmin />} />
         <Route path="footer" element={<FooterAdmin />} />
       </Route>
     </Routes>

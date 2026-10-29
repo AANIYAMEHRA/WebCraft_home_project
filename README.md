@@ -1,35 +1,105 @@
-# Webcraft-IT Website
+<p align="center">
+  <img width="240" height="72" alt="image" src="https://github.com/user-attachments/assets/e41357ac-7ee0-479a-b74a-2c2af42d3788" />
+
+</p>
+<h1 align="center">Webcraft-IT Website</h1>
  
-The public website for Webcraft-IT, with an admin CMS for editing the Header, Home, About and Footer content without touching code.
- 
+<p align="center">
+  <b>A full-stack corporate website with a built-in admin CMS.</b><br />
+  Non-technical editors update the header, home page, about page and footer from a dashboard, with no code changes and no redeploy.
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18-102a4f?logo=react&logoColor=6ee7b7" alt="React 18" />
+  <img src="https://img.shields.io/badge/Vite-5-1f8a86?logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3-2aa27c?logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Node.js-Express-102a4f?logo=node.js&logoColor=6ee7b7" alt="Node.js and Express" />
+  <img src="https://img.shields.io/badge/MongoDB-Mongoose-1f8a86?logo=mongodb&logoColor=white" alt="MongoDB and Mongoose" />
+</p>
+<p align="center">
+  <a href="#-highlights">Highlights</a> ·
+  <a href="#-features">Features</a> ·
+  <a href="#-tech-stack">Tech stack</a> ·
+  <a href="#-architecture">Architecture</a> ·
+  <a href="#-getting-started">Getting started</a> ·
+  <a href="#-screenshots">Screenshots</a>
+</p>
+<br>
 <img width="1914" height="970" alt="image" src="https://github.com/user-attachments/assets/c647fdad-2cdd-45d8-b951-063003170dc8" />
-
-
  
-## Features
+## 🎯 Highlights
  
-- **Public website:** Home and About pages with a shared header and footer.
-- **Admin CMS:** a sidebar admin area (`/admin`) with one page per section of the site:
-  - Dashboard
-  - Header CMS: logo, navigation links, contact button
-  - Home Page CMS: hero, statistics, services, why Webcraft, approach, products, AI solutions, CTA
-  - About Page CMS: hero and chips, milestones, six ways, values, delivery philosophy, statistics, careers, CTA
-  - Footer CMS: footer text
-- **Content saved to a database:** each admin page saves to its own API route, and the public pages read from it.
-## Tech stack
+- **Full-stack build:** a React 18 frontend, a Node.js and Express REST API, and MongoDB data models, all in one repository.
+- **Content management system:** an admin area where editors manage four content areas of a live site without touching code.
+- **Reusable admin UI:** one shared component library (fields, icon picker, dialogs, save bar) keeps every editor consistent.
+- **Careful validation:** required fields are marked with a red `*`, and saving explains exactly what is missing.
+- **Clean API design:** every content type has the same `GET` and `PUT` routes, backed by its own Mongoose model.
+## ✨ Features
  
-| Part | Technology |
-| --- | --- |
-| Frontend | React 18, Vite, React Router, Tailwind CSS, GSAP |
-| Backend | Node.js, Express, Mongoose |
-| Database | MongoDB |
+**Public website**
  
-## Project structure
+- Responsive Home and About pages with scroll-triggered animations (GSAP)
+- Shared header and footer, driven by CMS content
+- Logo and text update as soon as an editor saves
+**Admin CMS (`/admin`)**
+ 
+- Sidebar navigation with a dropdown for each page's sections, which scrolls to and expands that section
+- **Header:** logo upload, navigation links, contact button
+- **Home:** hero, statistics, services, why Webcraft, approach, products, AI solutions and call to action
+- **About:** hero and chips, milestones, six ways, values, delivery philosophy, statistics, careers and call to action
+- **Footer:** footer text and links
+- Logo and icon uploads: choose an SVG and the app stores its drawing path, with a camera or pencil button for each icon
+- Confirmation dialogs before any item, icon or logo is removed
+- Toast notifications for every save, error and validation message
+## 🛠 Tech stack
+ 
+<p align="center">
+  <img src="docs/images/tech-stack.svg" alt="Tech stack: React 18, Vite 5, Tailwind CSS 3, GSAP, Express 4, MongoDB with Mongoose 8" width="100%" />
+</p>
+<table>
+  <tr>
+    <th align="left">Layer</th>
+    <th align="left">Technology</th>
+    <th align="left">Why</th>
+  </tr>
+  <tr>
+    <td>Frontend</td>
+    <td>React 18, React Router 6, Vite</td>
+    <td>Component-based UI, nested admin routes, fast builds</td>
+  </tr>
+  <tr>
+    <td>Styling</td>
+    <td>Tailwind CSS 3</td>
+    <td>Consistent design tokens and responsive layouts</td>
+  </tr>
+  <tr>
+    <td>Motion</td>
+    <td>GSAP + ScrollTrigger</td>
+    <td>Smooth, scroll-linked section animations</td>
+  </tr>
+  <tr>
+    <td>Backend</td>
+    <td>Node.js, Express 4</td>
+    <td>Lightweight REST endpoints (GET and PUT per content type)</td>
+  </tr>
+  <tr>
+    <td>Database</td>
+    <td>MongoDB, Mongoose 8</td>
+    <td>Flexible document models for page content</td>
+  </tr>
+</table>
+## 🏗 Architecture
+ 
+<p align="center">
+  <img src="docs/images/architecture.svg" alt="Architecture: the admin CMS and public site both talk to the Express API, which reads and writes MongoDB" width="100%" />
+</p>
+Each content type (`header`, `home`, `about`, `footer`) has its own model, route and admin page. The public pages read the same content back, so an edit appears on the live site after saving.
+ 
+## 📁 Project structure
  
 ```
 WebCraft_home_project/
 ├── src/                       # Frontend (React)
-│   ├── components/            # Shared pieces: Header, Footer, Layout, admin shell
+│   ├── components/            # Header, Footer, layout and admin shell
 │   │   ├── AdminLayout.jsx    # Admin sidebar, navbar and save button
 │   │   └── AdminUi.jsx        # Shared admin fields, icon picker and styles
 │   ├── pages/                 # One file per page (public and admin)
@@ -42,38 +112,38 @@ WebCraft_home_project/
 │       ├── config/db.js       # Database connection
 │       ├── models/            # Mongoose models (Header, Home, About, Footer)
 │       └── routes/            # API routes (GET and PUT for each model)
-└── docs/screenshots/          # Screenshots used in this README
+└── docs/
+    ├── images/                # README banner and diagrams
+    └── screenshots/           # Screenshots used in this README
 ```
  
-## Getting started
+## 🚀 Getting started
  
-### Prerequisites
+**Prerequisites:** Node.js 18 or newer, and a MongoDB database (a local instance or MongoDB Atlas).
  
-- Node.js 18 or newer
-- A MongoDB database (a local instance or MongoDB Atlas)
-### 1. Install the frontend
+**1. Install the frontend**
  
 ```bash
 npm install
 ```
  
-### 2. Install the backend
+**2. Install the backend**
  
 ```bash
 cd backend
 npm install
 ```
  
-### 3. Configure the backend
+**3. Configure the backend**
  
-Create a file named `.env` inside `backend/` (it is ignored by Git):
+Create a file named `.env` inside `backend/`. It is git-ignored, so your connection string stays private.
  
-```
+```env
 MONGODB_URI=your-mongodb-connection-string
 PORT=5000
 ```
  
-### 4. Run both servers
+**4. Run both servers**
  
 In one terminal, start the backend:
  
@@ -88,42 +158,112 @@ In a second terminal, start the frontend from the project root:
 npm run dev
 ```
  
-Then open:
- 
-- Public site: http://localhost:5173
-- Admin CMS: http://localhost:5173/admin
-- Backend API: http://localhost:5000/api
-## API routes
+<table>
+  <tr>
+    <th align="left">What</th>
+    <th align="left">Where</th>
+  </tr>
+  <tr>
+    <td>Public site</td>
+    <td>http://localhost:5173</td>
+  </tr>
+  <tr>
+    <td>Admin CMS</td>
+    <td>http://localhost:5173/admin</td>
+  </tr>
+  <tr>
+    <td>Backend API</td>
+    <td>http://localhost:5000/api</td>
+  </tr>
+</table>
+## 🔌 API
  
 Each content type has a `GET` route to read it and a `PUT` route to save it.
  
-| Route | Used by |
-| --- | --- |
-| `/api/header` | Header CMS and the public header |
-| `/api/home` | Home CMS and the public Home page |
-| `/api/about` | About CMS and the public About page |
-| `/api/footer` | Footer CMS and the public footer |
+<table>
+  <tr>
+    <th align="left">Method</th>
+    <th align="left">Endpoint</th>
+    <th align="left">Used by</th>
+  </tr>
+  <tr>
+    <td><code>GET</code> / <code>PUT</code></td>
+    <td><code>/api/header</code></td>
+    <td>Header CMS and the public header</td>
+  </tr>
+  <tr>
+    <td><code>GET</code> / <code>PUT</code></td>
+    <td><code>/api/home</code></td>
+    <td>Home CMS and the public Home page</td>
+  </tr>
+  <tr>
+    <td><code>GET</code> / <code>PUT</code></td>
+    <td><code>/api/about</code></td>
+    <td>About CMS and the public About page</td>
+  </tr>
+  <tr>
+    <td><code>GET</code> / <code>PUT</code></td>
+    <td><code>/api/footer</code></td>
+    <td>Footer CMS and the public footer</td>
+  </tr>
+</table>
  
-## Screenshots
+**5. Public website**
  
-Add screenshots to `docs/screenshots/` and link them here. Suggested files:
+<table>
+  <tr>
+    <th align="center">Home</th>
+    <th align="center">About</th>
+  </tr>
+  <tr>
+    <td><img width="1911" height="978" alt="image" src="https://github.com/user-attachments/assets/137faa78-f924-4a4d-9145-478a10d76b31" /></td>
+    <td><img width="1875" height="956" alt="image" src="https://github.com/user-attachments/assets/c3fde28a-7295-4fe0-8673-84f8336b41fc" /></td>
+  </tr>
+</table>
+
+
+**6. Admin CMS website**
  
-| File | What it shows |
-| --- | --- |
-| `docs/screenshots/home.png` | Public Home page |
-| `docs/screenshots/about.png` | Public About page |
-| `docs/screenshots/admin-dashboard.png` | Admin dashboard |
-| `docs/screenshots/admin-header.png` | Header CMS, logo settings |
-| `docs/screenshots/admin-home.png` | Home Page CMS |
-| `docs/screenshots/admin-about.png` | About Page CMS |
-| `docs/screenshots/admin-footer.png` | Footer CMS |
+<table>
+  <tr>
+    <th align="center">Dashboard</th>
+    <th align="center">Header CMS</th>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/admin-dashboard.png" alt="Admin dashboard" width="100%" /></td>
+    <td><img src="docs/screenshots/admin-header.png" alt="Header CMS with logo settings" width="100%" /></td>
+  </tr>
+  <tr>
+    <th align="center">Home Page CMS</th>
+    <th align="center">About Page CMS</th>
+  </tr>
+  <tr>
+    <td><img width="421" height="917" alt="image" src="https://github.com/user-attachments/assets/e35a3a55-6db3-432d-af92-0f6ec8be3e8e" /></td>
+    <td><img width="1881" height="968" alt="image" src="https://github.com/user-attachments/assets/4e3bb040-6ee3-4b0b-bbeb-819a124df3ea" /></td>
+  </tr>
+  <tr>
+    <th align="center">Footer CMS</th>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/admin-footer.png" alt="Footer CMS" width="100%" /></td>
+    <td></td>
+  </tr>
+</table>
+## 🤝 Contributing
  
-## Contributing
+Contributions are welcome.
  
 1. Create a branch from `feature/header-cms`.
-2. Make your changes and test them locally.
-3. Commit with a short message that says what changed.
-4. Open a pull request into `feature/header-cms`.
-## Licence
+2. Make your changes and test them locally with both servers running.
+3. Commit with a short message that says what changed, for example `Add validation to Footer CMS`.
+4. Open a pull request into `feature/header-cms`, and describe what changed and why.
+## 👤 Author
+ 
+**Aniya Mehra** · [GitHub](https://github.com/AANIYAMEHRA) · [LinkedIn](https://www.linkedin.com/in/aniya-mehra-743a0a2b1/) · [Email](mailto:maanya335@gmail.com)
+ 
+Built as a full-stack project covering frontend UI, REST API design, database modelling and a custom admin CMS.
+ 
+## 📄 License
  
 Private project. All rights reserved by Webcraft-IT.
