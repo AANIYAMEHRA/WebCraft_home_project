@@ -238,7 +238,7 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <th align="center">About Page CMS</th>
   </tr>
   <tr>
-    <td><img width="421" height="917" alt="image" src="https://github.com/user-attachments/assets/e35a3a55-6db3-432d-af92-0f6ec8be3e8e" /></td>
+    <td><img width="1881" height="968" alt="image" src="https://github.com/user-attachments/assets/4e3bb040-6ee3-4b0b-bbeb-819a124df3ea" /></td>
     <td><img width="1881" height="968" alt="image" src="https://github.com/user-attachments/assets/4e3bb040-6ee3-4b0b-bbeb-819a124df3ea" /></td>
   </tr>
   <tr>
