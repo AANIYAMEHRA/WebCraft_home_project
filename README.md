@@ -1,6 +1,3 @@
-<p align="center">
-<img width="648" height="301" alt="image" src="https://github.com/user-attachments/assets/37d501a9-f50e-409d-81a6-a181415152f6" />
-</p>
 <h1 align="center">Webcraft-IT Website</h1>
  
 <p align="center">
@@ -22,16 +19,17 @@
   <a href="#-getting-started">Getting started</a> ·
   <a href="#-screenshots">Screenshots</a>
 </p>
-<br>
-<img width="1914" height="970" alt="image" src="https://github.com/user-attachments/assets/c647fdad-2cdd-45d8-b951-063003170dc8" />
+---
  
 ## 🎯 Highlights
  
-- **Full-stack build:** a React 18 frontend, a Node.js and Express REST API, and MongoDB data models, all in one repository.
-- **Content management system:** an admin area where editors manage four content areas of a live site without touching code.
-- **Reusable admin UI:** one shared component library (fields, icon picker, dialogs, save bar) keeps every editor consistent.
+- **Full-stack build:** a React 18 frontend, a Node.js and Express REST API and MongoDB data models, all in one repository.
+- **Content management system:** an admin area where editors manage four areas of a live site (Header, Home, About and Footer) without touching code.
+- **Reusable admin UI:** one shared component library (fields, icon picker, dialogs, save bar) keeps every editor consistent and easy to extend.
 - **Careful validation:** required fields are marked with a red `*`, and saving explains exactly what is missing.
 - **Clean API design:** every content type has the same `GET` and `PUT` routes, backed by its own Mongoose model.
+**Skills demonstrated:** React (hooks, nested routing), REST API design, Express middleware and routing, MongoDB data modelling with Mongoose, form handling and validation, responsive UI with Tailwind CSS, and scroll animation with GSAP.
+ 
 ## ✨ Features
  
 **Public website**
@@ -86,7 +84,6 @@
     <td>Flexible document models for page content</td>
   </tr>
 </table>
-
 ## 🏗 Architecture
  
 <p align="center">
@@ -94,6 +91,17 @@
 </p>
 Each content type (`header`, `home`, `about`, `footer`) has its own model, route and admin page. The public pages read the same content back, so an edit appears on the live site after saving.
  
+### Key design decisions
+ 
+- **One model and route per content area.** Saving the footer cannot overwrite the home page, and each area can change independently.
+- **Shared admin components.** Fields, icon upload, confirmation dialogs and the save bar live in one file, so every editor behaves the same way.
+- **SVG icons are parsed in the browser.** Editors upload a file rather than pasting raw path data, and the app stores only the drawing path.
+- **Validation before saving.** Required fields are checked against a single list, and the editor is told exactly what is missing.
+### Known limitations and next steps
+ 
+- The admin area is not yet protected by login. Adding authentication (for example, JWT-based sessions) is the next priority before public deployment.
+- No automated tests yet. Planned: API route tests and component tests for the admin forms.
+- Deployment notes (hosting for the frontend, backend and MongoDB Atlas) are still to be written.
 ## 📁 Project structure
  
 ```
@@ -113,8 +121,7 @@ WebCraft_home_project/
 │       ├── models/            # Mongoose models (Header, Home, About, Footer)
 │       └── routes/            # API routes (GET and PUT for each model)
 └── docs/
-    ├── images/                # README banner and diagrams
-    └── screenshots/           # Screenshots used in this README
+    └── images/                # Banner and diagrams used in this README
 ```
  
 ## 🚀 Getting started
@@ -176,7 +183,6 @@ npm run dev
     <td>http://localhost:5000/api</td>
   </tr>
 </table>
-
 ## 🔌 API
  
 Each content type has a `GET` route to read it and a `PUT` route to save it.
@@ -208,8 +214,14 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <td>Footer CMS and the public footer</td>
   </tr>
 </table>
+## 🖼 Screenshots
  
-**5. Public website**
+**Overview**
+ 
+<p align="center">
+  <img width="1914" height="970" alt="Webcraft-IT overview" src="https://github.com/user-attachments/assets/c647fdad-2cdd-45d8-b951-063003170dc8" />
+</p>
+**Public website**
  
 <table>
   <tr>
@@ -217,13 +229,11 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <th align="center">About</th>
   </tr>
   <tr>
-    <td><img width="1911" height="978" alt="image" src="https://github.com/user-attachments/assets/137faa78-f924-4a4d-9145-478a10d76b31" /></td>
-    <td><img width="1875" height="956" alt="image" src="https://github.com/user-attachments/assets/c3fde28a-7295-4fe0-8673-84f8336b41fc" /></td>
+    <td><img src="https://github.com/user-attachments/assets/137faa78-f924-4a4d-9145-478a10d76b31" alt="Public Home page" width="100%" /></td>
+    <td><img src="https://github.com/user-attachments/assets/c3fde28a-7295-4fe0-8673-84f8336b41fc" alt="Public About page" width="100%" /></td>
   </tr>
 </table>
-
-
-**6. Admin CMS website**
+**Admin CMS**
  
 <table>
   <tr>
@@ -231,30 +241,38 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <th align="center">Header CMS</th>
   </tr>
   <tr>
-    <td><img width="1871" height="907" alt="image" src="https://github.com/user-attachments/assets/9b715366-0f35-4edb-9bd3-e41eeffe2df6" />
-    <img width="1881" height="234" alt="image" src="https://github.com/user-attachments/assets/d2e063dd-8b68-44a0-ae93-7b36ec6dc224" /></td>
-    <td><img width="1867" height="835" alt="image" src="https://github.com/user-attachments/assets/1c12f7e8-706c-423b-af2e-572e5924e024" />
-    <img width="1458" height="964" alt="image" src="https://github.com/user-attachments/assets/8e75cf79-8e49-4d73-b7fe-c41ea9eb462c" /></td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/9b715366-0f35-4edb-9bd3-e41eeffe2df6" alt="Admin dashboard" width="100%" />
+      <img src="https://github.com/user-attachments/assets/d2e063dd-8b68-44a0-ae93-7b36ec6dc224" alt="Admin dashboard, sidebar and sections" width="100%" />
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/1c12f7e8-706c-423b-af2e-572e5924e024" alt="Header CMS" width="100%" />
+      <img src="https://github.com/user-attachments/assets/8e75cf79-8e49-4d73-b7fe-c41ea9eb462c" alt="Header CMS, logo settings" width="100%" />
+    </td>
   </tr>
   <tr>
     <th align="center">Home Page CMS</th>
     <th align="center">About Page CMS</th>
   </tr>
   <tr>
-    <td><img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/195753e5-a312-4e8d-b43c-1d607992ef52" />
-    <img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/7aa59b41-c518-4f70-9fec-11307eb476c2" /></td>
-    <td><img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/7c1ad37c-48bf-48df-86e0-c1eeec5a9fbb" />
-      <img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/80d1dc11-bcc2-4ef1-8697-2e4f6287e750" />
-</td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/195753e5-a312-4e8d-b43c-1d607992ef52" alt="Home Page CMS" width="100%" />
+      <img src="https://github.com/user-attachments/assets/7aa59b41-c518-4f70-9fec-11307eb476c2" alt="Home Page CMS, further sections" width="100%" />
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/7c1ad37c-48bf-48df-86e0-c1eeec5a9fbb" alt="About Page CMS" width="100%" />
+      <img src="https://github.com/user-attachments/assets/80d1dc11-bcc2-4ef1-8697-2e4f6287e750" alt="About Page CMS, further sections" width="100%" />
+    </td>
   </tr>
   <tr>
     <th align="center">Footer CMS</th>
     <th align="center">Footer CMS Main</th>
-    <td><img width="1909" height="967" alt="image" src="https://github.com/user-attachments/assets/ce968fde-3eac-4f58-9428-9d7c43c0e12b" /></td>
-   <td><img width="1908" height="963" alt="image" src="https://github.com/user-attachments/assets/0d14d277-4613-4bd0-a5f4-c8ba17825cdd" /></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/ce968fde-3eac-4f58-9428-9d7c43c0e12b" alt="Footer CMS" width="100%" /></td>
+    <td><img src="https://github.com/user-attachments/assets/0d14d277-4613-4bd0-a5f4-c8ba17825cdd" alt="Footer CMS main" width="100%" /></td>
   </tr>
 </table>
-
 ## 🤝 Contributing
  
 Contributions are welcome.
