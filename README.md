@@ -1,7 +1,5 @@
 <p align="center">
-  
-
-
+<img width="240" height="72" alt="image" src="https://github.com/user-attachments/assets/d8a04245-3d15-472c-a1bb-994cf2d703ad" />
 </p>
 <h1 align="center">Webcraft-IT Website</h1>
  
@@ -244,18 +242,19 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
   </tr>
   <tr>
     <td><img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/195753e5-a312-4e8d-b43c-1d607992ef52" />
-    <img width="1442" height="960" alt="image" src="https://github.com/user-attachments/assets/7aa59b41-c518-4f70-9fec-11307eb476c2" /></td>
-    <td><img width="1907" height="917" alt="image" src="https://github.com/user-attachments/assets/7c1ad37c-48bf-48df-86e0-c1eeec5a9fbb" />
-      <img width="1483" height="963" alt="image" src="https://github.com/user-attachments/assets/80d1dc11-bcc2-4ef1-8697-2e4f6287e750" />
+    <img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/7aa59b41-c518-4f70-9fec-11307eb476c2" /></td>
+    <td><img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/7c1ad37c-48bf-48df-86e0-c1eeec5a9fbb" />
+      <img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/80d1dc11-bcc2-4ef1-8697-2e4f6287e750" />
 </td>
   </tr>
   <tr>
     <th align="center">Footer CMS</th>
-    <td></td>
+    <td><img width="1909" height="967" alt="image" src="https://github.com/user-attachments/assets/ce968fde-3eac-4f58-9428-9d7c43c0e12b" /></td>
   </tr>
   <tr>
-    <td></td>
+    <td><img width="1908" height="963" alt="image" src="https://github.com/user-attachments/assets/0d14d277-4613-4bd0-a5f4-c8ba17825cdd" /></td>
 </table>
+
 ## 🤝 Contributing
  
 Contributions are welcome.
