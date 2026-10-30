@@ -9,6 +9,7 @@ import AboutAdmin from './pages/AboutAdmin.jsx'
 import HeaderAdmin from './pages/HeaderAdmin.jsx'
 import FooterAdmin from './pages/FooterAdmin.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
+import AiSolutionsAdmin from './pages/AiSolutionsAdmin.jsx'
 export default function App() {
   return (
     <Routes>
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="about" element={<AboutAdmin />} />
         <Route path="header" element={<HeaderAdmin />} />
         <Route path="footer" element={<FooterAdmin />} />
+        <Route path="ai-solutions" element={<AiSolutionsAdmin />} />
       </Route>
     </Routes>
   )
