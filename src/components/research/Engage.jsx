@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { engage } from '../../pages/researchData.js';
+import { useResearch } from './ResearchContext.jsx'
 import { gsap, ScrollTrigger } from './gsap.js';
 
 function Column({ variant, column, marker, icon }) {
@@ -42,6 +42,7 @@ function Column({ variant, column, marker, icon }) {
 }
 
 export default function Engage() {
+  const { engage } = useResearch()
   return (
     <section className="engage bg-white" id="engageSection">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">

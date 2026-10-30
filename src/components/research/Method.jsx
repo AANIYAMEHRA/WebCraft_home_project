@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { method } from '../../pages/researchData.js';
+import { useResearch } from './ResearchContext.jsx'
 import { gsap, ScrollTrigger } from './gsap.js';
 
 const MOBILE_BREAKPOINT = 768;
 
 export default function Method() {
+  const { method } = useResearch()
   const spacerRef = useRef(null);
   const lineRef = useRef(null);
   // -1 = every stage shown (mobile stacked layout); 0-4 = the pinned active stage.

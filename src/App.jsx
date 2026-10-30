@@ -13,6 +13,7 @@ import AboutAdmin from './pages/AboutAdmin.jsx'
 import HeaderAdmin from './pages/HeaderAdmin.jsx'
 import FooterAdmin from './pages/FooterAdmin.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
+import ResearchAdmin from './pages/ResearchAdmin.jsx'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="about" element={<AboutAdmin />} />
         <Route path="header" element={<HeaderAdmin />} />
         <Route path="footer" element={<FooterAdmin />} />
+        <Route path="research" element={<ResearchAdmin />} />
       </Route>
     </Routes>
   )

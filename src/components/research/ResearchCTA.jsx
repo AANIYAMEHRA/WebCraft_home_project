@@ -1,8 +1,9 @@
 import { useRef } from 'react'
-import { cta } from '../../pages/researchData.js'
+import { useResearch } from './ResearchContext.jsx'
 import useMagnet from '../../hooks/useMagnet.js'
 
 export default function ResearchCTA() {
+  const { cta } = useResearch()
   const wrapRef = useRef(null)
   const btnRef = useRef(null)
   useMagnet(wrapRef, btnRef)

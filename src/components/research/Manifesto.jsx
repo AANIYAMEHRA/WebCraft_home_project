@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
-import { manifesto } from '../../pages/researchData.js';
+import { useResearch } from './ResearchContext.jsx'
 import { gsap } from './gsap.js';
 
 // Splits the copy into word spans so each word can fade in as the user scrolls.
@@ -16,6 +16,7 @@ function toWords(segments) {
 }
 
 export default function Manifesto() {
+  const { manifesto } = useResearch()
   const textRef = useRef(null);
   const words = toWords(manifesto.segments);
 

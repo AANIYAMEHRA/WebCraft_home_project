@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { chart } from '../../pages/researchData.js';
+import { useResearch } from './ResearchContext.jsx'
 
 const STAGGER_MS = 120;
 const COUNT_MS = 1400;
@@ -42,6 +42,7 @@ function ChartRow({ label, value, index, active }) {
 }
 
 export default function DataChart() {
+  const { chart } = useResearch()
   const chartRef = useRef(null);
   const [active, setActive] = useState(false);
 

@@ -7,12 +7,14 @@ const VIEW_SITE_URL = "http://localhost:5173";
  
 const HOME_PATH = "/admin/home";
 const ABOUT_PATH = "/admin/about";
+const RESEARCH_PATH = "/admin/research";
  
 const NAV_ITEMS = [
     { to: "/admin", label: "Dashboard", end: true },
     { to: "/admin/header", label: "Header CMS" },
     { to: HOME_PATH, label: "Home Page CMS", dropdown: true },
     { to: ABOUT_PATH, label: "About Page CMS", dropdown: true },
+    { to: RESEARCH_PATH, label: "Research Page CMS", dropdown: true },
     { to: "/admin/footer", label: "Footer CMS" },
 ];
  
@@ -43,10 +45,24 @@ const ABOUT_SECTIONS = [
     { id: "cta", label: "CTA Section" },
 ];
  
+// Sections of the Research page, shown in this order under "Research Page CMS".
+// The id must match the id on the section in ResearchAdmin.jsx.
+const RESEARCH_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "manifesto", label: "Our Position" },
+    { id: "practices", label: "Four Practices" },
+    { id: "method", label: "Research Method" },
+    { id: "deliverables", label: "Deliverables" },
+    { id: "chart", label: "Blockers Chart" },
+    { id: "engage", label: "When Research Helps" },
+    { id: "cta", label: "CTA Section" },
+];
+
 // Section dropdown under each page that has one.
 const SECTION_MENUS = {
     [HOME_PATH]: HOME_SECTIONS,
     [ABOUT_PATH]: ABOUT_SECTIONS,
+    [RESEARCH_PATH]: RESEARCH_SECTIONS,
 };
  
 const itemClass =

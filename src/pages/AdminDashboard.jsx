@@ -28,6 +28,11 @@ const CARDS = [
         text: "Edit About page content, milestones, values and statistics.",
     },
     {
+        to: "/admin/research",
+        title: "Research Page CMS",
+        text: "Hero, practices, research method, deliverables, chart and CTA.",
+    },
+    {
         to: "/admin/footer",
         title: "Footer CMS",
         text: "Footer text, tagline, email and bottom line.",

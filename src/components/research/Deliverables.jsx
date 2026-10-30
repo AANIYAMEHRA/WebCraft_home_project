@@ -1,6 +1,7 @@
-import { deliverables, deliverablesIntro } from '../../pages/researchData.js';
+import { useResearch } from './ResearchContext.jsx'
 
 export default function Deliverables() {
+  const { deliverables, deliverablesIntro } = useResearch()
   return (
     <section className="deliverables bg-white" id="deliverablesSection">
       <div className="deliv-head max-w-7xl mx-auto px-6 lg:px-8 text-center">

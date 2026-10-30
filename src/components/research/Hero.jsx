@@ -1,4 +1,4 @@
-import { hero } from '../../pages/researchData.js';
+import { useResearch } from './ResearchContext.jsx'
 
 const chipTone = {
   teal: { text: 'text-gm-teal', shadow: 'shadow-gm-teal/10', border: 'border-gm-teal/10' },
@@ -47,6 +47,7 @@ function ChipIcon({ name, className }) {
 }
 
 export default function Hero() {
+  const { hero } = useResearch()
   return (
     <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden" aria-label="Page hero">
       <div className="absolute inset-0 hero-mesh" />

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { practices, practicesIntro } from '../../pages/researchData.js';
+import { useResearch } from './ResearchContext.jsx'
 import { gsap, ScrollTrigger } from './gsap.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -230,6 +230,7 @@ function Practice({ practice }) {
 }
 
 export default function Practices() {
+  const { practices, practicesIntro } = useResearch()
   return (
     <section className="practices-section bg-white" id="practicesSection">
       <div className="practices-head max-w-7xl mx-auto px-6 lg:px-8 text-center">
