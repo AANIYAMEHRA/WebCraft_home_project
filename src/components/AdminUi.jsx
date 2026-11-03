@@ -269,6 +269,125 @@ export function IconUpload({ label = "SVG Icon", value, onChange, required = fal
     );
 }
  
+// Image picker: a preview with a camera button when there is no image, or a pencil button when one is set.
+// Browse and Remove sit below the preview, the same way as the logo settings.
+export function ImageUpload({ label = "Image", value, onChange, required = false, maxKb = 300 }) {
+    const inputRef = useRef(null);
+    const [confirmingRemove, setConfirmingRemove] = useState(false);
+ 
+    function handleFile(event) {
+        const file = event.target.files?.[0];
+        event.target.value = "";
+ 
+        if (!file) return;
+ 
+        if (!file.type.startsWith("image/")) {
+            notify("error", "Please choose an image file.");
+            return;
+        }
+ 
+        if (file.size > maxKb * 1024) {
+            notify("error", `Image must be smaller than ${maxKb} KB.`);
+            return;
+        }
+ 
+        const reader = new FileReader();
+        reader.onload = () => onChange(reader.result);
+        reader.readAsDataURL(file);
+    }
+ 
+    return (
+        <div>
+            <span className="mb-2 block font-semibold" style={labelStyle}>
+                {label}
+                {required && <span style={{ color: COLORS.red }}> *</span>}
+            </span>
+ 
+            <div className="flex flex-col items-start gap-4">
+                <div
+                    className="relative flex h-28 w-48 shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-white p-3 shadow-sm"
+                    style={{ borderColor: COLORS.border }}
+                >
+                    {value ? (
+                        <img src={value} alt="Image preview" className="h-full w-full object-contain" />
+                    ) : (
+                        <span
+                            className="text-center font-semibold"
+                            style={{ color: COLORS.muted, fontSize: SIZE.body }}
+                        >
+                            No image
+                        </span>
+                    )}
+ 
+                    <button
+                        type="button"
+                        onClick={() => inputRef.current?.click()}
+                        aria-label={value ? "Change image" : "Upload image"}
+                        title={value ? "Change image" : "Upload image"}
+                        className="absolute bottom-1.5 right-1.5 flex h-8 w-8 items-center justify-center rounded-full border bg-white shadow-md transition hover:brightness-95"
+                        style={{ borderColor: COLORS.border, color: COLORS.teal }}
+                    >
+                        {value ? (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <path d="M12 20h9" />
+                                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                            </svg>
+                        ) : (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <path d="M4 7h3l2-3h6l2 3h3v12H4z" />
+                                <circle cx="12" cy="13" r="4" />
+                            </svg>
+                        )}
+                    </button>
+                </div>
+ 
+                <div className="flex flex-wrap gap-3">
+                    <button
+                        type="button"
+                        onClick={() => inputRef.current?.click()}
+                        className={secondaryButtonClass}
+                        style={outlineButtonStyle}
+                    >
+                        Browse
+                    </button>
+ 
+                    <button
+                        type="button"
+                        onClick={() => setConfirmingRemove(true)}
+                        disabled={!value}
+                        className={`${secondaryButtonClass} disabled:cursor-not-allowed disabled:opacity-50`}
+                        style={outlineButtonStyle}
+                    >
+                        Remove
+                    </button>
+                </div>
+            </div>
+ 
+            <input
+                ref={inputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFile}
+                className="hidden"
+            />
+ 
+            {confirmingRemove && (
+                <ConfirmDialog
+                    title="Remove image?"
+                    message="Are you sure you want to delete this image? The change will be applied when you click Save Changes."
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    onConfirm={() => {
+                        setConfirmingRemove(false);
+                        onChange("");
+                    }}
+                    onCancel={() => setConfirmingRemove(false)}
+                />
+            )}
+        </div>
+    );
+}
+ 
 // Page title with the gradient "CMS" and the intro line under it.
 export function PageTitle({ name, intro }) {
     return (

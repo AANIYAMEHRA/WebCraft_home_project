@@ -10,6 +10,7 @@ import {
     SaveBar,
     Field,
     ItemHeader,
+    ImageUpload,
     headingStyle,
     isBlank,
     itemClass,
@@ -601,7 +602,11 @@ export default function HomeAdmin() {
                         <Field label="Section Label" {...sec("whyWebcraft", "label")} />
                         <Field label="Heading" required {...sec("whyWebcraft", "heading")} />
                         <Field label="Description" multiline {...sec("whyWebcraft", "description")} />
-                        <Field label="Image Path" {...sec("whyWebcraft", "image")} />
+                        <ImageUpload
+                            label="Image"
+                            value={form.whyWebcraft.image}
+                            onChange={(v) => setSection("whyWebcraft", { image: v })}
+                        />
  
                         <h3 className="font-bold" style={{ ...headingStyle, fontSize: SIZE.h3 }}>
                             Feature Cards
