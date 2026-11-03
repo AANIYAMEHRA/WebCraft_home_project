@@ -1,7 +1,8 @@
 <p align="center">
-  <img width="240" height="72" alt="image" src="https://github.com/user-attachments/assets/e41357ac-7ee0-479a-b74a-2c2af42d3788" />
-
+<img width="240" height="72" alt="image" src="https://github.com/user-attachments/assets/505983bd-20e0-4b76-bf05-37d46f2e8704" />
 </p>
+
+
 <h1 align="center">Webcraft-IT Website</h1>
  
 <p align="center">
@@ -23,16 +24,16 @@
   <a href="#-getting-started">Getting started</a> ·
   <a href="#-screenshots">Screenshots</a>
 </p>
-<br>
-<img width="1914" height="970" alt="image" src="https://github.com/user-attachments/assets/c647fdad-2cdd-45d8-b951-063003170dc8" />
  
 ## 🎯 Highlights
  
-- **Full-stack build:** a React 18 frontend, a Node.js and Express REST API, and MongoDB data models, all in one repository.
-- **Content management system:** an admin area where editors manage four content areas of a live site without touching code.
-- **Reusable admin UI:** one shared component library (fields, icon picker, dialogs, save bar) keeps every editor consistent.
+- **Full-stack build:** a React 18 frontend, a Node.js and Express REST API and MongoDB data models, all in one repository.
+- **Content management system:** an admin area where editors manage four areas of a live site (Header, Home, About and Footer) without touching code.
+- **Reusable admin UI:** one shared component library (fields, icon picker, dialogs, save bar) keeps every editor consistent and easy to extend.
 - **Careful validation:** required fields are marked with a red `*`, and saving explains exactly what is missing.
 - **Clean API design:** every content type has the same `GET` and `PUT` routes, backed by its own Mongoose model.
+**Skills demonstrated:** React (hooks, nested routing), REST API design, Express middleware and routing, MongoDB data modelling with Mongoose, form handling and validation, responsive UI with Tailwind CSS, and scroll animation with GSAP.
+ 
 ## ✨ Features
  
 **Public website**
@@ -50,11 +51,9 @@
 - Logo and icon uploads: choose an SVG and the app stores its drawing path, with a camera or pencil button for each icon
 - Confirmation dialogs before any item, icon or logo is removed
 - Toast notifications for every save, error and validation message
+  
 ## 🛠 Tech stack
- 
-<p align="center">
-  <img src="docs/images/tech-stack.svg" alt="Tech stack: React 18, Vite 5, Tailwind CSS 3, GSAP, Express 4, MongoDB with Mongoose 8" width="100%" />
-</p>
+
 <table>
   <tr>
     <th align="left">Layer</th>
@@ -87,13 +86,39 @@
     <td>Flexible document models for page content</td>
   </tr>
 </table>
+
 ## 🏗 Architecture
  
-<p align="center">
-  <img src="docs/images/architecture.svg" alt="Architecture: the admin CMS and public site both talk to the Express API, which reads and writes MongoDB" width="100%" />
-</p>
+```mermaid
+flowchart LR
+    Editor([Editor]) --> Admin["Admin CMS<br/>React · /admin"]
+    Visitor([Visitor]) --> Public["Public site<br/>/ and /about"]
+    Admin -- "GET / PUT" --> API["Express API<br/>/api/section"]
+    Public -- "GET only" --> API
+    API -- "read / write" --> DB[("MongoDB<br/>Mongoose models")]
+ 
+    classDef brand fill:#102a4f,stroke:#6ee7b7,color:#ffffff
+    classDef accent fill:#1f8a86,stroke:#6ee7b7,color:#ffffff
+    classDef light fill:#f4faf8,stroke:#2aa27c,color:#102a4f
+    class Admin,Public brand
+    class API accent
+    class DB,Editor,Visitor light
+```
+ 
 Each content type (`header`, `home`, `about`, `footer`) has its own model, route and admin page. The public pages read the same content back, so an edit appears on the live site after saving.
  
+### Key design decisions
+ 
+- **One model and route per content area.** Saving the footer cannot overwrite the home page, and each area can change independently.
+- **Shared admin components.** Fields, icon upload, confirmation dialogs and the save bar live in one file, so every editor behaves the same way.
+- **SVG icons are parsed in the browser.** Editors upload a file rather than pasting raw path data, and the app stores only the drawing path.
+- **Validation before saving.** Required fields are checked against a single list, and the editor is told exactly what is missing.
+### Known limitations and next steps
+ 
+- The admin area is not yet protected by login. Adding authentication (for example, JWT-based sessions) is the next priority before public deployment.
+- No automated tests yet. Planned: API route tests and component tests for the admin forms.
+- Deployment notes (hosting for the frontend, backend and MongoDB Atlas) are still to be written.
+  
 ## 📁 Project structure
  
 ```
@@ -113,8 +138,7 @@ WebCraft_home_project/
 │       ├── models/            # Mongoose models (Header, Home, About, Footer)
 │       └── routes/            # API routes (GET and PUT for each model)
 └── docs/
-    ├── images/                # README banner and diagrams
-    └── screenshots/           # Screenshots used in this README
+    └── images/                # Banner and diagrams used in this README
 ```
  
 ## 🚀 Getting started
@@ -176,6 +200,7 @@ npm run dev
     <td>http://localhost:5000/api</td>
   </tr>
 </table>
+
 ## 🔌 API
  
 Each content type has a `GET` route to read it and a `PUT` route to save it.
@@ -207,8 +232,16 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <td>Footer CMS and the public footer</td>
   </tr>
 </table>
+
+## 🖼 Screenshots
  
-**5. Public website**
+**Overview**
+ 
+<p align="center">
+  <img width="1914" height="970" alt="Webcraft-IT overview" src="https://github.com/user-attachments/assets/c647fdad-2cdd-45d8-b951-063003170dc8" />
+</p>
+
+**Public website**
  
 <table>
   <tr>
@@ -216,13 +249,12 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <th align="center">About</th>
   </tr>
   <tr>
-    <td><img width="1911" height="978" alt="image" src="https://github.com/user-attachments/assets/137faa78-f924-4a4d-9145-478a10d76b31" /></td>
-    <td><img width="1875" height="956" alt="image" src="https://github.com/user-attachments/assets/c3fde28a-7295-4fe0-8673-84f8336b41fc" /></td>
+    <td><img src="https://github.com/user-attachments/assets/137faa78-f924-4a4d-9145-478a10d76b31" alt="Public Home page" width="100%" /></td>
+    <td><img src="https://github.com/user-attachments/assets/c3fde28a-7295-4fe0-8673-84f8336b41fc" alt="Public About page" width="100%" /></td>
   </tr>
 </table>
 
-
-**6. Admin CMS website**
+**Admin CMS**
  
 <table>
   <tr>
@@ -230,26 +262,39 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
     <th align="center">Header CMS</th>
   </tr>
   <tr>
-    <td><img src="docs/screenshots/admin-dashboard.png" alt="Admin dashboard" width="100%" /></td>
-    <td><img src="docs/screenshots/admin-header.png" alt="Header CMS with logo settings" width="100%" /></td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/9b715366-0f35-4edb-9bd3-e41eeffe2df6" alt="Admin dashboard" width="100%" />
+      <img src="https://github.com/user-attachments/assets/d2e063dd-8b68-44a0-ae93-7b36ec6dc224" alt="Admin dashboard, sidebar and sections" width="100%" />
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/1c12f7e8-706c-423b-af2e-572e5924e024" alt="Header CMS" width="100%" />
+      <img src="https://github.com/user-attachments/assets/8e75cf79-8e49-4d73-b7fe-c41ea9eb462c" alt="Header CMS, logo settings" width="100%" />
+    </td>
   </tr>
   <tr>
     <th align="center">Home Page CMS</th>
     <th align="center">About Page CMS</th>
   </tr>
   <tr>
-    <td><img width="421" height="917" alt="image" src="https://github.com/user-attachments/assets/e35a3a55-6db3-432d-af92-0f6ec8be3e8e" /></td>
-    <td><img width="1881" height="968" alt="image" src="https://github.com/user-attachments/assets/4e3bb040-6ee3-4b0b-bbeb-819a124df3ea" /></td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/195753e5-a312-4e8d-b43c-1d607992ef52" alt="Home Page CMS" width="100%" />
+      <img src="https://github.com/user-attachments/assets/7aa59b41-c518-4f70-9fec-11307eb476c2" alt="Home Page CMS, further sections" width="100%" />
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/7c1ad37c-48bf-48df-86e0-c1eeec5a9fbb" alt="About Page CMS" width="100%" />
+      <img src="https://github.com/user-attachments/assets/80d1dc11-bcc2-4ef1-8697-2e4f6287e750" alt="About Page CMS, further sections" width="100%" />
+    </td>
   </tr>
   <tr>
     <th align="center">Footer CMS</th>
-    <td></td>
+    <th align="center">Footer CMS Main</th>
   </tr>
   <tr>
-    <td><img src="docs/screenshots/admin-footer.png" alt="Footer CMS" width="100%" /></td>
-    <td></td>
+    <td><img src="https://github.com/user-attachments/assets/ce968fde-3eac-4f58-9428-9d7c43c0e12b" alt="Footer CMS" width="100%" /></td>
+    <td><img src="https://github.com/user-attachments/assets/0d14d277-4613-4bd0-a5f4-c8ba17825cdd" alt="Footer CMS main" width="100%" /></td>
   </tr>
 </table>
+
 ## 🤝 Contributing
  
 Contributions are welcome.
@@ -258,6 +303,7 @@ Contributions are welcome.
 2. Make your changes and test them locally with both servers running.
 3. Commit with a short message that says what changed, for example `Add validation to Footer CMS`.
 4. Open a pull request into `feature/header-cms`, and describe what changed and why.
+   
 ## 👤 Author
  
 **Aniya Mehra** · [GitHub](https://github.com/AANIYAMEHRA) · [LinkedIn](https://www.linkedin.com/in/aniya-mehra-743a0a2b1/) · [Email](mailto:maanya335@gmail.com)
