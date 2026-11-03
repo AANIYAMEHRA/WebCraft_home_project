@@ -3,7 +3,11 @@ import footerRoutes from "./src/routes/footerRoutes.js";
 import headerRoutes from "./src/routes/headerRoutes.js";
 import homeRoutes from "./src/routes/homeRoutes.js";
 import aboutRoutes from "./src/routes/aboutRoutes.js";
+<<<<<<< HEAD
 import researchRoutes from "./src/routes/researchRoutes.js";
+=======
+import aiSolutionsRoutes from "./src/routes/aiSolutionsRoutes.js";
+>>>>>>> origin/feature/products-page
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 import "dotenv/config";
@@ -24,12 +28,17 @@ app.use(
 );
 
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 app.use("/api/footer", footerRoutes);
 app.use("/api/header", headerRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/api/about", aboutRoutes);
+<<<<<<< HEAD
 app.use("/api/research", researchRoutes);
+=======
+app.use("/api/ai-solutions", aiSolutionsRoutes);
+>>>>>>> origin/feature/products-page
 app.get("/api/health", (req, res) => {
   res.json({ message: "Webcraft backend is running" });
 });

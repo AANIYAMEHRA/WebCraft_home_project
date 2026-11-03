@@ -7,14 +7,22 @@ const VIEW_SITE_URL = "http://localhost:5173";
  
 const HOME_PATH = "/admin/home";
 const ABOUT_PATH = "/admin/about";
+<<<<<<< HEAD
 const RESEARCH_PATH = "/admin/research";
+=======
+const AI_SOLUTIONS_PATH = "/admin/ai-solutions";
+>>>>>>> origin/feature/products-page
  
 const NAV_ITEMS = [
     { to: "/admin", label: "Dashboard", end: true },
     { to: "/admin/header", label: "Header CMS" },
     { to: HOME_PATH, label: "Home Page CMS", dropdown: true },
     { to: ABOUT_PATH, label: "About Page CMS", dropdown: true },
+<<<<<<< HEAD
     { to: RESEARCH_PATH, label: "Research Page CMS", dropdown: true },
+=======
+    { to: AI_SOLUTIONS_PATH, label: "AI Solutions Page CMS", dropdown: true },
+>>>>>>> origin/feature/products-page
     { to: "/admin/footer", label: "Footer CMS" },
 ];
  
@@ -44,6 +52,15 @@ const ABOUT_SECTIONS = [
     { id: "careers", label: "Careers Section" },
     { id: "cta", label: "CTA Section" },
 ];
+
+const AI_SOLUTIONS_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "manifesto", label: "Manifesto Section" },
+    { id: "panels", label: "AI Service Panels" },
+    { id: "tech-stack", label: "Technology Stack" },
+    { id: "philosophy", label: "Our Philosophy" },
+    { id: "cta", label: "CTA Section" },
+];
  
 // Sections of the Research page, shown in this order under "Research Page CMS".
 // The id must match the id on the section in ResearchAdmin.jsx.
@@ -62,7 +79,11 @@ const RESEARCH_SECTIONS = [
 const SECTION_MENUS = {
     [HOME_PATH]: HOME_SECTIONS,
     [ABOUT_PATH]: ABOUT_SECTIONS,
+<<<<<<< HEAD
     [RESEARCH_PATH]: RESEARCH_SECTIONS,
+=======
+    [AI_SOLUTIONS_PATH]: AI_SOLUTIONS_SECTIONS,
+>>>>>>> origin/feature/products-page
 };
  
 const itemClass =
