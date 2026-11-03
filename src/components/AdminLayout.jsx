@@ -8,6 +8,7 @@ const VIEW_SITE_URL = "http://localhost:5173";
 const HOME_PATH = "/admin/home";
 const ABOUT_PATH = "/admin/about";
 const AI_SOLUTIONS_PATH = "/admin/ai-solutions";
+const PRODUCTS_PATH = "/admin/products";
  
 const NAV_ITEMS = [
     { to: "/admin", label: "Dashboard", end: true },
@@ -15,6 +16,7 @@ const NAV_ITEMS = [
     { to: HOME_PATH, label: "Home Page CMS", dropdown: true },
     { to: ABOUT_PATH, label: "About Page CMS", dropdown: true },
     { to: AI_SOLUTIONS_PATH, label: "AI Solutions Page CMS", dropdown: true },
+    { to: PRODUCTS_PATH, label: "Products Page CMS", dropdown: true },
     { to: "/admin/footer", label: "Footer CMS" },
 ];
  
@@ -53,12 +55,19 @@ const AI_SOLUTIONS_SECTIONS = [
     { id: "philosophy", label: "Our Philosophy" },
     { id: "cta", label: "CTA Section" },
 ];
+
+const PRODUCTS_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "products", label: "Products" },
+    { id: "cta", label: "CTA Section" },
+];
  
 // Section dropdown under each page that has one.
 const SECTION_MENUS = {
     [HOME_PATH]: HOME_SECTIONS,
     [ABOUT_PATH]: ABOUT_SECTIONS,
     [AI_SOLUTIONS_PATH]: AI_SOLUTIONS_SECTIONS,
+    [PRODUCTS_PATH]: PRODUCTS_SECTIONS,
 };
  
 const itemClass =
