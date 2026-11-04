@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
- 
+
 // Public website address, used by the "View Website" button.
 // Change this when you deploy the site.
 const VIEW_SITE_URL = "http://localhost:5173";
- 
+
 const HOME_PATH = "/admin/home";
 const ABOUT_PATH = "/admin/about";
- 
+const PRODUCTS_PATH = "/admin/products";
+
 const NAV_ITEMS = [
     { to: "/admin", label: "Dashboard", end: true },
     { to: "/admin/header", label: "Header CMS" },
     { to: HOME_PATH, label: "Home Page CMS", dropdown: true },
     { to: ABOUT_PATH, label: "About Page CMS", dropdown: true },
+    { to: PRODUCTS_PATH, label: "Products Page CMS", dropdown: true },
     { to: "/admin/footer", label: "Footer CMS" },
 ];
- 
+
 // Sections of the Home page, shown in this order under "Home Page CMS".
 // The id must match the id on the section in HomeAdmin.jsx.
 const HOME_SECTIONS = [
@@ -28,7 +30,7 @@ const HOME_SECTIONS = [
     { id: "ai-stack", label: "AI Solutions" },
     { id: "cta", label: "CTA Section" },
 ];
- 
+
 // Sections of the About page, shown in this order under "About Page CMS".
 // The id must match the id on the section in AboutAdmin.jsx.
 const ABOUT_SECTIONS = [
@@ -42,34 +44,39 @@ const ABOUT_SECTIONS = [
     { id: "careers", label: "Careers Section" },
     { id: "cta", label: "CTA Section" },
 ];
- 
+const PRODUCTS_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "products", label: "Products" },
+    { id: "cta", label: "CTA Section" },
+];
 // Section dropdown under each page that has one.
 const SECTION_MENUS = {
     [HOME_PATH]: HOME_SECTIONS,
     [ABOUT_PATH]: ABOUT_SECTIONS,
+    [PRODUCTS_PATH]: PRODUCTS_SECTIONS,
 };
- 
+
 const itemClass =
     "group relative flex items-center gap-3 px-4 py-4 text-[18px] transition-colors";
 const subItemClass =
     "group relative flex items-center gap-2 whitespace-nowrap py-2 pl-10 pr-2 text-[15px] transition-colors";
- 
+
 // Same look for every item: bold, upright, white on the navy sidebar.
 const hoverLabel = () =>
     "font-bold not-italic text-white [font-family:'Fraunces',Georgia,serif] transition-colors duration-300";
- 
+
 // Arrow is always visible, in mint.
 const arrowClass = () =>
     "ml-auto text-[#6ee7b7] transition duration-300";
- 
+
 // Underline is always visible, in mint.
 const underlineClass = (indented) =>
     `absolute bottom-1 ${indented ? "left-10" : "left-4"} right-4 h-[2px] origin-left scale-x-100 rounded-full bg-[#6ee7b7]`;
- 
+
 // The selected or hovered item stays fully visible; every other item is faded.
 const fadeClass = (isActive) =>
     `transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"}`;
- 
+
 // The label, arrow and hover underline shared by every sidebar item.
 // `open` turns the arrow down for dropdown items.
 function NavContent({ label, isActive, indented = false, open }) {
@@ -77,9 +84,8 @@ function NavContent({ label, isActive, indented = false, open }) {
         <>
             <span className={hoverLabel(isActive)}>{label}</span>
             <span
-                className={`${arrowClass(isActive)} ${
-                    open ? "rotate-90" : ""
-                }`}
+                className={`${arrowClass(isActive)} ${open ? "rotate-90" : ""
+                    }`}
             >
                 →
             </span>
@@ -87,15 +93,15 @@ function NavContent({ label, isActive, indented = false, open }) {
         </>
     );
 }
- 
+
 export default function AdminLayout() {
     const location = useLocation();
     const [toast, setToast] = useState(null);
- 
+
     // The page whose section dropdown is open (for example "/admin/home"), or null.
     // Every dropdown is closed until its item is clicked.
     const [openMenu, setOpenMenu] = useState(null);
- 
+
     // Open the dropdown of the page being entered, and close the others.
     useEffect(() => {
         const page = Object.keys(SECTION_MENUS).find((path) =>
@@ -103,35 +109,35 @@ export default function AdminLayout() {
         );
         setOpenMenu(page ?? null);
     }, [location.pathname]);
- 
+
     // Listen for messages sent by the pages (see adminToast.js).
     useEffect(() => {
         let timer;
- 
+
         function showToast(event) {
             setToast(event.detail);
             clearTimeout(timer);
             timer = setTimeout(() => setToast(null), 3500);
         }
- 
+
         window.addEventListener("admin-toast", showToast);
         return () => {
             window.removeEventListener("admin-toast", showToast);
             clearTimeout(timer);
         };
     }, []);
- 
+
     // When a sub-section is clicked (URL ends with #section), scroll to it.
     // The page may still be loading its data, so retry for a few seconds.
     useEffect(() => {
         const id = location.hash.slice(1);
         if (!id) return;
- 
+
         let attempts = 0;
         const timer = setInterval(() => {
             const element = document.getElementById(id);
             attempts += 1;
- 
+
             if (element) {
                 element.scrollIntoView({ behavior: "smooth", block: "start" });
                 clearInterval(timer);
@@ -139,14 +145,14 @@ export default function AdminLayout() {
                 clearInterval(timer);
             }
         }, 100);
- 
+
         return () => clearInterval(timer);
     }, [location.pathname, location.hash]);
- 
+
     // The open page's form has id="admin-form". Submitting it runs that page's save.
     function saveCurrentPage() {
         const form = document.getElementById("admin-form");
- 
+
         if (form) {
             form.requestSubmit();
         } else {
@@ -160,12 +166,12 @@ export default function AdminLayout() {
             );
         }
     }
- 
+
     // Clicking a dropdown item opens its sections; clicking it again closes them
     // and also closes every section open in the main page.
     function handleDropdownClick(item) {
         const onThisPage = location.pathname.startsWith(item.to);
- 
+
         if (onThisPage && openMenu === item.to) {
             window.dispatchEvent(new CustomEvent("home-sections-collapse"));
             setOpenMenu(null);
@@ -173,14 +179,14 @@ export default function AdminLayout() {
             setOpenMenu(item.to);
         }
     }
- 
+
     const currentPage =
         NAV_ITEMS.find((item) =>
             item.end
                 ? location.pathname === item.to
                 : location.pathname.startsWith(item.to)
         )?.label ?? "Dashboard";
- 
+
     return (
         <div className="flex min-h-screen bg-[#f5faf8] font-sans text-[#253144]">
             {/* SIDEBAR */}
@@ -195,12 +201,12 @@ export default function AdminLayout() {
                         className="h-10 w-auto"
                     />
                 </div>
- 
+
                 <nav className="flex flex-col gap-1">
                     {NAV_ITEMS.map((item) => {
                         const sections = SECTION_MENUS[item.to];
                         const isOpen = item.dropdown && openMenu === item.to;
- 
+
                         return (
                             <div key={item.to}>
                                 <NavLink
@@ -221,14 +227,14 @@ export default function AdminLayout() {
                                         />
                                     )}
                                 </NavLink>
- 
+
                                 {/* Page sections, shown only while the dropdown is open */}
                                 {isOpen && location.pathname.startsWith(item.to) && (
                                     <div className="mb-2 mt-1 flex flex-col">
                                         {sections.map((section) => {
                                             const isActive =
                                                 location.hash === `#${section.id}`;
- 
+
                                             return (
                                                 <Link
                                                     key={section.id}
@@ -250,14 +256,14 @@ export default function AdminLayout() {
                     })}
                 </nav>
             </aside>
- 
+
             <div className="flex min-h-screen flex-1 flex-col md:ml-72">
                 {/* TOP NAVBAR */}
                 <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4 border-b border-[#d7ebe4] bg-white/90 px-6 py-4 backdrop-blur md:px-10">
                     <h1 className="font-serif text-[28px] font-bold text-[#0c1f3a]">
                         {currentPage}
                     </h1>
- 
+
                     <div className="flex items-center gap-3">
                         <a
                             href={VIEW_SITE_URL}
@@ -267,7 +273,7 @@ export default function AdminLayout() {
                         >
                             View Website
                         </a>
- 
+
                         <button
                             type="button"
                             onClick={saveCurrentPage}
@@ -277,20 +283,19 @@ export default function AdminLayout() {
                         </button>
                     </div>
                 </header>
- 
+
                 <main className="flex-1 px-6 py-12 md:px-10">
                     <Outlet />
                 </main>
             </div>
- 
+
             {/* MESSAGE, top right */}
             {toast && (
                 <div
                     role="status"
                     aria-live="polite"
-                    className={`fixed right-6 top-24 z-50 rounded-xl px-5 py-4 text-[16px] font-semibold text-white shadow-xl ${
-                        toast.type === "success" ? "bg-[#1f8a86]" : "bg-red-600"
-                    }`}
+                    className={`fixed right-6 top-24 z-50 rounded-xl px-5 py-4 text-[16px] font-semibold text-white shadow-xl ${toast.type === "success" ? "bg-[#1f8a86]" : "bg-red-600"
+                        }`}
                 >
                     {toast.text}
                 </div>

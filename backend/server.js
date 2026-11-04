@@ -3,6 +3,7 @@ import footerRoutes from "./src/routes/footerRoutes.js";
 import headerRoutes from "./src/routes/headerRoutes.js";
 import homeRoutes from "./src/routes/homeRoutes.js";
 import aboutRoutes from "./src/routes/aboutRoutes.js";
+import productsRoutes from "./src/routes/productsRoutes.js";
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 import "dotenv/config";
@@ -28,6 +29,7 @@ app.use("/api/footer", footerRoutes);
 app.use("/api/header", headerRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/api/about", aboutRoutes);
+app.use("/api/products", productsRoutes);
 app.get("/api/health", (req, res) => {
   res.json({ message: "Webcraft backend is running" });
 });
