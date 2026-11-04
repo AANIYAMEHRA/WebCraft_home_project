@@ -6,6 +6,7 @@ import AdminLayout from './components/AdminLayout.jsx'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import AiSolutions from './pages/AiSolutions.jsx'
+import Research from './pages/Research.jsx'
 
 import HomeAdmin from './pages/HomeAdmin.jsx'
 import AboutAdmin from './pages/AboutAdmin.jsx'
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/ai-solutions" element={<AiSolutions />} />
+        <Route path="/research" element={<Research />} />
       </Route>
 
       {/* Admin CMS with shared sidebar and top navbar */}
