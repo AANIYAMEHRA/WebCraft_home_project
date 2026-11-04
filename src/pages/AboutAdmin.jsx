@@ -17,13 +17,21 @@ import {
     secondaryButtonClass,
     outlineButtonStyle,
 } from "../components/AdminUi";
- 
+
 const API = "http://localhost:5000/api/about";
- 
+
 // Default icon for a hero chip that has no icon, so the original sun icon comes back.
 const DEFAULT_CHIP_ICON =
     "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z";
- 
+
+// Tone options for hero chips (same as the Services and Research chips).
+// Each tone also sets the text colour and border classes the chip uses on the site.
+const TONE_OPTIONS = [
+    { value: "teal", label: "Teal", swatch: "bg-gm-teal", color: "text-gm-teal", box: "border-gm-teal/10" },
+    { value: "blue", label: "Blue", swatch: "bg-gm-blue", color: "text-gm-blue", box: "border-gm-blue/10" },
+    { value: "green", label: "Green", swatch: "bg-gm-green", color: "text-gm-green", box: "border-gm-green/10" },
+];
+
 // Mandatory fields. Everything else on the page is optional.
 const REQUIRED_FIELDS = [
     "heroHeading1",
@@ -37,7 +45,7 @@ const REQUIRED_FIELDS = [
     "ctaHeading",
     "ctaButton",
 ];
- 
+
 // Names used in the removal dialog.
 const REMOVE_LABELS = {
     heroChips: "chip",
@@ -47,7 +55,7 @@ const REMOVE_LABELS = {
     philSteps: "step",
     stats: "statistic",
 };
- 
+
 const EMPTY_ABOUT = {
     heroChips: [],
     milestones: [],
@@ -83,7 +91,7 @@ const EMPTY_ABOUT = {
         ctaButton: "Start a Conversation →",
     },
 };
- 
+
 // Fills in any missing keys so every field has a value to show.
 function mergeAbout(about) {
     return {
@@ -92,6 +100,7 @@ function mergeAbout(about) {
         heroChips: (about.heroChips ?? []).map((chip) => ({
             ...chip,
             icon: chip.icon || DEFAULT_CHIP_ICON,
+            tone: chip.tone || "teal",
         })),
         sectionContent: {
             ...EMPTY_ABOUT.sectionContent,
@@ -99,14 +108,14 @@ function mergeAbout(about) {
         },
     };
 }
- 
+
 // Returns an error message when a mandatory field is empty, or "" when the content is valid.
 function validateAbout(form) {
     const missing = REQUIRED_FIELDS.some((field) => isBlank(form.sectionContent[field]));
- 
+
     return missing ? "Some required fields are empty. Please fill in all fields marked with *." : "";
 }
- 
+
 export default function AboutAdmin() {
     const [form, setForm] = useState(EMPTY_ABOUT);
     const [loading, setLoading] = useState(true);
@@ -114,15 +123,15 @@ export default function AboutAdmin() {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [pendingRemove, setPendingRemove] = useState(null);
- 
+
     useEffect(() => {
         let active = true;
- 
+
         async function loadAbout() {
             try {
                 const response = await fetch(API);
                 if (!response.ok) throw new Error("Could not load About content.");
- 
+
                 const data = await response.json();
                 if (active) setForm(mergeAbout(data.about || data));
             } catch (err) {
@@ -131,11 +140,11 @@ export default function AboutAdmin() {
                 if (active) setLoading(false);
             }
         }
- 
+
         loadAbout();
         return () => { active = false; };
     }, []);
- 
+
     // Updates one field of a list item, e.g. the year of milestone 2.
     function updateField(section, index, key, value) {
         setForm((previous) => ({
@@ -145,7 +154,21 @@ export default function AboutAdmin() {
             ),
         }));
     }
- 
+
+    // Sets the tone of a hero chip, along with the colour and border classes the chip uses.
+    function updateChipTone(index, tone) {
+        const option = TONE_OPTIONS.find((t) => t.value === tone) ?? TONE_OPTIONS[0];
+
+        setForm((previous) => ({
+            ...previous,
+            heroChips: previous.heroChips.map((chip, i) =>
+                i === index
+                    ? { ...chip, tone: option.value, color: option.color, box: option.box }
+                    : chip
+            ),
+        }));
+    }
+
     // Updates one part of a three-part title, e.g. the second word of way 1.
     function updateTitlePart(section, index, part, value) {
         setForm((previous) => ({
@@ -162,67 +185,67 @@ export default function AboutAdmin() {
             ),
         }));
     }
- 
+
     function updateContent(key, value) {
         setForm((previous) => ({
             ...previous,
             sectionContent: { ...previous.sectionContent, [key]: value },
         }));
     }
- 
+
     function addItem(section, item) {
         setForm((previous) => ({
             ...previous,
             [section]: [...previous[section], item],
         }));
     }
- 
+
     // Asks for confirmation first; the item is removed by confirmRemove.
     function removeItem(section, index) {
         setPendingRemove({ section, index });
     }
- 
+
     function confirmRemove() {
         const { section, index } = pendingRemove;
         setPendingRemove(null);
- 
+
         setForm((previous) => ({
             ...previous,
             [section]: previous[section].filter((_, i) => i !== index),
         }));
     }
- 
+
     async function handleSubmit(event) {
         event.preventDefault();
- 
+
         const validationError = validateAbout(form);
- 
+
         if (validationError) {
             setError(validationError);
             setMessage("");
             notify("error", validationError);
             return;
         }
- 
+
         setSaving(true);
         setMessage("");
         setError("");
- 
+
         try {
             const response = await fetch(API, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),
             });
- 
+
             const data = await response.json();
- 
+
             if (!response.ok) {
                 throw new Error(data.message || "Could not save About content.");
             }
- 
+
             if (data.about) setForm(mergeAbout(data.about));
- 
+
             setMessage("About page content saved successfully.");
             notify("success", "About page saved successfully!");
         } catch (err) {
@@ -232,7 +255,7 @@ export default function AboutAdmin() {
             setSaving(false);
         }
     }
- 
+
     if (loading) {
         return (
             <p className="p-8" style={{ ...pageStyle, fontSize: SIZE.body }}>
@@ -240,17 +263,17 @@ export default function AboutAdmin() {
             </p>
         );
     }
- 
+
     const content = form.sectionContent;
- 
+
     // Props that bind a field to one key of the section content.
     const text = (key) => ({ value: content[key], onChange: (v) => updateContent(key, v) });
- 
+
     return (
         <main className="min-h-screen px-6 py-8" style={pageStyle}>
             <div className="mx-auto max-w-5xl">
                 <PageTitle name="About Page" intro="Edit About page content and save your changes." />
- 
+
                 <form id="admin-form" onSubmit={handleSubmit} className="space-y-10">
                     {/* HERO CONTENT */}
                     <CollapsibleSection id="hero" title="Hero Content">
@@ -258,10 +281,10 @@ export default function AboutAdmin() {
                             <Field label="First Heading Line" required {...text("heroHeading1")} />
                             <Field label="Second Heading Line" required {...text("heroHeading2")} />
                         </div>
- 
+
                         <Field label="Hero Description" required multiline {...text("heroDescription")} />
                     </CollapsibleSection>
- 
+
                     {/* HERO CHIPS */}
                     <CollapsibleSection id="chips" title="Hero Chips">
                         {form.heroChips.map((chip, i) => (
@@ -270,7 +293,7 @@ export default function AboutAdmin() {
                                     title={`Chip ${i + 1}`}
                                     onRemove={() => removeItem("heroChips", i)}
                                 />
- 
+
                                 <div className={INPUT_GRID}>
                                     <Field
                                         label="Label"
@@ -283,14 +306,38 @@ export default function AboutAdmin() {
                                         onChange={(v) => updateField("heroChips", i, "value", v)}
                                     />
                                 </div>
- 
+
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-medium">Tone</label>
+
+                                    <div className="flex items-center gap-3">
+                                        <span
+                                            className={`inline-block h-8 w-8 rounded-full border ${
+                                                TONE_OPTIONS.find((t) => t.value === (chip.tone ?? "teal"))?.swatch ?? "bg-gray-200"
+                                            }`}
+                                        />
+
+                                        <select
+                                            value={chip.tone ?? "teal"}
+                                            onChange={(event) => updateChipTone(i, event.target.value)}
+                                            className="rounded-xl border bg-white px-4 py-3"
+                                        >
+                                            {TONE_OPTIONS.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <IconUpload
                                     value={chip.icon}
                                     onChange={(v) => updateField("heroChips", i, "icon", v)}
                                 />
                             </div>
                         ))}
- 
+
                         <button
                             type="button"
                             className={secondaryButtonClass}
@@ -300,6 +347,7 @@ export default function AboutAdmin() {
                                     label: "New label",
                                     value: "New value",
                                     icon: "",
+                                    tone: "teal",
                                     pos: "top-[5%] left-[8%]",
                                     box: "border-gm-teal/10",
                                     color: "text-gm-teal",
@@ -310,18 +358,18 @@ export default function AboutAdmin() {
                             + Add Chip
                         </button>
                     </CollapsibleSection>
- 
+
                     {/* OUR STORY */}
                     <CollapsibleSection id="story" title="Our Story — Milestones">
                         <Field label="Section Label" {...text("storyLabel")} />
- 
+
                         {form.milestones.map((item, i) => (
                             <div key={i} className={itemClass} style={itemStyle}>
                                 <ItemHeader
                                     title={`Milestone ${i + 1}`}
                                     onRemove={() => removeItem("milestones", i)}
                                 />
- 
+
                                 <div className={INPUT_GRID}>
                                     <Field
                                         label="Year"
@@ -334,13 +382,13 @@ export default function AboutAdmin() {
                                         onChange={(v) => updateField("milestones", i, "tag", v)}
                                     />
                                 </div>
- 
+
                                 <Field
                                     label="Timeline Context"
                                     value={item.context}
                                     onChange={(v) => updateField("milestones", i, "context", v)}
                                 />
- 
+
                                 <div className={INPUT_GRID}>
                                     {[0, 1, 2].map((part) => (
                                         <Field
@@ -351,7 +399,7 @@ export default function AboutAdmin() {
                                         />
                                     ))}
                                 </div>
- 
+
                                 <Field
                                     label="Description"
                                     multiline
@@ -360,7 +408,7 @@ export default function AboutAdmin() {
                                 />
                             </div>
                         ))}
- 
+
                         <button
                             type="button"
                             className={secondaryButtonClass}
@@ -378,21 +426,21 @@ export default function AboutAdmin() {
                             + Add Milestone
                         </button>
                     </CollapsibleSection>
- 
+
                     {/* SIX WAYS */}
                     <CollapsibleSection id="ways" title="Six Ways We Create Value">
                         <div className={INPUT_GRID}>
                             <Field label="Section Label" {...text("waysLabel")} />
                             <Field label="Section Heading" required {...text("waysHeading")} />
                         </div>
- 
+
                         {form.ways.map((item, i) => (
                             <div key={i} className={itemClass} style={itemStyle}>
                                 <ItemHeader
                                     title={`Way ${i + 1}`}
                                     onRemove={() => removeItem("ways", i)}
                                 />
- 
+
                                 <div className={INPUT_GRID}>
                                     {[0, 1, 2].map((part) => (
                                         <Field
@@ -403,21 +451,21 @@ export default function AboutAdmin() {
                                         />
                                     ))}
                                 </div>
- 
+
                                 <Field
                                     label="Description"
                                     multiline
                                     value={item.body}
                                     onChange={(v) => updateField("ways", i, "body", v)}
                                 />
- 
+
                                 <IconUpload
                                     value={item.icon}
                                     onChange={(v) => updateField("ways", i, "icon", v)}
                                 />
                             </div>
                         ))}
- 
+
                         <button
                             type="button"
                             className={secondaryButtonClass}
@@ -434,27 +482,27 @@ export default function AboutAdmin() {
                             + Add Way
                         </button>
                     </CollapsibleSection>
- 
+
                     {/* OUR VALUES */}
                     <CollapsibleSection id="values" title="Our Values">
                         <div className={INPUT_GRID}>
                             <Field label="Section Label" {...text("valuesLabel")} />
                             <Field label="Section Heading" required {...text("valuesHeading")} />
                         </div>
- 
+
                         {form.values.map((item, i) => (
                             <div key={i} className={itemClass} style={itemStyle}>
                                 <ItemHeader
                                     title={`Value ${i + 1}`}
                                     onRemove={() => removeItem("values", i)}
                                 />
- 
+
                                 <Field
                                     label="Title"
                                     value={item.title}
                                     onChange={(v) => updateField("values", i, "title", v)}
                                 />
- 
+
                                 <Field
                                     label="Description"
                                     multiline
@@ -463,7 +511,7 @@ export default function AboutAdmin() {
                                 />
                             </div>
                         ))}
- 
+
                         <button
                             type="button"
                             className={secondaryButtonClass}
@@ -473,36 +521,36 @@ export default function AboutAdmin() {
                             + Add Value
                         </button>
                     </CollapsibleSection>
- 
+
                     {/* DELIVERY PHILOSOPHY */}
                     <CollapsibleSection id="philosophy" title="Delivery Philosophy">
                         <div className={INPUT_GRID}>
                             <Field label="Section Label" {...text("philosophyLabel")} />
                             <Field label="Section Heading" required {...text("philosophyHeading")} />
                         </div>
- 
+
                         <Field label="Intro Description" multiline {...text("philosophyDescription")} />
- 
+
                         {form.philSteps.map((item, i) => (
                             <div key={i} className={itemClass} style={itemStyle}>
                                 <ItemHeader
                                     title={`Step ${i + 1}`}
                                     onRemove={() => removeItem("philSteps", i)}
                                 />
- 
+
                                 <Field
                                     label="Step Title"
                                     value={item.title}
                                     onChange={(v) => updateField("philSteps", i, "title", v)}
                                 />
- 
+
                                 <Field
                                     label="Card Description"
                                     multiline
                                     value={item.body}
                                     onChange={(v) => updateField("philSteps", i, "body", v)}
                                 />
- 
+
                                 <Field
                                     label="Animated Description"
                                     multiline
@@ -511,7 +559,7 @@ export default function AboutAdmin() {
                                 />
                             </div>
                         ))}
- 
+
                         <button
                             type="button"
                             className={secondaryButtonClass}
@@ -521,21 +569,21 @@ export default function AboutAdmin() {
                             + Add Step
                         </button>
                     </CollapsibleSection>
- 
+
                     {/* BY THE NUMBERS */}
                     <CollapsibleSection id="stats" title="By the Numbers — Statistics">
                         <div className={INPUT_GRID}>
                             <Field label="Section Label" {...text("statsLabel")} />
                             <Field label="Section Heading" required {...text("statsHeading")} />
                         </div>
- 
+
                         {form.stats.map((item, i) => (
                             <div key={i} className={itemClass} style={itemStyle}>
                                 <ItemHeader
                                     title={`Statistic ${i + 1}`}
                                     onRemove={() => removeItem("stats", i)}
                                 />
- 
+
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                                     <Field
                                         label="Number (Digits Only)"
@@ -555,7 +603,7 @@ export default function AboutAdmin() {
                                         onChange={(v) => updateField("stats", i, "label", v)}
                                     />
                                 </div>
- 
+
                                 <Field
                                     label="Accessible Description"
                                     value={item.aria}
@@ -563,7 +611,7 @@ export default function AboutAdmin() {
                                 />
                             </div>
                         ))}
- 
+
                         <button
                             type="button"
                             className={secondaryButtonClass}
@@ -580,35 +628,35 @@ export default function AboutAdmin() {
                             + Add Statistic
                         </button>
                     </CollapsibleSection>
- 
+
                     {/* CAREERS */}
                     <CollapsibleSection id="careers" title="Careers Section">
                         <div className={INPUT_GRID}>
                             <Field label="Careers Label" {...text("careersLabel")} />
                             <Field label="Careers Heading" required {...text("careersHeading")} />
                         </div>
- 
+
                         <Field label="Careers Description" multiline {...text("careersDescription")} />
- 
+
                         <Field label="Careers Button Text" {...text("careersButton")} />
                     </CollapsibleSection>
- 
+
                     {/* CTA */}
                     <CollapsibleSection id="cta" title="CTA Section">
                         <div className={INPUT_GRID}>
                             <Field label="CTA Label" {...text("ctaLabel")} />
                             <Field label="CTA Heading" required {...text("ctaHeading")} />
                         </div>
- 
+
                         <Field label="CTA Description" multiline {...text("ctaDescription")} />
- 
+
                         <Field label="CTA Button Text" required {...text("ctaButton")} />
                     </CollapsibleSection>
- 
+
                     <SaveBar saving={saving} error={error} message={message} />
                 </form>
             </div>
- 
+
             {pendingRemove !== null && (
                 <ConfirmDialog
                     title={`Remove ${REMOVE_LABELS[pendingRemove.section]}?`}

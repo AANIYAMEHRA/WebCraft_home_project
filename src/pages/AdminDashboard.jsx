@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const COLORS = {
@@ -26,6 +25,26 @@ const CARDS = [
         to: "/admin/about",
         title: "About Page CMS",
         text: "Edit About page content, milestones, values and statistics.",
+    },
+    {
+        to: "/admin/ai-solutions",
+        title: "AI Solutions Page CMS",
+        text: "Hero badges, manifesto, service panels, tech stack, philosophy and CTA.",
+    },
+    {
+        to: "/admin/research",
+        title: "Research Page CMS",
+        text: "Hero chips, manifesto, practices, method, deliverables, chart, engagement and CTA.",
+    },
+    {
+        to: "/admin/services",
+        title: "Services Page CMS",
+        text: "Hero chips, six capabilities, tech stack, engagement models, selected work, FAQ and CTA.",
+    },
+    {
+        to: "/admin/products",
+        title: "Products Page CMS",
+        text: "Products page content, product details and sections.",
     },
     {
         to: "/admin/footer",

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
@@ -9,6 +8,8 @@ import {
   SIZE,
   SaveBar,
   Field,
+  IconUpload,
+  isBlank,
   headingStyle,
   itemClass,
   itemStyle,
@@ -27,6 +28,13 @@ import {
 } from "./aiSolutionsData";
 
 const API = "http://localhost:5000/api/ai-solutions";
+
+// Tone options for hero badges (same as the Services and Research chips).
+const TONE_OPTIONS = [
+  { value: "teal", label: "Teal", swatch: "bg-gm-teal" },
+  { value: "blue", label: "Blue", swatch: "bg-gm-blue" },
+  { value: "green", label: "Green", swatch: "bg-gm-green" },
+];
 
 const DEFAULT_FORM = {
   hero: {
@@ -126,6 +134,15 @@ function mergeForm(data = {}) {
   };
 }
 
+// Returns an error message when a mandatory field is empty, or "" when the content is valid.
+function validateAiSolutions(form) {
+  const missingIcon = form.hero.badges.some((badge) => isBlank(badge.icon));
+
+  return missingIcon
+    ? "Har badge ka Icon SVG Path bharna zaroori hai (fields marked with *)."
+    : "";
+}
+
 export default function AiSolutionsAdmin() {
   const [form, setForm] = useState(() => mergeForm());
   const [loading, setLoading] = useState(true);
@@ -186,6 +203,22 @@ export default function AiSolutionsAdmin() {
         i === index ? { ...item, ...changes } : item
       ),
     }));
+  }
+
+  // NAYA: image file select hone par use image path mein daalta hai
+  function handleImageUpload(index, file) {
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      notify("error", "Sirf image file upload karein.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setItem("panels", index, { image: String(reader.result) });
+    };
+    reader.readAsDataURL(file);
   }
 
   function setBadge(index, changes) {
@@ -298,6 +331,15 @@ export default function AiSolutionsAdmin() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    const validationError = validateAiSolutions(form);
+    if (validationError) {
+      setError(validationError);
+      setMessage("");
+      notify("error", validationError);
+      return;
+    }
+
     setSaving(true);
     setMessage("");
     setError("");
@@ -407,41 +449,42 @@ export default function AiSolutionsAdmin() {
                   onChange={(value) => setBadge(index, { label: value })}
                 />
 
-                <div className={INPUT_GRID}>
-                  <Field
-                    label="Position Classes"
-                    value={badge.pos ?? ""}
-                    onChange={(value) => setBadge(index, { pos: value })}
-                  />
-                  <Field
-                    label="Icon Background Classes"
-                    value={badge.iconBg ?? ""}
-                    onChange={(value) => setBadge(index, { iconBg: value })}
-                  />
-                  <Field
-                    label="Border Classes"
-                    value={badge.border ?? ""}
-                    onChange={(value) => setBadge(index, { border: value })}
-                  />
-                  <Field
-                    label="Shadow Classes"
-                    value={badge.shadow ?? ""}
-                    onChange={(value) => setBadge(index, { shadow: value })}
-                  />
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium">Tone</label>
+
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`inline-block h-8 w-8 rounded-full border ${
+                        TONE_OPTIONS.find((t) => t.value === (badge.tone ?? "teal"))?.swatch ?? "bg-gray-200"
+                      }`}
+                    />
+
+                    <select
+                      value={badge.tone ?? "teal"}
+                      onChange={(event) =>
+                        setBadge(index, { tone: event.target.value })
+                      }
+                      className="rounded-xl border bg-white px-4 py-3"
+                    >
+                      {TONE_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
-                <Field
-                  label="Animation Delay (e.g. 1.5s)"
-                  value={badge.delay ?? "0s"}
-                  onChange={(value) => setBadge(index, { delay: value })}
-                />
+                <div>
+                  <p className="mb-2 text-sm font-medium">
+                    Icon SVG Path <span className="text-red-500">*</span>
+                  </p>
 
-                <Field
-                  label="Icon SVG Path"
-                  multiline
-                  value={badge.icon ?? ""}
-                  onChange={(value) => setBadge(index, { icon: value })}
-                />
+                  <IconUpload
+                    value={badge.icon}
+                    onChange={(value) => setBadge(index, { icon: value })}
+                  />
+                </div>
               </div>
             ))}
           </CollapsibleSection>
@@ -534,27 +577,45 @@ export default function AiSolutionsAdmin() {
                   onChange={(value) => setItem("panels", index, { body: value })}
                 />
 
-                <div className={INPUT_GRID}>
-                  <Field
-                    label="Image Path"
-                    value={panel.image ?? ""}
-                    onChange={(value) => setItem("panels", index, { image: value })}
-                  />
-                  <Field
-                    label="Image CSS Classes"
-                    value={panel.imageClass ?? ""}
-                    onChange={(value) => setItem("panels", index, { imageClass: value })}
-                  />
-                  <Field
-                    label="Number Color Class"
-                    value={panel.numColor ?? ""}
-                    onChange={(value) => setItem("panels", index, { numColor: value })}
-                  />
-                  <Field
-                    label="Link Color Class"
-                    value={panel.linkColor ?? ""}
-                    onChange={(value) => setItem("panels", index, { linkColor: value })}
-                  />
+                <div className="space-y-2">
+                  <p className="text-sm font-medium">Image</p>
+
+                  <div className="flex items-center gap-4">
+                    <div className="relative w-20 h-20 rounded-xl border bg-white flex items-center justify-center overflow-hidden">
+                      {panel.image ? (
+                        <img src={panel.image} alt="" className="w-full h-full object-contain" />
+                      ) : (
+                        <span className="text-xs opacity-50">No image</span>
+                      )}
+
+                      <label className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-white border shadow flex items-center justify-center cursor-pointer">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                          <circle cx="12" cy="13" r="4" />
+                        </svg>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(event) => {
+                            handleImageUpload(index, event.target.files?.[0]);
+                            event.target.value = "";
+                          }}
+                        />
+                      </label>
+                    </div>
+
+                    {panel.image && (
+                      <button
+                        type="button"
+                        className={secondaryButtonClass}
+                        style={outlineButtonStyle}
+                        onClick={() => setItem("panels", index, { image: "" })}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex flex-wrap gap-6 text-sm">
