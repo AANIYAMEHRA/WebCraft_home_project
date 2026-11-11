@@ -1,3 +1,4 @@
+
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import AdminLayout from './components/AdminLayout.jsx'
@@ -8,6 +9,7 @@ import AiSolutions from './pages/AiSolutions.jsx'
 import Research from './pages/Research.jsx'
 import Products from './pages/Products.jsx'
 import Services from './pages/Services.jsx'
+import Contact from './pages/Contact.jsx'
 
 import HomeAdmin from './pages/HomeAdmin.jsx'
 import AboutAdmin from './pages/AboutAdmin.jsx'
@@ -30,6 +32,7 @@ export default function App() {
         <Route path="/research" element={<Research />} />
         <Route path="/products" element={<Products />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<Contact />} />
       </Route>
 
       {/* Admin CMS */}
