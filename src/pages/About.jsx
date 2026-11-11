@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,6 +9,35 @@ import { heroChips, milestones, ways, values, philSteps, stats } from "./aboutDa
 
 
 gsap.registerPlugin(ScrollTrigger);
+const API = "http://localhost:5000/api/about";
+
+const DEFAULT_SECTION_CONTENT = {
+    heroHeading1: "The Company",
+    heroHeading2: "Behind the Work",
+    heroDescription:
+        "Founded in 2006, Webcraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner — serving 3000+ clients with a team of 230+ professionals.",
+    storyLabel: "Our Story",
+    waysLabel: "What We Help You Do",
+    waysHeading: "Six Ways We Create Value",
+    valuesLabel: "Our Values",
+    valuesHeading: "What We Believe In",
+    philosophyLabel: "How We Work",
+    philosophyHeading: "Our Delivery Philosophy",
+    philosophyDescription:
+        "Every engagement follows a rhythm we've refined across two decades — four stages that carry a project from first conversation to long-term stewardship.",
+    statsLabel: "By the Numbers",
+    statsHeading: "Two decades, counted carefully.",
+    careersLabel: "Careers",
+    careersHeading: "We're hiring. Come build with us.",
+    careersDescription:
+        "If the values on this page sound like your kind of work, we'd like to hear from you.",
+    careersButton: "See Open Roles →",
+    ctaLabel: "Let's Work Together",
+    ctaHeading: "Let's work together.",
+    ctaDescription:
+        "Whether you're exploring a new product direction or modernizing an existing system — we'd like to hear about it.",
+    ctaButton: "Start a Conversation →",
+};
 
 /* ------------------------------------------------------------------ */
 /*  Odometer digit counter (By the Numbers)                            */
@@ -61,6 +90,54 @@ function Odometer({ target, ariaLabel }) {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 export default function About() {
+    const [aboutContent, setAboutContent] = useState({
+        heroChips,
+        milestones,
+        ways,
+        values,
+        philSteps,
+        stats,
+        sectionContent: DEFAULT_SECTION_CONTENT,
+    });
+
+    useEffect(() => {
+        async function loadAboutContent() {
+            try {
+                const response = await fetch(API);
+
+                if (!response.ok) {
+                    throw new Error("Failed to load About content");
+                }
+
+                const result = await response.json();
+                const data = result.about || result;
+
+                setAboutContent((previous) => ({
+                    ...previous,
+                    ...data,
+                    heroChips:
+                        data.heroChips?.length ? data.heroChips : previous.heroChips,
+                    milestones:
+                        data.milestones?.length ? data.milestones : previous.milestones,
+                    ways: data.ways?.length ? data.ways : previous.ways,
+                    values: data.values?.length ? data.values : previous.values,
+                    philSteps:
+                        data.philSteps?.length ? data.philSteps : previous.philSteps,
+                    stats: data.stats?.length ? data.stats : previous.stats,
+                    sectionContent: {
+                        ...DEFAULT_SECTION_CONTENT,
+                        ...(data.sectionContent || {}),
+                    },
+                }));
+            } catch (error) {
+                console.error("About CMS load error:", error);
+            }
+        }
+
+        loadAboutContent();
+    }, []);
+
+    const content = aboutContent.sectionContent;
     const pageRef = useRef(null);
     const yearRef = useRef(null);
     const contextRef = useRef(null);
@@ -143,7 +220,10 @@ export default function About() {
                             const step = p < 0.3 ? 0 : p < 0.55 ? 1 : p < 0.8 ? 2 : 3;
                             circles.forEach((c, i) => c.classList.toggle("active", i === step));
                             cards.forEach((c, i) => c.classList.toggle("active", i === step));
-                            if (desc) desc.textContent = philSteps[step].desc;
+                            if (desc) {
+                                desc.textContent =
+                                    aboutContent.philSteps[step]?.desc || "";
+                            }
                         },
                     },
                 });
@@ -176,13 +256,17 @@ export default function About() {
                         <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
                             {/* Left: copy */}
                             <div className="lg:col-span-3">
-                                <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">About Webcraft</span>
+                                <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">
+                                    {content.heroLabel ?? ""}
+                                </span>
                                 <h1 className="reveal text-5xl lg:text-6xl font-extrabold text-gm-deep leading-[1.08] tracking-tight" style={{ transitionDelay: "0.1s" }}>
-                                    The Company<br />
-                                    <span className="bg-gradient-to-r from-gm-teal via-gm-blue to-gm-green bg-clip-text text-transparent">Behind the Work</span>
+                                    {content.heroHeading1}<br />
+                                    <span className="bg-gradient-to-r from-gm-teal via-gm-blue to-gm-green bg-clip-text text-transparent">
+                                        {content.heroHeading2}
+                                    </span>
                                 </h1>
                                 <p className="reveal text-lg text-gm-muted mt-6 max-w-2xl leading-relaxed" style={{ transitionDelay: "0.2s" }}>
-                                    Founded in 2006, Webcraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner — serving 3000+ clients with a team of 230+ professionals.
+                                    {content.heroDescription}
                                 </p>
                             </div>
 
@@ -202,7 +286,7 @@ export default function About() {
                                     </div>
 
                                     {/* Floating chips */}
-                                    {heroChips.map((chip) => (
+                                    {aboutContent.heroChips.map((chip) => (
                                         <div
                                             key={chip.label}
                                             className={`absolute ${chip.pos} bg-white rounded-2xl shadow-lg ${chip.box} border px-3 py-2 flex items-center gap-2 hero-card-float`}
@@ -234,15 +318,17 @@ export default function About() {
                 <section className="story-section bg-white" id="storySection">
                     <div className="story-inner max-w-7xl mx-auto px-6 lg:px-8">
                         <aside className="story-sticky">
-                            <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">Our Story</span>
+                            <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">{content.storyLabel}</span>
                             <div className="story-year-wrap">
-                                <span className="story-year" ref={yearRef}>{milestones[0].year}</span>
+                                <span className="story-year" ref={yearRef}>{(aboutContent.milestones[0] || milestones[0]).year}</span>
                             </div>
-                            <div className="story-context" ref={contextRef}>{milestones[0].context}</div>
+                            <div className="story-context" ref={contextRef}>
+                                {content.storyIntro}
+                            </div>
                         </aside>
 
                         <div className="story-milestones">
-                            {milestones.map((m) => (
+                            {aboutContent.milestones.map((m) => (
                                 <article className="story-mile" key={m.year} data-year={m.year} data-context={m.context}>
                                     <div className="story-mile__year">{m.year} · {m.tag}</div>
                                     <h3 className="story-mile__title">{m.title[0]}<em>{m.title[1]}</em>{m.title[2]}</h3>
@@ -256,12 +342,17 @@ export default function About() {
                 {/* =================== SIX WAYS (sticky stacking cards) =================== */}
                 <section className="ways-section bg-gm-ghost" id="waysSection">
                     <div className="ways-head max-w-7xl mx-auto px-6 lg:px-8">
-                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">What We Help You Do</span>
-                        <h2 className="reveal ways-heading">Six Ways We <em>Create Value</em></h2>
+                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                            {content.waysLabel ?? ""}
+                        </span>
+
+                        <h2 className="reveal ways-heading">
+                            {content.waysHeading ?? ""}
+                        </h2>
                     </div>
 
                     <div className="ways-stack max-w-5xl mx-auto px-6 lg:px-8">
-                        {ways.map((w, i) => (
+                        {aboutContent.ways.map((w, i) => (
                             <article className={`way-card-light${w.last ? " way-card-light--last" : ""}`} key={i}>
                                 <div>
                                     <div className="way-card-light__num" aria-hidden="true">Way 0{i + 1}</div>
@@ -293,11 +384,15 @@ export default function About() {
                     </div>
                     <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="text-center mb-16">
-                            <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">Our Values</span>
-                            <h2 className="reveal values-heading" style={{ transitionDelay: "0.1s" }}>What We <em>Believe In</em></h2>
+                            <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">
+                                {content.valuesLabel ?? ""}
+                            </span>
+                            <h2 className="reveal values-heading" style={{ transitionDelay: "0.1s" }}>
+                                {content.valuesHeading ?? ""}
+                            </h2>
                         </div>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {values.map((v) => (
+                            {aboutContent.values.map((v) => (
                                 <div key={v.title} className="reveal bg-gm-ghost rounded-3xl p-8 border border-gm-teal/8" style={{ transitionDelay: v.delay }}>
                                     <h3 className="font-bold text-lg mb-3 text-gm-teal">{v.title}</h3>
                                     <p className="text-sm text-gm-muted leading-relaxed">{v.body}</p>
@@ -313,10 +408,14 @@ export default function About() {
                         <div className="phil-sticky">
                             <div className="phil-inner max-w-7xl mx-auto px-6 lg:px-8 text-center">
                                 <div className="phil-head">
-                                    <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">How We Work</span>
-                                    <h2 className="phil-heading">Our Delivery <em>Philosophy</em></h2>
+                                    <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                                        {content.philosophyLabel ?? ""}
+                                    </span>
+                                    <h2 className="phil-heading">
+                                        {content.philosophyHeading ?? ""}
+                                    </h2>
                                     <p className="phil-desc" ref={philDescRef}>
-                                        Every engagement follows a rhythm we've refined across two decades — four stages that carry a project from first conversation to long-term stewardship.
+                                        {content.philosophyDescription ?? ""}
                                     </p>
                                 </div>
 
@@ -331,7 +430,7 @@ export default function About() {
                                         </div>
                                     </div>
                                     <div className="phil-cards">
-                                        {philSteps.map((s) => (
+                                        {aboutContent.philSteps.map((s) => (
                                             <div className="phil-cd" key={s.title}>
                                                 <h3 className="phil-cd__title">{s.title}</h3>
                                                 <p className="phil-cd__body">{s.body}</p>
@@ -348,11 +447,15 @@ export default function About() {
                 <section className="numbers-section bg-white py-20 lg:py-28" id="numbersSection">
                     <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="mb-14">
-                            <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">By the Numbers</span>
-                            <h2 className="reveal numbers-heading">Two decades,<br /><em>counted carefully.</em></h2>
+                            <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                                {content.statsLabel ?? ""}
+                            </span>
+                            <h2 className="reveal numbers-heading">
+                                {content.statsHeading ?? ""}
+                            </h2>
                         </div>
                         <div className="numbers-grid">
-                            {stats.map((s) => (
+                            {aboutContent.stats.map((s) => (
                                 <div className="num-stat" key={s.label}>
                                     <div className="num-stat__value">
                                         <Odometer target={s.target} ariaLabel={s.aria} />
@@ -370,30 +473,50 @@ export default function About() {
                 <section className="careers-section bg-gm-ghost py-24 lg:py-32 text-center relative overflow-hidden" id="careersSection">
                     <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(800px circle at 50% 50%, rgba(42,157,143,0.05), transparent 60%)" }} />
                     <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">Careers</span>
-                        <h2 className="reveal careers-title">We're <em>hiring.</em><br />Come build with us.</h2>
+                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                            {content.careersLabel ?? ""}
+                        </span>
+
+                        <h2 className="reveal careers-title">
+                            {content.careersHeading ?? ""}
+                        </h2>
+
                         <p className="reveal careers-body">
-                            If the values on this page sound like your kind of work, we'd like to hear from you. We hire slowly, onboard carefully, and keep people for a long time. Open roles across engineering, design, and research — in Indore, Bengaluru, and Amsterdam.
+                            {content.careersDescription ?? ""}
                         </p>
                         <div className="careers-magnet-wrap" ref={careersWrapRef}>
-                            <Link to="/contact" className="careers-magnet-btn" ref={careersBtnRef}>See Open Roles →</Link>
+                            <Link to="/contact" className="careers-magnet-btn" ref={careersBtnRef}>
+                                {content.careersButton ?? ""}
+                            </Link>
                         </div>
                     </div>
                 </section>
 
                 {/* ================================ CTA ================================ */}
+
+                {/* ================================ CTA ================================ */}
                 <section className="page-cta" aria-label="Call to action">
                     <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative">
-                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">Let's Work Together</span>
-                        <h2 className="reveal page-cta__title">Let's work<br /><em>together.</em></h2>
+                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                            {content.ctaLabel ?? ""}
+                        </span>
+
+                        <h2 className="reveal page-cta__title">
+                            {content.ctaHeading ?? ""}
+                        </h2>
+
                         <p className="reveal page-cta__body">
-                            Whether you're exploring a new product direction or modernizing an existing system — we'd like to hear about it.
+                            {content.ctaDescription ?? ""}
                         </p>
+
                         <div className="page-magnet-wrap" ref={ctaWrapRef}>
-                            <Link to="/contact" className="page-magnet-btn" ref={ctaBtnRef}>Start a Conversation →</Link>
+                            <Link to="/contact" className="page-magnet-btn" ref={ctaBtnRef}>
+                                {content.ctaButton ?? ""}
+                            </Link>
                         </div>
                     </div>
                 </section>
+
             </main>
         </div>
     );

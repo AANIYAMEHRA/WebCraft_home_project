@@ -7,14 +7,20 @@ const VIEW_SITE_URL = "http://localhost:5173";
 
 const HOME_PATH = "/admin/home";
 const ABOUT_PATH = "/admin/about";
+const AI_SOLUTIONS_PATH = "/admin/ai-solutions";
+const RESEARCH_PATH = "/admin/research";
 const PRODUCTS_PATH = "/admin/products";
+const SERVICES_PATH = "/admin/services";
 
 const NAV_ITEMS = [
     { to: "/admin", label: "Dashboard", end: true },
     { to: "/admin/header", label: "Header CMS" },
     { to: HOME_PATH, label: "Home Page CMS", dropdown: true },
     { to: ABOUT_PATH, label: "About Page CMS", dropdown: true },
+    { to: AI_SOLUTIONS_PATH, label: "AI Solutions Page CMS", dropdown: true },
+    { to: RESEARCH_PATH, label: "Research Page CMS", dropdown: true },
     { to: PRODUCTS_PATH, label: "Products Page CMS", dropdown: true },
+    { to: SERVICES_PATH, label: "Services Page CMS", dropdown: true },
     { to: "/admin/footer", label: "Footer CMS" },
 ];
 
@@ -44,16 +50,54 @@ const ABOUT_SECTIONS = [
     { id: "careers", label: "Careers Section" },
     { id: "cta", label: "CTA Section" },
 ];
+
+const AI_SOLUTIONS_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "manifesto", label: "Manifesto Section" },
+    { id: "panels", label: "AI Service Panels" },
+    { id: "tech-stack", label: "Technology Stack" },
+    { id: "philosophy", label: "Our Philosophy" },
+    { id: "cta", label: "CTA Section" },
+];
+
+const RESEARCH_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "manifesto", label: "Our Position" },
+    { id: "practices-intro", label: "Practices Intro" },
+    { id: "practices", label: "Practices" },
+    { id: "method", label: "Research Method" },
+    { id: "deliverables-intro", label: "Deliverables Intro" },
+    { id: "deliverables", label: "Deliverables" },
+    { id: "chart", label: "Chart" },
+    { id: "engage", label: "Before You Engage" },
+    { id: "cta", label: "CTA Section" },
+];
+
 const PRODUCTS_SECTIONS = [
     { id: "hero", label: "Hero Content" },
     { id: "products", label: "Products" },
     { id: "cta", label: "CTA Section" },
 ];
+
+const SERVICES_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "capabilities-intro", label: "Capabilities Intro" },
+    { id: "capabilities", label: "Capabilities" },
+    { id: "tech-stack", label: "The Stack" },
+    { id: "engagement-models", label: "Engagement Models" },
+    { id: "cases", label: "Selected Work" },
+    { id: "faq", label: "FAQ" },
+    { id: "cta", label: "Next Step (CTA)" },
+];
+
 // Section dropdown under each page that has one.
 const SECTION_MENUS = {
     [HOME_PATH]: HOME_SECTIONS,
     [ABOUT_PATH]: ABOUT_SECTIONS,
+    [AI_SOLUTIONS_PATH]: AI_SOLUTIONS_SECTIONS,
+    [RESEARCH_PATH]: RESEARCH_SECTIONS,
     [PRODUCTS_PATH]: PRODUCTS_SECTIONS,
+    [SERVICES_PATH]: SERVICES_SECTIONS,
 };
 
 const itemClass =

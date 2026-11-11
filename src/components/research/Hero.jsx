@@ -1,11 +1,11 @@
-import { hero } from '../../pages/researchData.js';
-
+import { hero as heroDefaults } from '../../pages/researchData.js';
+ 
 const chipTone = {
   teal: { text: 'text-gm-teal', shadow: 'shadow-gm-teal/10', border: 'border-gm-teal/10' },
   blue: { text: 'text-gm-blue', shadow: 'shadow-gm-blue/10', border: 'border-gm-blue/10' },
   green: { text: 'text-gm-green', shadow: 'shadow-gm-green/10', border: 'border-gm-green/10' },
 };
-
+ 
 // Position + animation delay for each floating chip, matching the original layout.
 const chipLayout = [
   { pos: 'top-[5%] left-[8%]', delay: undefined, duration: undefined, icon: 'user' },
@@ -13,7 +13,7 @@ const chipLayout = [
   { pos: 'bottom-[8%] left-[3%]', delay: '2s', duration: '8s', icon: 'report' },
   { pos: 'bottom-[8%] right-[3%]', delay: '4s', duration: '9s', icon: 'insight' },
 ];
-
+ 
 function ChipIcon({ name, className }) {
   const common = { className, fill: 'none', viewBox: '0 0 24 24', stroke: 'currentColor', strokeWidth: 1.5, 'aria-hidden': true };
   switch (name) {
@@ -45,13 +45,13 @@ function ChipIcon({ name, className }) {
       );
   }
 }
-
-export default function Hero() {
+ 
+export default function Hero({ hero = heroDefaults }) {
   return (
     <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden" aria-label="Page hero">
       <div className="absolute inset-0 hero-mesh" />
       <div className="orb w-[500px] h-[500px] bg-gm-teal/10 top-[-100px] right-[-100px]" />
-
+ 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
           {/* Copy */}
@@ -84,7 +84,7 @@ export default function Hero() {
               </a>
             </div>
           </div>
-
+ 
           {/* Animated visual (desktop only, as in the original) */}
           <div className="reveal hidden lg:block lg:col-span-2 relative" style={{ transitionDelay: '0.3s' }}>
             <div className="relative w-full aspect-square max-w-[480px] mx-auto">
@@ -104,17 +104,30 @@ export default function Hero() {
                   </div>
                 </div>
               </div>
-
+ 
               {hero.chips.map((chip, i) => {
-                const layout = chipLayout[i];
-                const tone = chipTone[chip.tone];
+                const layout = chipLayout[i] ?? chipLayout[i % chipLayout.length];
+                const tone = chipTone[chip.tone] ?? chipTone.teal;
                 return (
                   <div
                     key={chip.label}
                     className={`absolute ${layout.pos} bg-white rounded-2xl shadow-lg ${tone.shadow} border ${tone.border} px-3 py-2 flex items-center gap-2 hero-card-float`}
                     style={layout.delay ? { animationDelay: layout.delay, animationDuration: layout.duration } : undefined}
                   >
-                    <ChipIcon name={layout.icon} className={`w-5 h-5 ${tone.text}`} />
+                    {chip.icon ? (
+                      <svg
+                        viewBox="0 0 24 24"
+                        className={`w-5 h-5 ${tone.text}`}
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={1.5}
+                        aria-hidden="true"
+                      >
+                        <path d={chip.icon} />
+                      </svg>
+                    ) : (
+                      <ChipIcon name={layout.icon} className={`w-5 h-5 ${tone.text}`} />
+                    )}
                     <div className="flex flex-col leading-tight">
                       <span className="text-[10px] font-mono uppercase tracking-wider text-gm-muted">{chip.label}</span>
                       <span className="text-sm font-bold text-gm-deep">{chip.value}</span>
@@ -122,7 +135,7 @@ export default function Hero() {
                   </div>
                 );
               })}
-
+ 
               <div className="about-orbit-ring" aria-hidden="true">
                 <span className="about-orbit-dot about-orbit-dot--a" />
                 <span className="about-orbit-dot about-orbit-dot--b" />
