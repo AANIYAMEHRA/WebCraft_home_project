@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
-import { practices, practicesIntro } from '../../pages/researchData.js';
+import { useEffect, useRef, useState } from 'react';
+import { practices as staticPractices, practicesIntro as staticIntro } from '../../pages/researchData.js';
 import { gsap, ScrollTrigger } from './gsap.js';
 
+const API = 'http://localhost:5000/api/research';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const MARKET_DOTS = [
   { x: 130, y: 130, r: 18 }, { x: 230, y: 100, r: 26 }, { x: 300, y: 180, r: 14 },
@@ -131,7 +132,7 @@ function UserVisual({ quotes, triggerRef }) {
   }, [triggerRef, quotes]);
 
   return quotes.map((q, i) => (
-    <div key={q.source} className={`user-quote ${i % 2 === 0 ? 'user-quote--a' : 'user-quote--b'}`} data-idx={i + 1}>
+    <div key={`${q.source}-${i}`} className={`user-quote ${i % 2 === 0 ? 'user-quote--a' : 'user-quote--b'}`} data-idx={i + 1}>
       "{q.text}"
       <span className="user-quote__source">{q.source}</span>
     </div>
@@ -201,12 +202,19 @@ function Practice({ practice }) {
     return () => st.kill();
   }, []);
 
-  const visual = {
+  // Admin-uploaded image replaces the built-in diagram for this practice.
+  const defaultVisual = {
     market: <MarketVisual triggerRef={articleRef} />,
     product: <ProductVisual triggerRef={articleRef} />,
     user: <UserVisual quotes={practice.quotes ?? []} triggerRef={articleRef} />,
     strategic: <StrategicVisual triggerRef={articleRef} />,
   }[practice.visual];
+
+  const visual = practice.image ? (
+    <img src={practice.image} alt={practice.title} className="w-full h-auto object-contain" />
+  ) : (
+    defaultVisual
+  );
 
   return (
     <article className="practice" id={practice.id} ref={articleRef}>
@@ -221,7 +229,7 @@ function Practice({ practice }) {
             {practice.features.map((f) => <span key={f} className="practice__feature">{f}</span>)}
           </div>
         </div>
-        <div className={`practice__visual ${practice.visual}-visual`} id={practice.visual === 'user' ? 'user-demo' : undefined}>
+        <div className={`practice__visual ${practice.visual}-visual`} id={practice.visual === 'user' && !practice.image ? 'user-demo' : undefined}>
           {visual}
         </div>
       </div>
@@ -230,6 +238,31 @@ function Practice({ practice }) {
 }
 
 export default function Practices() {
+  const [content, setContent] = useState({ practices: staticPractices, practicesIntro: staticIntro });
+
+  // Load admin-saved text and images. Falls back to researchData.js if the API is unavailable.
+  useEffect(() => {
+    let active = true;
+
+    fetch(API)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        const saved = data?.content || data;
+        if (!active || !saved) return;
+        setContent({
+          practices: saved.practices ?? staticPractices,
+          practicesIntro: { ...staticIntro, ...(saved.practicesIntro || {}) },
+        });
+      })
+      .catch(() => {});
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const { practices, practicesIntro } = content;
+
   return (
     <section className="practices-section bg-white" id="practicesSection">
       <div className="practices-head max-w-7xl mx-auto px-6 lg:px-8 text-center">

@@ -1,6 +1,8 @@
+
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const socials = [
+const defaultSocials = [
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/company/webcraft-it/',
@@ -18,7 +20,7 @@ const socials = [
   },
 ]
 
-const columns = [
+const defaultColumns = [
   {
     title: 'Explore',
     items: [
@@ -46,46 +48,103 @@ const columns = [
 ]
 
 export default function Footer() {
+  const [footer, setFooter] = useState(null)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function fetchFooter() {
+      try {
+        const response = await fetch('http://localhost:5000/api/footer')
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch footer')
+        }
+
+        const data = await response.json()
+
+        if (!cancelled) {
+          setFooter(data)
+        }
+      } catch (error) {
+        console.error('Footer API error:', error)
+      }
+    }
+
+    fetchFooter()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const socials = defaultSocials.map((defaultSocial) => {
+    const savedSocial = footer?.socials?.find(
+      (social) => social.label === defaultSocial.label,
+    )
+
+    return {
+      ...defaultSocial,
+      href: savedSocial?.href || defaultSocial.href,
+    }
+  })
+
+  const columns = footer?.columns?.length
+    ? footer.columns
+    : defaultColumns
+
   return (
     <footer className="site-footer" role="contentinfo">
       <div className="site-footer__bg" aria-hidden="true" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
-        {/* Top: statement + email */}
         <div className="site-footer__mark-wrap">
-          <p className="site-footer__kicker">Say Hello</p>
+          <p className="site-footer__kicker">
+            {footer?.kicker || 'Say Hello'}
+          </p>
+
           <h2 className="site-footer__mark">
-            Think first. <em>Ship well.</em>
+            {footer?.heading || 'Think first.'}{' '}
+            <em>{footer?.headingEmphasis || 'Ship well.'}</em>
           </h2>
-          <a href="mailto:admin@webcraft.co.in" className="site-footer__email">
-            admin@webcraft.co.in
+
+          <a
+            href={`mailto:${footer?.email || 'admin@webcraft.co.in'}`}
+            className="site-footer__email"
+          >
+            {footer?.email || 'admin@webcraft.co.in'}
             <span className="site-footer__email-arrow">→</span>
           </a>
         </div>
 
-        {/* Middle: brand + link columns */}
         <div className="site-footer__grid">
           <div className="site-footer__brand">
             <Link to="/" className="site-footer__logo" aria-label="Webcraft Home">
               <img src="/logo.svg" alt="Webcraft IT" />
             </Link>
+
             <p className="site-footer__tag">
-              Research-led, AI-enabled digital transformation for teams that ship.
+              {footer?.brandTagline ||
+                'Research-led, AI-enabled digital transformation for teams that ship.'}
             </p>
+
             <div className="site-footer__socials">
-              <span className="site-footer__socials-label">Follow along</span>
+              <span className="site-footer__socials-label">
+                Follow along
+              </span>
+
               <div className="site-footer__socials-row">
-                {socials.map((s) => (
+                {socials.map((social) => (
                   <a
-                    key={s.label}
-                    href={s.href}
+                    key={social.label}
+                    href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="site-footer__social"
-                    aria-label={s.label}
+                    aria-label={social.label}
                   >
                     <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d={s.d} />
+                      <path d={social.d} />
                     </svg>
                   </a>
                 ))}
@@ -93,14 +152,19 @@ export default function Footer() {
             </div>
           </div>
 
-          {columns.map((col) => (
-            <div className="site-footer__col" key={col.title}>
+          {columns.map((column) => (
+            <div className="site-footer__col" key={column._id || column.title}>
               <span className="site-footer__col-label">
                 <span className="site-footer__col-dot" aria-hidden="true" />
-                {col.title}
+                {column.title}
               </span>
-              {col.items.map((item) => (
-                <Link key={item.label} to={item.to} className="site-footer__link">
+
+              {column.items.map((item) => (
+                <Link
+                  key={item._id || item.label}
+                  to={item.to}
+                  className="site-footer__link"
+                >
                   <span>{item.label}</span>
                   <span className="site-footer__arrow">→</span>
                 </Link>
@@ -109,19 +173,27 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom */}
         <div className="site-footer__bottom">
           <p className="site-footer__copy">
             &copy; {new Date().getFullYear()} Webcraft IT Services. All rights reserved.
           </p>
-          <p className="site-footer__meta">Research · AI · Engineering</p>
+
+          <p className="site-footer__meta">
+            {footer?.bottomText || 'Research · AI · Engineering'}
+          </p>
+
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="site-footer__top"
             aria-label="Back to top"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <path d="M12 19V5M5 12l7-7 7 7" />
             </svg>
           </button>
