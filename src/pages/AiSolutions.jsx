@@ -137,6 +137,13 @@ function ServicePanel({ p }) {
     );
 }
 
+// Icon background colour for each badge tone (set in the Admin page).
+const BADGE_TONES = {
+    teal: "bg-gm-teal",
+    blue: "bg-gm-blue",
+    green: "bg-gm-green",
+};
+
 const polar = (radius, deg) => {
     const a = (deg * Math.PI) / 180;
     return `translate(${250 + Math.cos(a) * radius}, ${250 + Math.sin(a) * radius})`;
@@ -213,16 +220,20 @@ export default function AiSolutions() {
         loadContent();
     }, []);
 
-    /* Dynamic values */
+    /* Dynamic values (fall back to the default data when the CMS list is empty) */
     const hero = content.hero;
 
-    const heroBadges = hero.badges ?? defaultHeroBadges;
+    const heroBadges = hero.badges?.length ? hero.badges : defaultHeroBadges;
 
     const manifesto = content.manifesto ?? defaultManifesto;
     const panels = content.panels ?? defaultPanels;
 
-    const stackTags = content.techStack?.tags ?? defaultStackTags;
-    const orbitRings = content.techStack?.orbitRings ?? defaultOrbitRings;
+    const stackTags = content.techStack?.tags?.length
+        ? content.techStack.tags
+        : defaultStackTags;
+    const orbitRings = content.techStack?.orbitRings?.length
+        ? content.techStack.orbitRings
+        : defaultOrbitRings;
 
     const philSteps = content.philosophy?.steps ?? defaultPhilSteps;
 
@@ -439,29 +450,39 @@ export default function AiSolutions() {
 
                                 {/* Neural Network and badges */}
                                 <div className="lg:col-span-2 flex items-center justify-center relative">
-                                    {heroBadges.map((b, index) => (
-                                        <div
-                                            key={`${b.label}-${index}`}
-                                            className={`hero-card-float absolute ${b.pos ?? ""} z-10 bg-white border ${b.border ?? ""} rounded-2xl px-4 py-3 flex items-center gap-2 shadow-lg ${b.shadow ?? ""}`}
-                                            style={{ animationDelay: b.delay ?? "0s" }}
-                                        >
-                                            <div className={`w-7 h-7 rounded-lg ${b.iconBg ?? ""} flex items-center justify-center`}>
-                                                <svg
-                                                    className="w-4 h-4 text-white"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                >
-                                                    <path d={b.icon ?? ""} />
-                                                </svg>
-                                            </div>
+                                    {heroBadges.map((b, index) => {
+                                        const iconBgClass = b.tone
+                                            ? BADGE_TONES[b.tone] ?? ""
+                                            : b.iconBg ?? "";
 
-                                            <span className="text-xs font-semibold text-gm-deep">
-                                                {b.label}
-                                            </span>
-                                        </div>
-                                    ))}
+                                        return (
+                                            <div
+                                                key={`${b.label}-${index}`}
+                                                className={`hero-card-float absolute ${b.pos ?? ""} z-10 bg-white border ${b.border ?? ""} rounded-2xl px-4 py-3 flex items-center gap-2 shadow-lg ${b.shadow ?? ""}`}
+                                                style={{ animationDelay: b.delay ?? "0s" }}
+                                            >
+                                                <div className={`w-7 h-7 rounded-lg ${iconBgClass} flex items-center justify-center overflow-hidden`}>
+                                                    {b.image ? (
+                                                        <img src={b.image} alt="" className="w-full h-full object-contain" />
+                                                    ) : (
+                                                        <svg
+                                                            className="w-4 h-4 text-white"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2"
+                                                        >
+                                                            <path d={b.icon ?? ""} />
+                                                        </svg>
+                                                    )}
+                                                </div>
+
+                                                <span className="text-xs font-semibold text-gm-deep">
+                                                    {b.label}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
 
                                     <AiNeuralNetwork />
                                 </div>
@@ -539,19 +560,19 @@ export default function AiSolutions() {
                                     AI
                                 </text>
 
-                                {orbitRings.map((ring) => (
+                                {orbitRings.map((ring, ringIndex) => (
                                     <g
                                         className="orbit-ring-group"
                                         data-radius={ring.radius}
                                         data-speed={ring.speed}
-                                        key={ring.radius}
+                                        key={`ring-${ringIndex}`}
                                     >
-                                        {ring.items.map((it) => (
+                                        {(ring.items ?? []).map((it, itemIndex) => (
                                             <g
                                                 className="orbit-item"
                                                 data-angle={it.angle}
                                                 transform={polar(ring.radius, it.angle)}
-                                                key={it.label}
+                                                key={`${it.label}-${itemIndex}`}
                                             >
                                                 <circle className="orbit-item-dot" r="4" />
                                                 <text className="orbit-item-label" y="-10">

@@ -3,6 +3,91 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import Counter from './Counter.jsx'
 
+// Used when the CMS has no value for a chip.
+const DEFAULT_CHIPS = [
+    { label: 'Smarter', title: 'AI Solutions', buttonUrl: '/ai-solutions', image: '' },
+    { label: 'Sharper', title: 'Research', buttonUrl: '/research', image: '' },
+    { label: 'Built', title: 'Products', buttonUrl: '/products', image: '' },
+    { label: 'Engineered', title: 'Services', buttonUrl: '/services', image: '' },
+]
+
+// Position, colours and float timing for each chip (same look as before).
+const CHIP_STYLES = [
+    {
+        position: 'top-[4%] left-[6%]',
+        box: 'shadow-gm-teal/10 border-gm-teal/10',
+        text: 'text-gm-teal',
+        animation: {},
+    },
+    {
+        position: 'top-[4%] right-[6%]',
+        box: 'shadow-gm-blue/10 border-gm-blue/10',
+        text: 'text-gm-blue',
+        animation: { animationDelay: '1s', animationDuration: '7s' },
+    },
+    {
+        position: 'bottom-[8%] left-[3%]',
+        box: 'shadow-gm-green/10 border-gm-green/10',
+        text: 'text-gm-green',
+        animation: { animationDelay: '2s', animationDuration: '8s' },
+    },
+    {
+        position: 'bottom-[8%] right-[3%]',
+        box: 'shadow-gm-teal/10 border-gm-teal/10',
+        text: 'text-gm-teal',
+        animation: { animationDelay: '4s', animationDuration: '9s' },
+    },
+]
+
+// Default icon paths for each chip (used when no image is uploaded).
+const CHIP_ICON_PATHS = [
+    [
+        'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+    ],
+    [
+        'M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941',
+    ],
+    [
+        'M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9',
+    ],
+    [
+        'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.573-1.066z',
+        'M15 12a3 3 0 11-6 0 3 3 0 016 0z',
+    ],
+]
+
+// Uploaded image if the CMS has one, otherwise the default SVG icon.
+function ChipIcon({ image, className, paths }) {
+    if (image) {
+        return <img src={image} alt="" className={`${className} object-contain`} />
+    }
+
+    return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+            {paths.map((d) => (
+                <path key={d} d={d} />
+            ))}
+        </svg>
+    )
+}
+
+// Internal pages use the router; full addresses (https://...) open as normal links.
+function ChipWrapper({ url, className, style, children }) {
+    if (/^https?:\/\//.test(url)) {
+        return (
+            <a href={url} className={className} style={style}>
+                {children}
+            </a>
+        )
+    }
+
+    return (
+        <Link to={url} className={className} style={style}>
+            {children}
+        </Link>
+    )
+}
+
 export default function Hero() {
     const [content, setContent] = useState(null)
 
@@ -35,6 +120,12 @@ export default function Hero() {
         }, root)
         return () => ctx.revert()
     }, [])
+
+    // Merges CMS chip values over the defaults, chip by chip.
+    const chips = DEFAULT_CHIPS.map((fallback, index) => ({
+        ...fallback,
+        ...(content?.heroChips?.[index] || {}),
+    }))
 
     return (
         <div ref={root}>
@@ -161,41 +252,29 @@ export default function Hero() {
                                     </div>
                                 </div>
 
-                                {/* Floating chip: top-left → AI Solutions */}
-                                <div className="absolute top-[4%] left-[6%] bg-white rounded-2xl shadow-lg shadow-gm-teal/10 border border-gm-teal/10 px-3 py-2 flex items-center gap-2 hero-card-float">
-                                    <svg className="w-5 h-5 text-gm-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-                                    <div className="flex flex-col leading-tight">
-                                        <span className="text-[10px] font-mono uppercase tracking-wider text-gm-muted">Smarter</span>
-                                        <span className="text-sm font-bold text-gm-deep">AI Solutions</span>
-                                    </div>
-                                </div>
+                                {/* Floating chips: label, title, icon and link come from the Home CMS */}
+                                {chips.map((chip, index) => {
+                                    const style = CHIP_STYLES[index]
 
-                                {/* Floating chip: top-right → Research */}
-                                <div className="absolute top-[4%] right-[6%] bg-white rounded-2xl shadow-lg shadow-gm-blue/10 border border-gm-blue/10 px-3 py-2 flex items-center gap-2 hero-card-float" style={{ animationDelay: '1s', animationDuration: '7s' }}>
-                                    <svg className="w-5 h-5 text-gm-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
-                                    <div className="flex flex-col leading-tight">
-                                        <span className="text-[10px] font-mono uppercase tracking-wider text-gm-muted">Sharper</span>
-                                        <span className="text-sm font-bold text-gm-deep">Research</span>
-                                    </div>
-                                </div>
-
-                                {/* Floating chip: bottom-left → Products */}
-                                <div className="absolute bottom-[8%] left-[3%] bg-white rounded-2xl shadow-lg shadow-gm-green/10 border border-gm-green/10 px-3 py-2 flex items-center gap-2 hero-card-float" style={{ animationDelay: '2s', animationDuration: '8s' }}>
-                                    <svg className="w-5 h-5 text-gm-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
-                                    <div className="flex flex-col leading-tight">
-                                        <span className="text-[10px] font-mono uppercase tracking-wider text-gm-muted">Built</span>
-                                        <span className="text-sm font-bold text-gm-deep">Products</span>
-                                    </div>
-                                </div>
-
-                                {/* Floating chip: bottom-right → Services */}
-                                <div className="absolute bottom-[8%] right-[3%] bg-white rounded-2xl shadow-lg shadow-gm-teal/10 border border-gm-teal/10 px-3 py-2 flex items-center gap-2 hero-card-float" style={{ animationDelay: '4s', animationDuration: '9s' }}>
-                                    <svg className="w-5 h-5 text-gm-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.573-1.066z" /><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                    <div className="flex flex-col leading-tight">
-                                        <span className="text-[10px] font-mono uppercase tracking-wider text-gm-muted">Engineered</span>
-                                        <span className="text-sm font-bold text-gm-deep">Services</span>
-                                    </div>
-                                </div>
+                                    return (
+                                        <ChipWrapper
+                                            key={index}
+                                            url={chip.buttonUrl || '/'}
+                                            className={`absolute ${style.position} bg-white rounded-2xl shadow-lg ${style.box} px-3 py-2 flex items-center gap-2 hero-card-float`}
+                                            style={style.animation}
+                                        >
+                                            <ChipIcon
+                                                image={chip.image}
+                                                className={`w-5 h-5 ${style.text}`}
+                                                paths={CHIP_ICON_PATHS[index]}
+                                            />
+                                            <div className="flex flex-col leading-tight">
+                                                <span className="text-[10px] font-mono uppercase tracking-wider text-gm-muted">{chip.label}</span>
+                                                <span className="text-sm font-bold text-gm-deep">{chip.title}</span>
+                                            </div>
+                                        </ChipWrapper>
+                                    )
+                                })}
 
                                 {/* Slow-orbiting dots on outermost ring */}
                                 <div className="about-orbit-ring" aria-hidden="true">

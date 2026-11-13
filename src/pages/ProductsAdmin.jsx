@@ -1,7 +1,7 @@
-﻿
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
+import ConfirmDialog from "../components/ConfirmDialog";
 import {
     INPUT_GRID,
     PageTitle,
@@ -146,6 +146,7 @@ export default function ProductsAdmin() {
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [pendingProductRemove, setPendingProductRemove] = useState(null);
 
     useEffect(() => {
         let active = true;
@@ -281,6 +282,18 @@ export default function ProductsAdmin() {
                     : product
             ),
         }));
+    }
+
+    // Runs the removal the user confirmed in the dialog.
+    function confirmProductRemove() {
+        const target = pendingProductRemove;
+        setPendingProductRemove(null);
+
+        if (target.kind === "product") {
+            removeProduct(target.index);
+        } else {
+            removeProductItem(target.productIndex, target.listKey, target.itemIndex);
+        }
     }
 
     async function handleSubmit(event) {
@@ -447,7 +460,15 @@ export default function ProductsAdmin() {
                                             type="button"
                                             className={secondaryButtonClass}
                                             style={outlineButtonStyle}
-                                            onClick={() => removeProductItem(index, "features", featureIndex)}
+                                            onClick={() =>
+                                                setPendingProductRemove({
+                                                    kind: "item",
+                                                    productIndex: index,
+                                                    listKey: "features",
+                                                    itemIndex: featureIndex,
+                                                    label: "feature",
+                                                })
+                                            }
                                         >
                                             Remove Feature
                                         </button>
@@ -490,7 +511,15 @@ export default function ProductsAdmin() {
                                             type="button"
                                             className={secondaryButtonClass}
                                             style={outlineButtonStyle}
-                                            onClick={() => removeProductItem(index, "stats", statIndex)}
+                                            onClick={() =>
+                                                setPendingProductRemove({
+                                                    kind: "item",
+                                                    productIndex: index,
+                                                    listKey: "stats",
+                                                    itemIndex: statIndex,
+                                                    label: "statistic",
+                                                })
+                                            }
                                         >
                                             Remove Statistic
                                         </button>
@@ -511,7 +540,9 @@ export default function ProductsAdmin() {
                                         type="button"
                                         className={secondaryButtonClass}
                                         style={outlineButtonStyle}
-                                        onClick={() => removeProduct(index)}
+                                        onClick={() =>
+                                            setPendingProductRemove({ kind: "product", index, label: "product" })
+                                        }
                                     >
                                         Remove Product
                                     </button>
@@ -552,6 +583,17 @@ export default function ProductsAdmin() {
                     />
                 </form>
             </div>
+
+            {pendingProductRemove && (
+                <ConfirmDialog
+                    title={`Remove ${pendingProductRemove.label}?`}
+                    message={`Are you sure you want to delete this ${pendingProductRemove.label}? The change will be applied when you click Save Changes.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    onConfirm={confirmProductRemove}
+                    onCancel={() => setPendingProductRemove(null)}
+                />
+            )}
         </main>
     );
 }

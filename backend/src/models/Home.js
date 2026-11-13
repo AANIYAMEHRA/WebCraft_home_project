@@ -1,11 +1,14 @@
-﻿
-import mongoose from "mongoose";
+﻿import mongoose from "mongoose";
 
 const homeSchema = new mongoose.Schema(
     {
         heroChip: {
             type: String,
             default: "AI-Led · Research-Backed · Delivery-Ready",
+        },
+        heroChips: {
+            type: [mongoose.Schema.Types.Mixed],
+            default: [],
         },
         headingLine1: {
             type: String,
@@ -71,6 +74,7 @@ const homeSchema = new mongoose.Schema(
                         description: { type: String, default: "" },
                         buttonText: { type: String, default: "Learn More" },
                         buttonUrl: { type: String, default: "/" },
+                        tags: { type: [String], default: [] },
                     },
                 ],
                 default: [
@@ -80,6 +84,7 @@ const homeSchema = new mongoose.Schema(
                             "Machine learning, generative AI, NLP, intelligent automation, and AI strategy - applied to real business problems with measurable outcomes.",
                         buttonText: "Explore AI Solutions",
                         buttonUrl: "/ai-solutions",
+                        tags: ["Machine Learning", "GenAI", "Automation"],
                     },
                     {
                         title: "Research",
@@ -87,6 +92,7 @@ const homeSchema = new mongoose.Schema(
                             "Market research, competitive intelligence, UX research, innovation testing, and strategic advisory - to ensure you're building the right thing.",
                         buttonText: "See Research Capabilities",
                         buttonUrl: "/research",
+                        tags: ["Market Research", "UX Research", "Intelligence"],
                     },
                     {
                         title: "Products",
@@ -94,6 +100,7 @@ const homeSchema = new mongoose.Schema(
                             "Ready-to-deploy platforms - HRMS, TutorWand, and WCSchool ERP - built from domain expertise and client feedback.",
                         buttonText: "Explore Products",
                         buttonUrl: "/products",
+                        tags: ["HRMS", "TutorWand", "WCSchool ERP"],
                     },
                     {
                         title: "Services",
@@ -101,6 +108,7 @@ const homeSchema = new mongoose.Schema(
                             "Web, mobile, UI/UX, cloud, system integration, QA, and digital transformation - the engineering depth to ship it right.",
                         buttonText: "View All Services",
                         buttonUrl: "/services",
+                        tags: ["Web & Mobile", "Cloud", "UI/UX"],
                     },
                 ],
             },
@@ -320,13 +328,11 @@ const homeSchema = new mongoose.Schema(
                         num: "01",
                         title: "Predictive Analytics",
                         description: "Surface patterns in your data before they become problems - or opportunities - for your competitors. We build models that turn raw signals into actionable forecasts.",
-                        image: "/images/predictive-analytics.jpg",
                     },
                     {
                         num: "02",
                         title: "Primary Research",
                         description: "Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves - then structure it for AI-ready decision-making.",
-                        image: "/images/primary-research.jpg",
                     },
                     {
                         num: "03",
@@ -355,7 +361,6 @@ const homeSchema = new mongoose.Schema(
                 default: "See All AI Solutions",
             },
             buttonUrl: {
-                tags: { type: [String], default: [] },
                 type: String,
                 default: "/ai-solutions",
             },

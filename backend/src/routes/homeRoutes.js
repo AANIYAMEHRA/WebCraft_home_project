@@ -230,6 +230,7 @@ router.put("/", async (req, res) => {
     try {
         const allowedFields = [
             "heroChip",
+            "heroChips",
             "headingLine1",
             "headingLine2",
             "description",

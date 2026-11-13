@@ -100,6 +100,7 @@ function normalizeLinks(form) {
             buttonUrl: resolveLink(form.aiStack.buttonUrl),
         },
         ctaSection: { ...form.ctaSection, buttonUrl: resolveLink(form.ctaSection.buttonUrl) },
+        heroChips: form.heroChips.map((chip) => ({ ...chip, buttonUrl: resolveLink(chip.buttonUrl) })),
     };
 }
 
@@ -333,6 +334,21 @@ const DEFAULT_CTA_SECTION = {
     buttonUrl: "/contact",
 };
 
+const DEFAULT_HERO_CHIPS = [
+    { label: "Smarter", title: "AI Solutions", buttonUrl: "/ai-solutions", image: "" },
+    { label: "Sharper", title: "Research", buttonUrl: "/research", image: "" },
+    { label: "Built", title: "Products", buttonUrl: "/products", image: "" },
+    { label: "Engineered", title: "Services", buttonUrl: "/services", image: "" },
+];
+
+// Default icon paths for the 4 hero chips (same icons as the public Hero section).
+const CHIP_ICON_PATHS = [
+    "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z",
+    "M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941",
+    "M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9",
+    "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.573-1.066z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+];
+
 // Reads a picked image file as a data URL, after checking its type and size.
 function readImageFile(file, onLoad) {
     if (!file.type.startsWith("image/")) {
@@ -350,7 +366,7 @@ function readImageFile(file, onLoad) {
 }
 
 // Small icon box for one AI card: shows the uploaded image, or the default icon.
-function CardIconUpload({ value, fallbackPath, onChange }) {
+function CardIconUpload({ value, fallbackPath, onChange, onRequestRemove }) {
     function handleFile(event) {
         const file = event.target.files?.[0];
         event.target.value = "";
@@ -380,7 +396,7 @@ function CardIconUpload({ value, fallbackPath, onChange }) {
             {value && (
                 <button
                     type="button"
-                    onClick={() => onChange("")}
+                    onClick={() => onRequestRemove(() => onChange(""))}
                     className="rounded-full border px-4 py-2 text-sm font-semibold"
                 >
                     Remove
@@ -391,7 +407,7 @@ function CardIconUpload({ value, fallbackPath, onChange }) {
 }
 
 // Large image box for the Why Webcraft section: camera icon when empty, edit option after upload.
-function ImageUploadBox({ value, onChange }) {
+function ImageUploadBox({ value, onChange, onRequestRemove }) {
     function handleFile(event) {
         const file = event.target.files?.[0];
         event.target.value = "";
@@ -426,7 +442,7 @@ function ImageUploadBox({ value, onChange }) {
             {value && (
                 <button
                     type="button"
-                    onClick={() => onChange("")}
+                    onClick={() => onRequestRemove(() => onChange(""))}
                     className="rounded-full border px-4 py-2 text-sm font-semibold"
                 >
                     Remove
@@ -457,6 +473,11 @@ function mergeHome(data = {}) {
             "We'd rather spend three months in research than three years rebuilding. It's a slower way to work. It's also the way that's kept us here since 2006 - and kept our clients with us long after the first engagement ended.",
 
         stats: Array.isArray(data.stats) ? data.stats : [],
+
+        heroChips: DEFAULT_HERO_CHIPS.map((fallback, index) => ({
+            ...fallback,
+            ...(Array.isArray(data.heroChips) ? data.heroChips[index] || {} : {}),
+        })),
 
         whatWeDo: {
             ...DEFAULT_WHAT_WE_DO,
@@ -538,6 +559,7 @@ function validateHome(form) {
         form.ctaSection.buttonUrl,
         ...form.whatWeDo.services.map((service) => service.buttonUrl),
         ...form.products.items.map((product) => product.buttonUrl),
+        ...form.heroChips.map((chip) => chip.buttonUrl),
     ];
 
     if (links.some((link) => link && !LINK_PATTERN.test(resolveLink(link)))) {
@@ -554,6 +576,7 @@ export default function HomeAdmin() {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [pendingRemove, setPendingRemove] = useState(null);
+    const [pendingImage, setPendingImage] = useState(null);
 
     useEffect(() => {
         let active = true;
@@ -601,6 +624,14 @@ export default function HomeAdmin() {
                     i === index ? { ...item, ...changes } : item
                 ),
             },
+        }));
+    }
+
+    // Updates one hero floating chip, e.g. heroChips[0].
+    function setHeroChip(index, changes) {
+        setForm((previous) => ({
+            ...previous,
+            heroChips: previous.heroChips.map((chip, i) => (i === index ? { ...chip, ...changes } : chip)),
         }));
     }
 
@@ -776,6 +807,48 @@ export default function HomeAdmin() {
                         ))}
                     </CollapsibleSection>
 
+                    {/* HERO FLOATING CHIPS */}
+                    <CollapsibleSection id="hero-chips" title="Hero Floating Chips">
+                        {form.heroChips.map((chip, index) => (
+                            <div key={index} className={itemClass} style={itemStyle}>
+                                <h4 className="font-bold" style={{ ...headingStyle, fontSize: SIZE.label }}>
+                                    Chip {index + 1}
+                                </h4>
+
+                                <div className={INPUT_GRID}>
+                                    <Field
+                                        label="Small Label"
+                                        value={chip.label ?? ""}
+                                        onChange={(v) => setHeroChip(index, { label: v })}
+                                    />
+                                    <Field
+                                        label="Title"
+                                        value={chip.title ?? ""}
+                                        onChange={(v) => setHeroChip(index, { title: v })}
+                                    />
+                                </div>
+
+                                <Field
+                                    label="Link (page name or URL)"
+                                    value={chip.buttonUrl ?? ""}
+                                    onChange={(v) => setHeroChip(index, { buttonUrl: v })}
+                                />
+
+                                <div>
+                                    <p className="mb-2 text-sm font-medium">Chip Icon</p>
+                                    <CardIconUpload
+                                        value={chip.image}
+                                        fallbackPath={CHIP_ICON_PATHS[index]}
+                                        onChange={(value) => setHeroChip(index, { image: value })}
+                                        onRequestRemove={(clear) =>
+                                            setPendingImage({ name: `the icon of chip ${index + 1}`, clear })
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </CollapsibleSection>
+
                     {/* OUR BELIEF */}
                     <CollapsibleSection id="belief" title={form.beliefLabel || "Our Belief"}>
                         <div className={INPUT_GRID}>
@@ -842,6 +915,7 @@ export default function HomeAdmin() {
                             <ImageUploadBox
                                 value={form.whyWebcraft.image}
                                 onChange={(value) => setSection("whyWebcraft", { image: value })}
+                                onRequestRemove={(clear) => setPendingImage({ name: "the section image", clear })}
                             />
                         </div>
 
@@ -964,6 +1038,9 @@ export default function HomeAdmin() {
                                             onChange={(value) =>
                                                 setListItem("aiStack", "cards", index, { image: value })
                                             }
+                                            onRequestRemove={(clear) =>
+                                                setPendingImage({ name: `the icon of AI card ${index + 1}`, clear })
+                                            }
                                         />
                                     </div>
 
@@ -1016,6 +1093,20 @@ export default function HomeAdmin() {
                     cancelText="Cancel"
                     onConfirm={confirmRemoveService}
                     onCancel={() => setPendingRemove(null)}
+                />
+            )}
+
+            {pendingImage && (
+                <ConfirmDialog
+                    title="Remove image?"
+                    message={`Are you sure you want to remove ${pendingImage.name}? The change will be applied when you click Save Changes.`}
+                    confirmText="Remove"
+                    cancelText="Cancel"
+                    onConfirm={() => {
+                        pendingImage.clear();
+                        setPendingImage(null);
+                    }}
+                    onCancel={() => setPendingImage(null)}
                 />
             )}
         </main>
