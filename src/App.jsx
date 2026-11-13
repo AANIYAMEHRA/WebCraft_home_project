@@ -10,6 +10,7 @@ import Research from './pages/Research.jsx'
 import Products from './pages/Products.jsx'
 import Services from './pages/Services.jsx'
 import Contact from './pages/Contact.jsx'
+import Careers from './pages/Careers.jsx'
 
 import HomeAdmin from './pages/HomeAdmin.jsx'
 import AboutAdmin from './pages/AboutAdmin.jsx'
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/careers" element={<Careers />} />
       </Route>
 
       {/* Admin CMS */}

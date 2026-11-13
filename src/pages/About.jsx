@@ -485,7 +485,7 @@ export default function About() {
                             {content.careersDescription ?? ""}
                         </p>
                         <div className="careers-magnet-wrap" ref={careersWrapRef}>
-                            <Link to="/contact" className="careers-magnet-btn" ref={careersBtnRef}>
+                            <Link to="/careers" className="careers-magnet-btn" ref={careersBtnRef}>
                                 {content.careersButton ?? ""}
                             </Link>
                         </div>
