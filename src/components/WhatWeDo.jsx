@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const API = 'http://localhost:5000/api/home'
@@ -7,12 +7,12 @@ const DEFAULT_CONTENT = {
   label: 'What We Do',
   heading: 'Four Capabilities, One Partner',
   description:
-    'We combine AI, research, products, and engineering services into a single, integrated offering — so everything works together.',
+    'We combine AI, research, products, and engineering services into a single, integrated offering - so everything works together.',
   services: [
     {
       title: 'AI Solutions',
       description:
-        'Machine learning, generative AI, NLP, intelligent automation, and AI strategy — applied to real business problems with measurable outcomes.',
+        'Machine learning, generative AI, NLP, intelligent automation, and AI strategy - applied to real business problems with measurable outcomes.',
       buttonText: 'Explore AI Solutions',
       buttonUrl: '/ai-solutions',
       tags: ['Machine Learning', 'GenAI', 'Automation'],
@@ -20,7 +20,7 @@ const DEFAULT_CONTENT = {
     {
       title: 'Research',
       description:
-        "Market research, competitive intelligence, UX research, innovation testing, and strategic advisory — to ensure you're building the right thing.",
+        "Market research, competitive intelligence, UX research, innovation testing, and strategic advisory - to ensure you're building the right thing.",
       buttonText: 'See Research Capabilities',
       buttonUrl: '/research',
       tags: ['Market Research', 'UX Research', 'Intelligence'],
@@ -28,7 +28,7 @@ const DEFAULT_CONTENT = {
     {
       title: 'Products',
       description:
-        'Ready-to-deploy platforms — HRMS, TutorWand (AI-powered ed-tech), and WCSchool ERP — built from years of domain expertise and client feedback.',
+        'Ready-to-deploy platforms - HRMS, TutorWand (AI-powered ed-tech), and WCSchool ERP - built from years of domain expertise and client feedback.',
       buttonText: 'Explore Products',
       buttonUrl: '/products',
       tags: ['HRMS', 'TutorWand', 'WCSchool ERP'],
@@ -36,7 +36,7 @@ const DEFAULT_CONTENT = {
     {
       title: 'Services',
       description:
-        'Web, mobile, UI/UX, cloud, system integration, QA, legacy modernization, and digital transformation — the engineering depth to ship it right.',
+        'Web, mobile, UI/UX, cloud, system integration, QA, legacy modernization, and digital transformation - the engineering depth to ship it right.',
       buttonText: 'View All Services',
       buttonUrl: '/services',
       tags: ['Web & Mobile', 'Cloud', 'UI/UX'],

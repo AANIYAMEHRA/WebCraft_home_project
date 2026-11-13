@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const API = 'http://localhost:5000/api/home'
@@ -8,31 +8,31 @@ const DEFAULT_AI_STACK = {
     headingLine1: 'The future belongs to businesses',
     headingLine2: 'that know before they act',
     description:
-        'AI without research is noise. Research without AI is slow. Webcraft combines both — giving you the speed of intelligent automation and the confidence of informed strategy.',
+        'AI without research is noise. Research without AI is slow. Webcraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.',
     cards: [
         {
             num: '01',
             title: 'Predictive Analytics',
             description:
-                'Surface patterns in your data before they become problems — or opportunities — for your competitors. We build models that turn raw signals into actionable forecasts.',
+                'Surface patterns in your data before they become problems - or opportunities - for your competitors. We build models that turn raw signals into actionable forecasts.',
         },
         {
             num: '02',
             title: 'Primary Research',
             description:
-                'Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves — then structure it for AI-ready decision-making.',
+                'Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves - then structure it for AI-ready decision-making.',
         },
         {
             num: '03',
             title: 'Automation at Scale',
             description:
-                'No-code RPA and conversational AI deployed across real workflows — cutting cost and accelerating timelines without replacing the teams who know the work best.',
+                'No-code RPA and conversational AI deployed across real workflows - cutting cost and accelerating timelines without replacing the teams who know the work best.',
         },
         {
             num: '04',
             title: 'LLM & Gen AI',
             description:
-                'Generative AI integrated into your products and processes — with proprietary data reliability, guardrails, and enterprise-grade security baked in from day one.',
+                'Generative AI integrated into your products and processes - with proprietary data reliability, guardrails, and enterprise-grade security baked in from day one.',
         },
         {
             num: '05',
@@ -44,7 +44,7 @@ const DEFAULT_AI_STACK = {
             num: '06',
             title: 'AI Security & MLOps',
             description:
-                'Fraud detection, predictive maintenance, and supply-chain optimisation — AI that processes and performs at scale with full auditability and compliance.',
+                'Fraud detection, predictive maintenance, and supply-chain optimisation - AI that processes and performs at scale with full auditability and compliance.',
         },
     ],
     buttonText: 'See All AI Solutions',
@@ -136,7 +136,7 @@ export default function AiStack() {
 
     return (
         <>
-            {/* AI SOLUTIONS SHOWCASE — Sticky Stacking Cards */}
+            {/* AI SOLUTIONS SHOWCASE - Sticky Stacking Cards */}
             <section
                 className="ai-stack-section bg-white relative"
                 aria-label="AI Solutions"

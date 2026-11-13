@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
 import ConfirmDialog from "../components/ConfirmDialog";
@@ -67,7 +67,7 @@ const EMPTY_ABOUT = {
         heroHeading1: "The Company",
         heroHeading2: "Behind the Work",
         heroDescription:
-            "Founded in 2006, Webcraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner — serving 3000+ clients with a team of 230+ professionals.",
+            "Founded in 2006, Webcraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner - serving 3000+ clients with a team of 230+ professionals.",
         storyLabel: "Our Story",
         waysLabel: "What We Help You Do",
         waysHeading: "Six Ways We Create Value",
@@ -76,7 +76,7 @@ const EMPTY_ABOUT = {
         philosophyLabel: "How We Work",
         philosophyHeading: "Our Delivery Philosophy",
         philosophyDescription:
-            "Every engagement follows a rhythm we've refined across two decades — four stages that carry a project from first conversation to long-term stewardship.",
+            "Every engagement follows a rhythm we've refined across two decades - four stages that carry a project from first conversation to long-term stewardship.",
         statsLabel: "By the Numbers",
         statsHeading: "Two decades, counted carefully.",
         careersLabel: "Careers",
@@ -87,7 +87,7 @@ const EMPTY_ABOUT = {
         ctaLabel: "Let's Work Together",
         ctaHeading: "Let's work together.",
         ctaDescription:
-            "Whether you're exploring a new product direction or modernizing an existing system — we'd like to hear about it.",
+            "Whether you're exploring a new product direction or modernizing an existing system - we'd like to hear about it.",
         ctaButton: "Start a Conversation →",
     },
 };
@@ -360,7 +360,7 @@ export default function AboutAdmin() {
                     </CollapsibleSection>
 
                     {/* OUR STORY */}
-                    <CollapsibleSection id="story" title="Our Story — Milestones">
+                    <CollapsibleSection id="story" title="Our Story - Milestones">
                         <Field label="Section Label" {...text("storyLabel")} />
 
                         {form.milestones.map((item, i) => (
@@ -571,7 +571,7 @@ export default function AboutAdmin() {
                     </CollapsibleSection>
 
                     {/* BY THE NUMBERS */}
-                    <CollapsibleSection id="stats" title="By the Numbers — Statistics">
+                    <CollapsibleSection id="stats" title="By the Numbers - Statistics">
                         <div className={INPUT_GRID}>
                             <Field label="Section Label" {...text("statsLabel")} />
                             <Field label="Section Heading" required {...text("statsHeading")} />

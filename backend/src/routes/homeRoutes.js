@@ -1,4 +1,4 @@
-
+﻿
 import express from "express";
 import Home from "../models/Home.js";
 
@@ -20,7 +20,7 @@ const defaultHome = {
     beliefHeading:
         "We listen before we propose. We prototype before we commit.",
     beliefDescription:
-        "We'd rather spend three months in research than three years rebuilding. It's a slower way to work. It's also the way that's kept us here since 2006 — and kept our clients with us long after the first engagement ended.",
+        "We'd rather spend three months in research than three years rebuilding. It's a slower way to work. It's also the way that's kept us here since 2006 - and kept our clients with us long after the first engagement ended.",
 
     stats: [
         { value: 17, suffix: "+", label: "Years Established" },
@@ -33,34 +33,34 @@ const defaultHome = {
         label: "WHAT WE DO",
         heading: "Four Capabilities, One Partner",
         description:
-            "We combine AI, research, products, and engineering services into a single, integrated offering — so everything works together.",
+            "We combine AI, research, products, and engineering services into a single, integrated offering - so everything works together.",
 
         services: [
             {
                 title: "AI Solutions",
                 description:
-                    "Machine learning, generative AI, NLP, intelligent automation, and AI strategy — applied to real business problems with measurable outcomes.",
+                    "Machine learning, generative AI, NLP, intelligent automation, and AI strategy - applied to real business problems with measurable outcomes.",
                 buttonText: "Explore AI Solutions",
                 buttonUrl: "/ai-solutions",
             },
             {
                 title: "Research",
                 description:
-                    "Market research, competitive intelligence, UX research, innovation testing, and strategic advisory — to ensure you're building the right thing.",
+                    "Market research, competitive intelligence, UX research, innovation testing, and strategic advisory - to ensure you're building the right thing.",
                 buttonText: "See Research Capabilities",
                 buttonUrl: "/research",
             },
             {
                 title: "Products",
                 description:
-                    "Ready-to-deploy platforms — HRMS, TutorWand, and WCSchool ERP — built from domain expertise and client feedback.",
+                    "Ready-to-deploy platforms - HRMS, TutorWand, and WCSchool ERP - built from domain expertise and client feedback.",
                 buttonText: "Explore Products",
                 buttonUrl: "/products",
             },
             {
                 title: "Services",
                 description:
-                    "Web, mobile, UI/UX, cloud, system integration, QA, and digital transformation — the engineering depth to ship it right.",
+                    "Web, mobile, UI/UX, cloud, system integration, QA, and digital transformation - the engineering depth to ship it right.",
                 buttonText: "View All Services",
                 buttonUrl: "/services",
             },
@@ -72,28 +72,28 @@ const defaultHome = {
         label: "Our Approach",
         heading: "We don't start with code.",
         introDescription:
-            "Every engagement begins with understanding. Through structured research, market analysis, and technology assessment, we help you define the right problem — then design and build the right solution.",
+            "Every engagement begins with understanding. Through structured research, market analysis, and technology assessment, we help you define the right problem - then design and build the right solution.",
         steps: [
             {
                 num: "01",
                 title: "Understand",
                 card: "Research, validate and define the opportunity before a line of code is written.",
                 sub: "We start with clarity.",
-                desc: "Research, validate, and define the opportunity. We listen carefully before we recommend — then we pressure-test the recommendation before we build.",
+                desc: "Research, validate, and define the opportunity. We listen carefully before we recommend - then we pressure-test the recommendation before we build.",
             },
             {
                 num: "02",
                 title: "Design",
                 card: "Architect the solution around product thinking, user value and scalability.",
                 sub: "We design for leverage.",
-                desc: "Architect the solution around product thinking, user value, and scalability. Every decision gets a written rationale — so it holds up six months later.",
+                desc: "Architect the solution around product thinking, user value, and scalability. Every decision gets a written rationale - so it holds up six months later.",
             },
             {
                 num: "03",
                 title: "Deliver",
                 card: "Build, iterate and support at scale with full accountability from one team.",
                 sub: "We deliver, and we stay.",
-                desc: "Build, iterate, and support at scale. One team from first brief to last line of code — with full accountability, not handoffs.",
+                desc: "Build, iterate, and support at scale. One team from first brief to last line of code - with full accountability, not handoffs.",
             },
         ],
     },
@@ -107,7 +107,7 @@ const defaultHome = {
                 nameLine1: "Webcraft",
                 nameLine2: "HRMS.",
                 summary:
-                    "Complete HR management — attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.",
+                    "Complete HR management - attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.",
                 meta: [
                     { label: "Category", value: "Enterprise HR" },
                     { label: "Users", value: "500+ companies" },
@@ -135,7 +135,7 @@ const defaultHome = {
                 nameLine1: "WCSchool",
                 nameLine2: "ERP.",
                 summary:
-                    "School management platform — fees, schedules, exams, parent monitoring, and seamless communication between schools, parents, and students. One dashboard for the entire institution.",
+                    "School management platform - fees, schedules, exams, parent monitoring, and seamless communication between schools, parents, and students. One dashboard for the entire institution.",
                 meta: [
                     { label: "Category", value: "School Mgmt" },
                     { label: "Modules", value: "12+ integrated" },
@@ -151,31 +151,31 @@ const defaultHome = {
         headingLine1: "The future belongs to businesses",
         headingLine2: "that know before they act",
         description:
-            "AI without research is noise. Research without AI is slow. Webcraft combines both — giving you the speed of intelligent automation and the confidence of informed strategy.",
+            "AI without research is noise. Research without AI is slow. Webcraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.",
         cards: [
             {
                 num: "01",
                 title: "Predictive Analytics",
                 description:
-                    "Surface patterns in your data before they become problems — or opportunities — for your competitors. We build models that turn raw signals into actionable forecasts.",
+                    "Surface patterns in your data before they become problems - or opportunities - for your competitors. We build models that turn raw signals into actionable forecasts.",
             },
             {
                 num: "02",
                 title: "Primary Research",
                 description:
-                    "Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves — then structure it for AI-ready decision-making.",
+                    "Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves - then structure it for AI-ready decision-making.",
             },
             {
                 num: "03",
                 title: "Automation at Scale",
                 description:
-                    "No-code RPA and conversational AI deployed across real workflows — cutting cost and accelerating timelines without replacing the teams who know the work best.",
+                    "No-code RPA and conversational AI deployed across real workflows - cutting cost and accelerating timelines without replacing the teams who know the work best.",
             },
             {
                 num: "04",
                 title: "LLM & Gen AI",
                 description:
-                    "Generative AI integrated into your products and processes — with proprietary data reliability, guardrails, and enterprise-grade security baked in from day one.",
+                    "Generative AI integrated into your products and processes - with proprietary data reliability, guardrails, and enterprise-grade security baked in from day one.",
             },
             {
                 num: "05",
@@ -187,7 +187,7 @@ const defaultHome = {
                 num: "06",
                 title: "AI Security & MLOps",
                 description:
-                    "Fraud detection, predictive maintenance, and supply-chain optimisation — AI that processes and performs at scale with full auditability and compliance.",
+                    "Fraud detection, predictive maintenance, and supply-chain optimisation - AI that processes and performs at scale with full auditability and compliance.",
             },
         ],
         buttonText: "See All AI Solutions",
@@ -198,7 +198,7 @@ const defaultHome = {
         headingLine1: "Ready to make",
         headingLine2: "smarter decisions?",
         description:
-            "Whether you need AI strategy, market research, product development, or digital engineering — start with a conversation.",
+            "Whether you need AI strategy, market research, product development, or digital engineering - start with a conversation.",
         buttonText: "Book a Consultation →",
         buttonUrl: "/contact",
     },

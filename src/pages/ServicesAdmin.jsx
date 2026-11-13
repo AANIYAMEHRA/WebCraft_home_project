@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
 import {
@@ -294,7 +294,7 @@ export default function ServicesAdmin() {
           </CollapsibleSection>
 
           {/* CAPABILITIES INTRO */}
-          <CollapsibleSection id="capabilities-intro" title="Six Capabilities — Intro">
+          <CollapsibleSection id="capabilities-intro" title="Six Capabilities - Intro">
             <Field label="Tag" {...bind(["capabilitiesIntro", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent words are highlighted)</p>
             {headingFields(["capabilitiesIntro", "title"])}

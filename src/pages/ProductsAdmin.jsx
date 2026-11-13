@@ -1,4 +1,4 @@
-
+﻿
 import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
@@ -24,7 +24,7 @@ const DEFAULT_FORM = {
         headingLine1: "Platforms Built From",
         headingLine2: "Real Experience",
         description:
-            "Ready-to-deploy software products — HRMS, TutorWand, and WCSchool ERP — built from years of domain expertise and client feedback.",
+            "Ready-to-deploy software products - HRMS, TutorWand, and WCSchool ERP - built from years of domain expertise and client feedback.",
         buttonText: "Start a Conversation",
         buttonUrl: "/contact",
     },
@@ -35,7 +35,7 @@ const DEFAULT_FORM = {
             productLabel: "Product",
             name: "Webcraft HRMS",
             description:
-                "Complete human resource management — attendance, leave, payroll, self-service portal, and role-based security. Designed for mid-size organizations that need enterprise-grade features without enterprise-grade complexity.",
+                "Complete human resource management - attendance, leave, payroll, self-service portal, and role-based security. Designed for mid-size organizations that need enterprise-grade features without enterprise-grade complexity.",
             price: "₹2,999",
             priceNote: "/mo flat server cost · No per-user fees",
             buttonText: "Request a Demo",
@@ -71,7 +71,7 @@ const DEFAULT_FORM = {
             productLabel: "Product",
             name: "WCSchool ERP",
             description:
-                "Comprehensive school management platform — fee management, class scheduling, examination management, parent monitoring, and seamless communication between schools, parents, and students.",
+                "Comprehensive school management platform - fee management, class scheduling, examination management, parent monitoring, and seamless communication between schools, parents, and students.",
             price: "",
             priceNote: "",
             buttonText: "Request a Demo",

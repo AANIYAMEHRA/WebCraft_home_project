@@ -1,4 +1,4 @@
-
+﻿
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -27,7 +27,7 @@ const DEFAULT_WHY_WEBCRAFT = {
     {
       title: 'Product thinking',
       description:
-        'We approach projects as products — with user value, scalability, and lifecycle in mind.',
+        'We approach projects as products - with user value, scalability, and lifecycle in mind.',
     },
     {
       title: 'Long-term partnership',

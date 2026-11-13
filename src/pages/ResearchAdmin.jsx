@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
 import {
@@ -427,7 +427,7 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* PRACTICES INTRO */}
-          <CollapsibleSection id="practices-intro" title="Four Practices — Intro">            <Field label="Tag" {...bind(["practicesIntro", "tag"])} />
+          <CollapsibleSection id="practices-intro" title="Four Practices - Intro">            <Field label="Tag" {...bind(["practicesIntro", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent word is highlighted)</p>
             {headingFields(["practicesIntro", "heading"])}
             <Field label="Body" multiline {...bind(["practicesIntro", "body"])} />
@@ -504,7 +504,7 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* DELIVERABLES */}
-          <CollapsibleSection id="deliverables-intro" title="Deliverables — Intro">            <Field label="Tag" {...bind(["deliverablesIntro", "tag"])} />
+          <CollapsibleSection id="deliverables-intro" title="Deliverables - Intro">            <Field label="Tag" {...bind(["deliverablesIntro", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent words are highlighted)</p>
             {headingFields(["deliverablesIntro", "heading"], ["before", "accent"])}
             <Field label="Body" multiline {...bind(["deliverablesIntro", "body"])} />
@@ -537,7 +537,7 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* CHART */}
-          <CollapsibleSection id="chart" title="From Our Research — Chart">            <Field label="Tag" {...bind(["chart", "tag"])} />
+          <CollapsibleSection id="chart" title="From Our Research - Chart">            <Field label="Tag" {...bind(["chart", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent word is highlighted)</p>
             {headingFields(["chart", "heading"])}
             <Field label="Body" multiline {...bind(["chart", "body"])} />
@@ -574,7 +574,7 @@ export default function ResearchAdmin() {
             <p className="text-sm opacity-70">Heading (accent word is highlighted)</p>
             {headingFields(["engage", "heading"])}
 
-            <h3 style={{ ...headingStyle, fontSize: SIZE.h3 }}>Yes — When research helps</h3>
+            <h3 style={{ ...headingStyle, fontSize: SIZE.h3 }}>Yes - When research helps</h3>
             {headingFields(["engage", "yes", "title"], ["before", "accent"])}
             {content.engage.yes.items.map((item, i) => (
               <div key={i} className={itemClass} style={itemStyle}>
@@ -590,7 +590,7 @@ export default function ResearchAdmin() {
               addTo(["engage", "yes", "items"], { title: "", body: "" })
             )}
 
-            <h3 style={{ ...headingStyle, fontSize: SIZE.h3 }}>No — When research is not the answer</h3>
+            <h3 style={{ ...headingStyle, fontSize: SIZE.h3 }}>No - When research is not the answer</h3>
             {headingFields(["engage", "no", "title"], ["before", "accent"])}
             {content.engage.no.items.map((item, i) => (
               <div key={i} className={itemClass} style={itemStyle}>

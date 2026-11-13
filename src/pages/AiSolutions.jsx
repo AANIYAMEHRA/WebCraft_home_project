@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+﻿import { Fragment, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -239,7 +239,7 @@ export default function AiSolutions() {
     /* Page title */
     useEffect(() => {
         const prev = document.title;
-        document.title = "AI Solutions — Webcraft";
+        document.title = "AI Solutions - Webcraft";
 
         return () => {
             document.title = prev;
@@ -513,7 +513,7 @@ export default function AiSolutions() {
                             </h2>
 
                             <p className="reveal orbit-body">
-                                We don't have a favorite framework — we have a favorite way of choosing one. Research-grade tools for research, production-grade for production, and clear documentation of why each was picked.
+                                We don't have a favorite framework - we have a favorite way of choosing one. Research-grade tools for research, production-grade for production, and clear documentation of why each was picked.
                             </p>
 
                             <div className="orbit-stack reveal">

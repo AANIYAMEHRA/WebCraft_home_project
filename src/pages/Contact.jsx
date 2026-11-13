@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -61,13 +61,13 @@ const steps = [
         number: "01",
         title: "You write.",
         description:
-            "As much or as little as you like. A single paragraph is enough to start — we'll ask the rest over a call.",
+            "As much or as little as you like. A single paragraph is enough to start - we'll ask the rest over a call.",
     },
     {
         number: "02",
         title: "We reply.",
         description:
-            "Within one business day — usually sooner. From a real person, not an automated acknowledgement.",
+            "Within one business day - usually sooner. From a real person, not an automated acknowledgement.",
     },
     {
         number: "03",
@@ -286,7 +286,7 @@ export default function Contact() {
                         <p className="text-lg text-gm-muted leading-relaxed">
                             Whether you're exploring AI adoption, need
                             research to inform a decision, want a product
-                            demo, or are planning a digital initiative —
+                            demo, or are planning a digital initiative -
                             we'd like to hear about it.
                         </p>
                     </div>
