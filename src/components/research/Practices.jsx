@@ -210,11 +210,18 @@ function Practice({ practice }) {
     strategic: <StrategicVisual triggerRef={articleRef} />,
   }[practice.visual];
 
-  const visual = practice.image ? (
-    <img src={practice.image} alt={practice.title} className="w-full h-auto object-contain" />
-  ) : (
-    defaultVisual
-  );
+  const visual =
+    practice.visual === 'strategic' ? (
+      defaultVisual
+    ) : practice.image ? (
+      <img
+        src={practice.image}
+        alt={practice.title}
+        className="w-full h-auto object-contain"
+      />
+    ) : (
+      defaultVisual
+    );
 
   return (
     <article className="practice" id={practice.id} ref={articleRef}>
@@ -254,7 +261,7 @@ export default function Practices() {
           practicesIntro: { ...staticIntro, ...(saved.practicesIntro || {}) },
         });
       })
-      .catch(() => {});
+      .catch(() => { });
 
     return () => {
       active = false;
