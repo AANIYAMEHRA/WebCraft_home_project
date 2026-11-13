@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -81,6 +80,25 @@ function renderCardTitle(title, index) {
             {normalTitle ? ' ' : ''}
             <em>{emphasisTitle}</em>
         </>
+    )
+}
+
+// Card icon: uploaded image if set (shown white on the gradient box), else the default SVG.
+function CardIcon({ card, children }) {
+    if (card?.image) {
+        return (
+            <img
+                src={card.image}
+                alt=""
+                className="w-6 h-6 object-contain brightness-0 invert"
+            />
+        )
+    }
+
+    return (
+        <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+            {children}
+        </svg>
     )
 }
 
@@ -183,9 +201,9 @@ export default function AiStack() {
 
                         <div className="ai-stack-card__body">
                             <div className="ai-stack-card__icon bg-gradient-to-br from-gm-teal to-gm-green">
-                                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                                <CardIcon card={cards[0]}>
                                     <path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
-                                </svg>
+                                </CardIcon>
                             </div>
 
                             <h3 className="ai-stack-card__title">
@@ -206,9 +224,9 @@ export default function AiStack() {
 
                         <div className="ai-stack-card__body">
                             <div className="ai-stack-card__icon bg-gradient-to-br from-gm-blue to-gm-teal">
-                                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                                <CardIcon card={cards[1]}>
                                     <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                                </svg>
+                                </CardIcon>
                             </div>
 
                             <h3 className="ai-stack-card__title">
@@ -229,9 +247,9 @@ export default function AiStack() {
 
                         <div className="ai-stack-card__body">
                             <div className="ai-stack-card__icon bg-gradient-to-br from-gm-green to-gm-mint">
-                                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                                <CardIcon card={cards[2]}>
                                     <path d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                                </svg>
+                                </CardIcon>
                             </div>
 
                             <h3 className="ai-stack-card__title">
@@ -252,9 +270,9 @@ export default function AiStack() {
 
                         <div className="ai-stack-card__body">
                             <div className="ai-stack-card__icon bg-gradient-to-br from-gm-navy to-gm-blue">
-                                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                                <CardIcon card={cards[3]}>
                                     <path d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z" />
-                                </svg>
+                                </CardIcon>
                             </div>
 
                             <h3 className="ai-stack-card__title">
@@ -275,9 +293,9 @@ export default function AiStack() {
 
                         <div className="ai-stack-card__body">
                             <div className="ai-stack-card__icon bg-gradient-to-br from-gm-teal to-gm-blue">
-                                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                                <CardIcon card={cards[4]}>
                                     <path d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
-                                </svg>
+                                </CardIcon>
                             </div>
 
                             <h3 className="ai-stack-card__title">
@@ -298,9 +316,9 @@ export default function AiStack() {
 
                         <div className="ai-stack-card__body">
                             <div className="ai-stack-card__icon bg-gradient-to-br from-gm-deep to-gm-navy">
-                                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                                <CardIcon card={cards[5]}>
                                     <path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                                </svg>
+                                </CardIcon>
                             </div>
 
                             <h3 className="ai-stack-card__title">

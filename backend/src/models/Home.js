@@ -312,6 +312,7 @@ const homeSchema = new mongoose.Schema(
                         num: { type: String, default: "" },
                         title: { type: String, default: "" },
                         description: { type: String, default: "" },
+                        image: { type: String, default: "" },
                     },
                 ],
                 default: [
@@ -319,11 +320,13 @@ const homeSchema = new mongoose.Schema(
                         num: "01",
                         title: "Predictive Analytics",
                         description: "Surface patterns in your data before they become problems — or opportunities — for your competitors. We build models that turn raw signals into actionable forecasts.",
+                        image: "/images/predictive-analytics.jpg",
                     },
                     {
                         num: "02",
                         title: "Primary Research",
                         description: "Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves — then structure it for AI-ready decision-making.",
+                        image: "/images/primary-research.jpg",
                     },
                     {
                         num: "03",
@@ -352,6 +355,7 @@ const homeSchema = new mongoose.Schema(
                 default: "See All AI Solutions",
             },
             buttonUrl: {
+                tags: { type: [String], default: [] },
                 type: String,
                 default: "/ai-solutions",
             },
