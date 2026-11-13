@@ -1,4 +1,4 @@
-
+﻿
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
@@ -17,7 +17,7 @@ const DEFAULT_PRODUCTS = {
             num: 'Product 001',
             nameLine1: 'Webcraft',
             nameLine2: 'HRMS.',
-            summary: 'Complete HR management — attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.',
+            summary: 'Complete HR management - attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.',
             meta: [
                 { label: 'Category', value: 'Enterprise HR' },
                 { label: 'Users', value: '500+ companies' },
@@ -43,7 +43,7 @@ const DEFAULT_PRODUCTS = {
             num: 'Product 003',
             nameLine1: 'WCSchool',
             nameLine2: 'ERP.',
-            summary: 'School management platform — fees, schedules, exams, parent monitoring, and seamless communication between schools, parents, and students. One dashboard for the entire institution.',
+            summary: 'School management platform - fees, schedules, exams, parent monitoring, and seamless communication between schools, parents, and students. One dashboard for the entire institution.',
             meta: [
                 { label: 'Category', value: 'School Mgmt' },
                 { label: 'Modules', value: '12+ integrated' },

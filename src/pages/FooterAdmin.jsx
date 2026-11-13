@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
  
 const API_URL = "http://localhost:5000/api/footer";
@@ -32,8 +32,8 @@ const FONT_MONO = "'JetBrains Mono', ui-monospace, 'Courier New', monospace";
  
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
-    h1: "45px",       // page title   — "Footer CMS"
-    h2: "30px",       // section title — "Footer Content"
+    h1: "45px",       // page title   - "Footer CMS"
+    h2: "30px",       // section title - "Footer Content"
     subtitle: "18px", // intro line under the title
     label: "16px",    // field labels
     body: "16px",     // inputs, buttons, messages

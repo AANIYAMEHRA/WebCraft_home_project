@@ -1,5 +1,5 @@
-/* ============================================================
-   WEBCRAFT — Global Stylesheet
+﻿/* ============================================================
+   WEBCRAFT - Global Stylesheet
    Design System: Globeminded (sister company)
    Colors: Deep #0B2447 | Navy #19376D | Blue #1A6FA0
            Teal #2A9D8F | Green #40B87D | Mint #6EDAA0
@@ -683,7 +683,7 @@ nav a.nav-link[aria-current="page"]::after {
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* per-card gradient variants — all on-brand mint/teal/blue */
+/* per-card gradient variants - all on-brand mint/teal/blue */
 .cap-visual--ai {
     --cap-grad-from: #2A9D8F;
     --cap-grad-to: #40B87D;
@@ -1024,7 +1024,7 @@ nav a.nav-link[aria-current="page"]::after {
     line-height: 1.65;
 }
 
-/* --- OUR APPROACH — Pinned 3-step (light) --- */
+/* --- OUR APPROACH - Pinned 3-step (light) --- */
 .appr-outer {
     position: relative;
 }
@@ -1329,7 +1329,7 @@ nav a.nav-link[aria-current="page"]::after {
     max-width: 520px;
 }
 
-/* Cards with image — side-by-side layout */
+/* Cards with image - side-by-side layout */
 .ai-stack-card__row {
     display: flex;
     align-items: center;
@@ -1640,7 +1640,7 @@ nav a.nav-link[aria-current="page"]::after {
     }
 }
 
-/* --- DELIVERY PHILOSOPHY — Pinned 4-step (About, light) --- */
+/* --- DELIVERY PHILOSOPHY - Pinned 4-step (About, light) --- */
 .phil-outer {
     position: relative;
 }
@@ -1868,7 +1868,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* ============================================================
-   RESEARCH PAGE — Four Practices, Method, Deliverables, DataViz, Engage, CTA
+   RESEARCH PAGE - Four Practices, Method, Deliverables, DataViz, Engage, CTA
    All light-theme adaptations from reference page
    ============================================================ */
 
@@ -2180,7 +2180,7 @@ nav a.nav-link[aria-current="page"]::after {
     text-anchor: middle;
 }
 
-/* --- METHOD — Pinned 5-step (light) --- */
+/* --- METHOD - Pinned 5-step (light) --- */
 .method-outer {
     position: relative;
     background: #F0F9F5;
@@ -2404,7 +2404,7 @@ nav a.nav-link[aria-current="page"]::after {
     }
 }
 
-/* --- DELIVERABLES — Sticky Stacking (light) --- */
+/* --- DELIVERABLES - Sticky Stacking (light) --- */
 .deliverables {
     padding: 7rem 0 0;
     border-top: 1px solid rgba(42, 157, 143, 0.08);
@@ -2547,7 +2547,7 @@ nav a.nav-link[aria-current="page"]::after {
     }
 }
 
-/* --- DATA VIZ — Racing Bars (light) --- */
+/* --- DATA VIZ - Racing Bars (light) --- */
 .dataviz {
     padding: 7rem 0;
     border-top: 1px solid rgba(42, 157, 143, 0.08);
@@ -2702,7 +2702,7 @@ nav a.nav-link[aria-current="page"]::after {
     gap: 1rem;
 }
 
-/* --- WHEN TO ENGAGE — YES/NO columns (light) --- */
+/* --- WHEN TO ENGAGE - YES/NO columns (light) --- */
 .engage {
     padding: 7rem 0;
     border-top: 1px solid rgba(42, 157, 143, 0.08);
@@ -2861,7 +2861,7 @@ nav a.nav-link[aria-current="page"]::after {
     color: #64748B;
 }
 
-/* --- RESEARCH CTA — Magnetic Button (light) --- */
+/* --- RESEARCH CTA - Magnetic Button (light) --- */
 .research-cta,
 .page-cta {
     padding: 10rem 0;
@@ -3064,7 +3064,7 @@ nav a.nav-link[aria-current="page"]::after {
     }
 }
 
-/* --- OUR AI PHILOSOPHY — Pinned 4-step (AI Solutions, light green) --- */
+/* --- OUR AI PHILOSOPHY - Pinned 4-step (AI Solutions, light green) --- */
 .ai-phil-outer {
     position: relative;
     background: #E8F5F0;
@@ -3623,7 +3623,7 @@ nav a.nav-link[aria-current="page"]::after {
     max-width: 520px;
 }
 
-/* Last card — teal gradient with white text */
+/* Last card - teal gradient with white text */
 
 @media (max-width: 768px) {
     .way-card-light {
@@ -3916,7 +3916,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   PRODUCTS PAGE — section watermarks + feature cards
+   PRODUCTS PAGE - section watermarks + feature cards
    ========================================================= */
 .prod-section {
     position: relative;
@@ -4019,7 +4019,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   SITE FOOTER — modern editorial layout
+   SITE FOOTER - modern editorial layout
    ========================================================= */
 .site-footer {
     position: relative;
@@ -4393,7 +4393,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   SERVICES PAGE — SIX CAPABILITIES (sticky index + list)
+   SERVICES PAGE - SIX CAPABILITIES (sticky index + list)
    ========================================================= */
 .caps-section {
     position: relative;
@@ -4621,7 +4621,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   SERVICES — TECH STACK MARQUEE (light theme)
+   SERVICES - TECH STACK MARQUEE (light theme)
    ========================================================= */
 .techmq {
     background: #F0F9F5;
@@ -4720,7 +4720,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   SERVICES — ENGAGEMENT MODELS
+   SERVICES - ENGAGEMENT MODELS
    ========================================================= */
 .models {
     background: #ffffff;
@@ -4863,7 +4863,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   SERVICES — HORIZONTAL CASE STRIP
+   SERVICES - HORIZONTAL CASE STRIP
    ========================================================= */
 .cases {
     background: #F0F9F5;
@@ -5026,7 +5026,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   SERVICES — FAQ ACCORDION
+   SERVICES - FAQ ACCORDION
    ========================================================= */
 .svc-faq {
     background: #ffffff;
@@ -5143,7 +5143,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   SERVICES — NEXT STEP CTA (magnetic button)
+   SERVICES - NEXT STEP CTA (magnetic button)
    ========================================================= */
 .nextstep {
     background: linear-gradient(180deg, #F0F9F5 0%, #E8F5F0 100%);
@@ -5260,7 +5260,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   CONTACT — WHAT HAPPENS NEXT (3-step cascade, light theme)
+   CONTACT - WHAT HAPPENS NEXT (3-step cascade, light theme)
    ========================================================= */
 .ct-process {
     background: linear-gradient(180deg, #F0F9F5 0%, #ffffff 100%);
@@ -5432,7 +5432,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   CONTACT — Magnetic submit button
+   CONTACT - Magnetic submit button
    ========================================================= */
 .submit-magnet {
     display: inline-block;
@@ -5485,7 +5485,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   CONTACT — Form heading ("Tell us what's on your mind.")
+   CONTACT - Form heading ("Tell us what's on your mind.")
    ========================================================= */
 .form-heading {
     font-family: "Fraunces", Georgia, serif;
@@ -5509,7 +5509,7 @@ nav a.nav-link[aria-current="page"]::after {
 }
 
 /* =========================================================
-   CONTACT — "Or reach us directly" method cards (light theme)
+   CONTACT - "Or reach us directly" method cards (light theme)
    ========================================================= */
 .cmethods {
     display: flex;

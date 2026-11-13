@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 import { engage } from '../../pages/researchData.js';
 import { gsap, ScrollTrigger } from './gsap.js';
 
@@ -58,7 +58,7 @@ export default function Engage() {
 
         <div className="engage__grid">
           <Column variant="yes" column={engage.yes} marker="✓" icon="→" />
-          <Column variant="no" column={engage.no} marker="✕" icon="—" />
+          <Column variant="no" column={engage.no} marker="✕" icon="-" />
         </div>
       </div>
     </section>

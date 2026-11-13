@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { notify } from "../components/adminToast";
 import ConfirmDialog from "../components/ConfirmDialog";
  
@@ -21,8 +21,8 @@ const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sa
  
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
-    h1: "45px",       // page title   — "Header CMS"
-    h2: "30px",       // section title — "Logo Settings", "Navigation Links"
+    h1: "45px",       // page title   - "Header CMS"
+    h2: "30px",       // section title - "Logo Settings", "Navigation Links"
     subtitle: "18px", // intro line under the title
     label: "16px",    // field labels
     body: "16px",     // inputs, nav links, buttons

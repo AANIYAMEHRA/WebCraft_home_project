@@ -29,6 +29,7 @@ const NAV_ITEMS = [
 const HOME_SECTIONS = [
     { id: "hero", label: "Hero Content" },
     { id: "statistics", label: "Hero Statistics" },
+    { id: "belief", label: "Our Belief" },
     { id: "what-we-do", label: "What We Do" },
     { id: "why-webcraft", label: "Why Webcraft" },
     { id: "approach", label: "Our Approach" },

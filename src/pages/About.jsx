@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -15,7 +15,7 @@ const DEFAULT_SECTION_CONTENT = {
     heroHeading1: "The Company",
     heroHeading2: "Behind the Work",
     heroDescription:
-        "Founded in 2006, Webcraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner — serving 3000+ clients with a team of 230+ professionals.",
+        "Founded in 2006, Webcraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner - serving 3000+ clients with a team of 230+ professionals.",
     storyLabel: "Our Story",
     waysLabel: "What We Help You Do",
     waysHeading: "Six Ways We Create Value",
@@ -24,7 +24,7 @@ const DEFAULT_SECTION_CONTENT = {
     philosophyLabel: "How We Work",
     philosophyHeading: "Our Delivery Philosophy",
     philosophyDescription:
-        "Every engagement follows a rhythm we've refined across two decades — four stages that carry a project from first conversation to long-term stewardship.",
+        "Every engagement follows a rhythm we've refined across two decades - four stages that carry a project from first conversation to long-term stewardship.",
     statsLabel: "By the Numbers",
     statsHeading: "Two decades, counted carefully.",
     careersLabel: "Careers",
@@ -35,7 +35,7 @@ const DEFAULT_SECTION_CONTENT = {
     ctaLabel: "Let's Work Together",
     ctaHeading: "Let's work together.",
     ctaDescription:
-        "Whether you're exploring a new product direction or modernizing an existing system — we'd like to hear about it.",
+        "Whether you're exploring a new product direction or modernizing an existing system - we'd like to hear about it.",
     ctaButton: "Start a Conversation →",
 };
 
@@ -156,7 +156,7 @@ export default function About() {
     // <title>
     useEffect(() => {
         const prev = document.title;
-        document.title = "About Us — Webcraft | Research-Led, AI-Enabled Digital Transformation";
+        document.title = "About Us - Webcraft | Research-Led, AI-Enabled Digital Transformation";
         return () => { document.title = prev; };
     }, []);
 
