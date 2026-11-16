@@ -293,16 +293,18 @@ export default function Products() {
                                     </div>
                                 )}
 
-                                {product.buttonText && (
-                                    <Link
-                                        to={product.buttonUrl?.trim() ? product.buttonUrl : "#"}
+                                {product.buttonText && product.buttonUrl && (
+                                    <a
+                                        href={product.buttonUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         className="block w-fit group inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-gm-teal to-gm-green text-white font-semibold rounded-full hover:shadow-lg transition-all"
                                     >
                                         {product.buttonText}
                                         <span className="transition-transform group-hover:translate-x-1">
                                             →
                                         </span>
-                                    </Link>
+                                    </a>
                                 )}
                             </div>
 
