@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useReveal from "../hooks/useReveal";
 
@@ -32,6 +32,58 @@ const values = [
 
 export default function Careers() {
     useReveal();
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formMessage, setFormMessage] = useState("");
+    const [messageType, setMessageType] = useState("");
+
+    const handleApplicationSubmit = async (event) => {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+        const resume = formData.get("resume");
+
+        if (!resume || !resume.name) {
+            setMessageType("error");
+            setFormMessage("Please upload your resume.");
+            return;
+        }
+
+        if (resume.size > 5 * 1024 * 1024) {
+            setMessageType("error");
+            setFormMessage("Resume size must be 5 MB or less.");
+            return;
+        }
+
+        setIsSubmitting(true);
+        setFormMessage("");
+
+        try {
+            const response = await fetch(
+                "http://localhost:5000/api/careers/apply",
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || "Application submission failed.");
+            }
+
+            setMessageType("success");
+            setFormMessage(result.message);
+            form.reset();
+        } catch (error) {
+            setMessageType("error");
+            setFormMessage(error.message || "Something went wrong.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     useEffect(() => {
         const previousTitle = document.title;
@@ -245,6 +297,7 @@ export default function Careers() {
                 </div>
             </section>
 
+
             {/* GENERAL APPLICATION CTA */}
             <section className="relative py-20 lg:py-28 overflow-hidden bg-gm-deep">
                 <div className="absolute inset-0 opacity-20">
@@ -264,16 +317,91 @@ export default function Careers() {
                     </h2>
 
                     <p className="reveal text-white/70 text-lg leading-relaxed max-w-2xl mx-auto mt-7">
-                        Interested in working with Webcraft? Reach out to our
-                        team and introduce yourself.
+                        Interested in working with Webcraft? Share your details
+                        and resume with our HR team.
                     </p>
 
-                    <a
-                        href="mailto:hr@webcraftit.com?subject=Career%20Enquiry"
-                        className="reveal inline-flex items-center gap-3 mt-10 bg-gradient-to-r from-gm-teal to-gm-green text-white px-8 py-4 rounded-full font-bold text-sm hover:shadow-xl hover:shadow-gm-teal/30 transition-all duration-300"
+                    <form
+                        id="apply"
+                        onSubmit={handleApplicationSubmit}
+                        className="reveal mt-12 max-w-2xl mx-auto text-left bg-white rounded-3xl p-6 md:p-10 shadow-2xl"
                     >
-                        Connect with HR <span>↗</span>
-                    </a>
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-semibold text-gm-deep mb-2">
+                                    Full Name *
+                                </label>
+                                <input
+                                    type="text"
+                                    name="fullName"
+                                    required
+                                    placeholder="Enter your full name"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gm-deep focus:outline-none focus:ring-2 focus:ring-gm-teal"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-gm-deep mb-2">
+                                    Email Address *
+                                </label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    required
+                                    placeholder="Enter your email"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gm-deep focus:outline-none focus:ring-2 focus:ring-gm-teal"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <label className="block text-sm font-semibold text-gm-deep mb-2">
+                                Phone Number
+                            </label>
+                            <input
+                                type="tel"
+                                name="phone"
+                                placeholder="Enter your phone number (optional)"
+                                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gm-deep focus:outline-none focus:ring-2 focus:ring-gm-teal"
+                            />
+                        </div>
+
+                        <div className="mt-6">
+                            <label className="block text-sm font-semibold text-gm-deep mb-2">
+                                Upload Resume *
+                            </label>
+                            <input
+                                type="file"
+                                name="resume"
+                                required
+                                accept=".pdf,.doc,.docx"
+                                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gm-deep text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-gm-teal file:text-white file:font-semibold"
+                            />
+                            <p className="text-xs text-gray-500 mt-2">
+                                Accepted formats: PDF, DOC, DOCX. Maximum size: 5 MB.
+                            </p>
+                        </div>
+
+                        {formMessage && (
+                            <p
+                                role="status"
+                                className={`mt-5 text-sm font-medium ${messageType === "success"
+                                        ? "text-green-600"
+                                        : "text-red-600"
+                                    }`}
+                            >
+                                {formMessage}
+                            </p>
+                        )}
+
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full mt-8 bg-gradient-to-r from-gm-teal to-gm-green text-white px-8 py-4 rounded-full font-bold text-sm hover:shadow-xl hover:shadow-gm-teal/30 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                            {isSubmitting ? "Submitting..." : "Submit Application"}
+                        </button>
+                    </form>
                 </div>
             </section>
 
