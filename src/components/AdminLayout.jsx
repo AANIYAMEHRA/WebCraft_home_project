@@ -11,6 +11,8 @@ const AI_SOLUTIONS_PATH = "/admin/ai-solutions";
 const RESEARCH_PATH = "/admin/research";
 const PRODUCTS_PATH = "/admin/products";
 const SERVICES_PATH = "/admin/services";
+const CAREERS_PATH = "/admin/careers";
+const CONTACT_PATH = "/admin/contact";
 
 const NAV_ITEMS = [
     { to: "/admin", label: "Dashboard", end: true },
@@ -21,6 +23,8 @@ const NAV_ITEMS = [
     { to: RESEARCH_PATH, label: "Research Page CMS", dropdown: true },
     { to: PRODUCTS_PATH, label: "Products Page CMS", dropdown: true },
     { to: SERVICES_PATH, label: "Services Page CMS", dropdown: true },
+    { to: CAREERS_PATH, label: "Careers Page CMS", dropdown: true },
+    { to: CONTACT_PATH, label: "Contact Page CMS", dropdown: true },
     { to: "/admin/footer", label: "Footer CMS" },
 ];
 
@@ -90,6 +94,25 @@ const SERVICES_SECTIONS = [
     { id: "cta", label: "Next Step (CTA)" },
 ];
 
+// Sections of the Careers page. The ids must match the CollapsibleSection ids in CareersAdmin.jsx.
+const CAREERS_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "statistics", label: "Hero Statistics" },
+    { id: "why-webcraft", label: "Why Webcraft" },
+    { id: "values", label: "Our Values" },
+    { id: "open-positions", label: "Open Positions" },
+    { id: "jobs", label: "Job Openings" },
+    { id: "cta", label: "CTA Section" },
+];
+
+// Sections of the Contact page. The ids must match the CollapsibleSection ids in ContactAdmin.jsx.
+const CONTACT_SECTIONS = [
+    { id: "hero", label: "Hero Content" },
+    { id: "form", label: "Contact Form" },
+    { id: "methods", label: "Contact Methods" },
+    { id: "process", label: "What Happens Next" },
+];
+
 // Section dropdown under each page that has one.
 const SECTION_MENUS = {
     [HOME_PATH]: HOME_SECTIONS,
@@ -98,6 +121,8 @@ const SECTION_MENUS = {
     [RESEARCH_PATH]: RESEARCH_SECTIONS,
     [PRODUCTS_PATH]: PRODUCTS_SECTIONS,
     [SERVICES_PATH]: SERVICES_SECTIONS,
+    [CAREERS_PATH]: CAREERS_SECTIONS,
+    [CONTACT_PATH]: CONTACT_SECTIONS,
 };
 
 const itemClass =
@@ -273,7 +298,7 @@ export default function AdminLayout() {
                                 </NavLink>
 
                                 {/* Page sections, shown only while the dropdown is open */}
-                                {isOpen && location.pathname.startsWith(item.to) && (
+                                {isOpen && sections && location.pathname.startsWith(item.to) && (
                                     <div className="mb-2 mt-1 flex flex-col">
                                         {sections.map((section) => {
                                             const isActive =

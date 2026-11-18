@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
+import ConfirmDialog from "../components/ConfirmDialog";
 import {
   INPUT_GRID,
   PageTitle,
@@ -40,6 +41,13 @@ const TONE_OPTIONS = [
   { value: "green", label: "Green", swatch: "bg-gm-green" },
 ];
 
+// Friendly labels for the three parts of a heading.
+const HEADING_PART_LABELS = {
+  before: "Heading (before highlight)",
+  accent: "Highlighted word",
+  after: "Heading (after highlight)",
+};
+
 // Default icons shown in the upload box when a chip has no uploaded icon (same as the public page).
 // Order matches the chip positions: user, market, report, insight.
 const DEFAULT_CHIP_ICONS = [
@@ -71,7 +79,8 @@ function setIn(obj, path, value) {
 }
 
 // Visual uploader for practice panels: drag-and-drop or click, live preview, and a clear status.
-function ImageUpload({ value, onChange }) {
+// Remove does not clear the image directly; it asks the parent to confirm first.
+function ImageUpload({ value, onChange, onRequestRemove }) {
   const [error, setError] = useState("");
   const [dragging, setDragging] = useState(false);
   const [fileName, setFileName] = useState("");
@@ -148,10 +157,12 @@ function ImageUpload({ value, onChange }) {
                 </label>
                 <button
                   type="button"
-                  onClick={() => {
-                    setFileName("");
-                    onChange("");
-                  }}
+                  onClick={() =>
+                    onRequestRemove(() => {
+                      setFileName("");
+                      onChange("");
+                    })
+                  }
                   className="rounded-full border px-4 py-2 text-xs font-semibold"
                 >
                   Remove
@@ -185,6 +196,10 @@ export default function ResearchAdmin() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  // Pending delete confirmation: { title, message, action }
+  // action is a closure created at click time, so it always removes the right item.
+  const [pendingRemove, setPendingRemove] = useState(null);
+
   useEffect(() => {
     let active = true;
 
@@ -209,6 +224,31 @@ export default function ResearchAdmin() {
       active = false;
     };
   }, []);
+
+  function askRemove(title, message, action) {
+    setPendingRemove({ title, message, action });
+  }
+
+  // Shared confirmation text for list items (chips, bars, quotes, stages, etc.).
+  function confirmItemRemove(itemName, action) {
+    askRemove(
+      "Remove item?",
+      `${itemName} will be removed from this section. Click "Save Changes" to apply this update to the live site.`,
+      action
+    );
+  }
+
+  function confirmRemove() {
+    if (!pendingRemove) return;
+
+    const { action } = pendingRemove;
+    setPendingRemove(null);
+    action();
+  }
+
+  function cancelRemove() {
+    setPendingRemove(null);
+  }
 
   // Binds a text field to a path, e.g. bind(["hero", "tag"]).
   const bind = (path) => ({
@@ -250,13 +290,13 @@ export default function ResearchAdmin() {
       )
     );
 
-  // Three-part heading (before / accent / after) as three fields.
+  // Three-part heading (before / accent / after) as separate fields.
   const headingFields = (path, parts = ["before", "accent", "after"]) => (
     <div className={INPUT_GRID}>
       {parts.map((part) => (
         <Field
           key={part}
-          label={`Heading: ${part} accent`}
+          label={HEADING_PART_LABELS[part]}
           {...bind([...path, part])}
         />
       ))}
@@ -322,7 +362,8 @@ export default function ResearchAdmin() {
 
         <form id="admin-form" onSubmit={handleSubmit} className="space-y-10">
           {/* HERO */}
-          <CollapsibleSection id="hero" title="Hero Content">            <Field label="Tag" {...bind(["hero", "tag"])} />
+          <CollapsibleSection id="hero" title="Hero Content">
+            <Field label="Tag" {...bind(["hero", "tag"])} />
 
             <Field label="Headline Line 1" {...bind(["hero", "headline", 0])} />
             <Field label="Headline Line 2" {...bind(["hero", "headline", 1])} />
@@ -340,7 +381,11 @@ export default function ResearchAdmin() {
               <div key={i} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Chip ${i + 1}`}
-                  onRemove={() => removeAt(["hero", "chips"], i)}
+                  onRemove={() =>
+                    confirmItemRemove(`Chip ${i + 1}`, () =>
+                      removeAt(["hero", "chips"], i)
+                    )
+                  }
                 />
 
                 <div className={INPUT_GRID}>
@@ -393,7 +438,8 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* MANIFESTO */}
-          <CollapsibleSection id="manifesto" title="Our Position (Manifesto)">            <Field label="Tag" {...bind(["manifesto", "tag"])} />
+          <CollapsibleSection id="manifesto" title="Our Position (Manifesto)">
+            <Field label="Tag" {...bind(["manifesto", "tag"])} />
 
             <p className="text-sm opacity-70">
               Each item is one text segment. Tick "Highlight" for emphasized text.
@@ -403,7 +449,11 @@ export default function ResearchAdmin() {
               <div key={i} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Segment ${i + 1}`}
-                  onRemove={() => removeAt(["manifesto", "segments"], i)}
+                  onRemove={() =>
+                    confirmItemRemove(`Segment ${i + 1}`, () =>
+                      removeAt(["manifesto", "segments"], i)
+                    )
+                  }
                 />
                 <Field label="Text" multiline {...bind(["manifesto", "segments", i, "text"])} />
                 <label className="flex items-center gap-2 text-sm">
@@ -427,14 +477,16 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* PRACTICES INTRO */}
-          <CollapsibleSection id="practices-intro" title="Four Practices — Intro">            <Field label="Tag" {...bind(["practicesIntro", "tag"])} />
+          <CollapsibleSection id="practices-intro" title="Four Practices — Intro">
+            <Field label="Tag" {...bind(["practicesIntro", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent word is highlighted)</p>
             {headingFields(["practicesIntro", "heading"])}
             <Field label="Body" multiline {...bind(["practicesIntro", "body"])} />
           </CollapsibleSection>
 
           {/* PRACTICES */}
-          <CollapsibleSection id="practices" title="Practices">            {content.practices.map((practice, pi) => (
+          <CollapsibleSection id="practices" title="Practices">
+            {content.practices.map((practice, pi) => (
               <div key={practice.id} className={itemClass} style={itemStyle}>
                 <h3 style={{ ...headingStyle, fontSize: SIZE.h3 }}>
                   {practice.title} Research
@@ -453,6 +505,13 @@ export default function ResearchAdmin() {
                           setIn(prev, ["practices", pi, "image"], value)
                         )
                       }
+                      onRequestRemove={(clearImage) =>
+                        askRemove(
+                          "Remove practice image?",
+                          `The image for the ${practice.title} practice will be removed. Click "Save Changes" to apply this update to the live site.`,
+                          clearImage
+                        )
+                      }
                     />
                   </div>
                 </div>
@@ -466,7 +525,11 @@ export default function ResearchAdmin() {
                   <div key={qi} className={itemClass} style={itemStyle}>
                     <ItemHeader
                       title={`Quote ${qi + 1}`}
-                      onRemove={() => removeAt(["practices", pi, "quotes"], qi)}
+                      onRemove={() =>
+                        confirmItemRemove(`Quote ${qi + 1}`, () =>
+                          removeAt(["practices", pi, "quotes"], qi)
+                        )
+                      }
                     />
                     <Field label="Quote" multiline {...bind(["practices", pi, "quotes", qi, "text"])} />
                     <Field label="Source" {...bind(["practices", pi, "quotes", qi, "source"])} />
@@ -481,7 +544,8 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* METHOD */}
-          <CollapsibleSection id="method" title="The Research Method">            <Field label="Tag" {...bind(["method", "tag"])} />
+          <CollapsibleSection id="method" title="The Research Method">
+            <Field label="Tag" {...bind(["method", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent word is highlighted)</p>
             {headingFields(["method", "heading"])}
             <Field label="Intro" multiline {...bind(["method", "intro"])} />
@@ -490,7 +554,11 @@ export default function ResearchAdmin() {
               <div key={i} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Stage ${i + 1}`}
-                  onRemove={() => removeAt(["method", "stages"], i)}
+                  onRemove={() =>
+                    confirmItemRemove(`Stage ${i + 1}`, () =>
+                      removeAt(["method", "stages"], i)
+                    )
+                  }
                 />
                 <Field label="Title" {...bind(["method", "stages", i, "title"])} />
                 <Field label="Short Description" multiline {...bind(["method", "stages", i, "short"])} />
@@ -504,13 +572,15 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* DELIVERABLES */}
-          <CollapsibleSection id="deliverables-intro" title="Deliverables — Intro">            <Field label="Tag" {...bind(["deliverablesIntro", "tag"])} />
+          <CollapsibleSection id="deliverables-intro" title="Deliverables — Intro">
+            <Field label="Tag" {...bind(["deliverablesIntro", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent words are highlighted)</p>
             {headingFields(["deliverablesIntro", "heading"], ["before", "accent"])}
             <Field label="Body" multiline {...bind(["deliverablesIntro", "body"])} />
           </CollapsibleSection>
 
-          <CollapsibleSection id="deliverables" title="Deliverables">            {content.deliverables.map((item, i) => (
+          <CollapsibleSection id="deliverables" title="Deliverables">
+            {content.deliverables.map((item, i) => (
               <div key={i} className={itemClass} style={itemStyle}>
                 <h3 style={{ ...headingStyle, fontSize: SIZE.h3 }}>
                   {item.number}
@@ -537,7 +607,8 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* CHART */}
-          <CollapsibleSection id="chart" title="From Our Research — Chart">            <Field label="Tag" {...bind(["chart", "tag"])} />
+          <CollapsibleSection id="chart" title="From Our Research — Chart">
+            <Field label="Tag" {...bind(["chart", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent word is highlighted)</p>
             {headingFields(["chart", "heading"])}
             <Field label="Body" multiline {...bind(["chart", "body"])} />
@@ -555,7 +626,11 @@ export default function ResearchAdmin() {
               <div key={i} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Bar ${i + 1}`}
-                  onRemove={() => removeAt(["chart", "rows"], i)}
+                  onRemove={() =>
+                    confirmItemRemove(`Bar ${i + 1}`, () =>
+                      removeAt(["chart", "rows"], i)
+                    )
+                  }
                 />
                 <div className={INPUT_GRID}>
                   <Field label="Label" {...bind(["chart", "rows", i, "label"])} />
@@ -570,7 +645,8 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* ENGAGE */}
-          <CollapsibleSection id="engage" title="Before You Engage">            <Field label="Tag" {...bind(["engage", "tag"])} />
+          <CollapsibleSection id="engage" title="Before You Engage">
+            <Field label="Tag" {...bind(["engage", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent word is highlighted)</p>
             {headingFields(["engage", "heading"])}
 
@@ -580,7 +656,11 @@ export default function ResearchAdmin() {
               <div key={i} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Item ${i + 1}`}
-                  onRemove={() => removeAt(["engage", "yes", "items"], i)}
+                  onRemove={() =>
+                    confirmItemRemove(`Yes item ${i + 1}`, () =>
+                      removeAt(["engage", "yes", "items"], i)
+                    )
+                  }
                 />
                 <Field label="Title" {...bind(["engage", "yes", "items", i, "title"])} />
                 <Field label="Body" multiline {...bind(["engage", "yes", "items", i, "body"])} />
@@ -596,7 +676,11 @@ export default function ResearchAdmin() {
               <div key={i} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Item ${i + 1}`}
-                  onRemove={() => removeAt(["engage", "no", "items"], i)}
+                  onRemove={() =>
+                    confirmItemRemove(`No item ${i + 1}`, () =>
+                      removeAt(["engage", "no", "items"], i)
+                    )
+                  }
                 />
                 <Field label="Title" {...bind(["engage", "no", "items", i, "title"])} />
                 <Field label="Body" multiline {...bind(["engage", "no", "items", i, "body"])} />
@@ -608,7 +692,8 @@ export default function ResearchAdmin() {
           </CollapsibleSection>
 
           {/* CTA */}
-          <CollapsibleSection id="cta" title="Call To Action">            <Field label="Tag" {...bind(["cta", "tag"])} />
+          <CollapsibleSection id="cta" title="Call To Action">
+            <Field label="Tag" {...bind(["cta", "tag"])} />
             <p className="text-sm opacity-70">Heading (accent word is highlighted)</p>
             {headingFields(["cta", "title"], ["before", "accent"])}
             <Field label="Body" multiline {...bind(["cta", "body"])} />
@@ -621,6 +706,17 @@ export default function ResearchAdmin() {
           <SaveBar saving={saving} error={error} message={message} />
         </form>
       </div>
+
+      {pendingRemove && (
+        <ConfirmDialog
+          title={pendingRemove.title}
+          message={pendingRemove.message}
+          confirmText="Delete"
+          cancelText="Cancel"
+          onConfirm={confirmRemove}
+          onCancel={cancelRemove}
+        />
+      )}
     </main>
   );
 }

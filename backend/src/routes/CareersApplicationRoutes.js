@@ -1,4 +1,3 @@
-
 import express from "express";
 import multer from "multer";
 import nodemailer from "nodemailer";
@@ -45,8 +44,16 @@ router.post("/", (req, res) => {
             return res.status(400).json({ message });
         }
 
+        const startedAt = Date.now();
+
         try {
             const { fullName, email, phone } = req.body;
+
+            console.log(
+                new Date().toLocaleTimeString(),
+                "Application received:",
+                fullName?.trim() || "(no name)"
+            );
 
             if (!fullName?.trim() || !email?.trim()) {
                 return res.status(400).json({
@@ -68,16 +75,8 @@ router.post("/", (req, res) => {
                 });
             }
 
-            const requiredEnv = [
-                "SMTP_HOST",
-                "SMTP_PORT",
-                "SMTP_USER",
-                "SMTP_PASS",
-            ];
-
-            const missingEnv = requiredEnv.filter(
-                (key) => !process.env[key]
-            );
+            const requiredEnv = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"];
+            const missingEnv = requiredEnv.filter((key) => !process.env[key]);
 
             if (missingEnv.length > 0) {
                 console.error("Missing SMTP configuration:", missingEnv);
@@ -103,37 +102,58 @@ router.post("/", (req, res) => {
                     user: process.env.SMTP_USER,
                     pass: process.env.SMTP_PASS,
                 },
+                connectionTimeout: 15000,
+                greetingTimeout: 15000,
+                socketTimeout: 20000,
             });
 
             const recipient = process.env.CAREERS_EMAIL || "hr@webcraftit.com";
             const sender = process.env.SMTP_FROM || process.env.SMTP_USER;
 
-            await transporter.sendMail({
-                from: sender,
-                to: recipient,
-                replyTo: email.trim(),
-                subject: `New Career Application - ${fullName.trim()}`,
-                text: [
-                    "New career application received.",
-                    "",
-                    `Name: ${fullName.trim()}`,
-                    `Email: ${email.trim()}`,
-                    `Phone: ${phone?.trim() || "Not provided"}`,
-                ].join("\n"),
-                attachments: [
-                    {
-                        filename: req.file.originalname,
-                        content: req.file.buffer,
-                        contentType: req.file.mimetype,
-                    },
-                ],
-            });
-
-            return res.status(200).json({
+            // Respond first so the user gets instant feedback
+            res.status(200).json({
                 message: "Your application has been submitted successfully.",
             });
+
+            // Send the email in the background (not awaited)
+            transporter
+                .sendMail({
+                    from: sender,
+                    to: recipient,
+                    replyTo: email.trim(),
+                    subject: `New Career Application - ${fullName.trim()}`,
+                    text: [
+                        "New career application received.",
+                        "",
+                        `Name: ${fullName.trim()}`,
+                        `Email: ${email.trim()}`,
+                        `Phone: ${phone?.trim() || "Not provided"}`,
+                    ].join("\n"),
+                    attachments: [
+                        {
+                            filename: req.file.originalname,
+                            content: req.file.buffer,
+                            contentType: req.file.mimetype,
+                        },
+                    ],
+                })
+                .then(() =>
+                    console.log(
+                        new Date().toLocaleTimeString(),
+                        `Career email sent to ${recipient} in ${Date.now() - startedAt} ms:`,
+                        fullName.trim()
+                    )
+                )
+                .catch((err) =>
+                    console.error("Career email failed:", err.message)
+                );
+
+            return;
         } catch (error) {
-            console.error("Career application email failed:", error.message);
+            console.error("Career application failed:", error.message);
+
+            // Don't send a second response if one was already sent
+            if (res.headersSent) return;
 
             return res.status(500).json({
                 message: "Unable to submit your application right now. Please try again later.",
