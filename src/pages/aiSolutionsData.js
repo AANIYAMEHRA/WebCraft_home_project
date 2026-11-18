@@ -1,4 +1,4 @@
-// All text content of the AI Solutions page lives here, so it is easy to edit
+﻿// All text content of the AI Solutions page lives here, so it is easy to edit
 // (and later easy to replace with data coming from the CMS / API).
 
 export const heroBadges = [
@@ -23,16 +23,16 @@ export const heroBadges = [
 export const manifesto = [
     { text: "The question isn't " },
     { text: 'what can AI do', em: true },
-    { text: ' — the interesting question is ' },
+    { text: ' - the interesting question is ' },
     { text: 'where does it actually help.', em: true },
-    { text: ' We build AI that moves business metrics, not demos that win conference slides. That means starting with the problem, evaluating ruthlessly, and shipping only when the cost-to-value math works — which is more often than the industry admits, and less often than the industry claims.' },
+    { text: ' We build AI that moves business metrics, not demos that win conference slides. That means starting with the problem, evaluating ruthlessly, and shipping only when the cost-to-value math works - which is more often than the industry admits, and less often than the industry claims.' },
 ]
 
 export const panels = [
     {
         num: "01",
         title: "Generative AI & LLM Integration",
-        body: "Harness the power of large language models to transform how your business creates content, processes information, and serves customers at scale. We design and deploy custom generative AI solutions built on GPT-4, Claude, Gemini, and open-source LLMs, augmented with your proprietary data through Retrieval-Augmented Generation pipelines. Our implementations include AI writing assistants, intelligent document analysis platforms, product description engines, customer-facing knowledge bases, and internal copilots for finance, HR, and operations teams. Every deployment is hardened for enterprise use — with robust data governance, granular access controls, hallucination mitigation strategies, and token cost management — so your generative AI solution performs reliably in production, not just impressively in a demo.",
+        body: "Harness the power of large language models to transform how your business creates content, processes information, and serves customers at scale. We design and deploy custom generative AI solutions built on GPT-4, Claude, Gemini, and open-source LLMs, augmented with your proprietary data through Retrieval-Augmented Generation pipelines. Our implementations include AI writing assistants, intelligent document analysis platforms, product description engines, customer-facing knowledge bases, and internal copilots for finance, HR, and operations teams. Every deployment is hardened for enterprise use - with robust data governance, granular access controls, hallucination mitigation strategies, and token cost management - so your generative AI solution performs reliably in production, not just impressively in a demo.",
         numColor: "text-gm-teal",
         linkColor: "text-gm-teal",
         image: "/images/generative-ai.webp",
@@ -43,7 +43,7 @@ export const panels = [
     {
         num: "02",
         title: "ML Predictive Analytics",
-        body: "Turn historical business data into forward-looking intelligence that drives smarter operational and strategic decisions. Our machine learning engineers build production-grade models for demand forecasting, customer churn prediction, revenue attribution, supply chain optimisation, and risk scoring — each selected for business impact, not technical novelty. We begin every engagement by identifying your highest-value prediction problems, then choose the right model architecture: gradient boosting, time-series forecasting, or deep learning networks. All models ship with explainability layers using SHAP and LIME, so your leadership team understands not just what is predicted, but why. Seamless integration with your existing BI dashboards, CRM, and ERP systems ensures insights translate into action from day one.",
+        body: "Turn historical business data into forward-looking intelligence that drives smarter operational and strategic decisions. Our machine learning engineers build production-grade models for demand forecasting, customer churn prediction, revenue attribution, supply chain optimisation, and risk scoring - each selected for business impact, not technical novelty. We begin every engagement by identifying your highest-value prediction problems, then choose the right model architecture: gradient boosting, time-series forecasting, or deep learning networks. All models ship with explainability layers using SHAP and LIME, so your leadership team understands not just what is predicted, but why. Seamless integration with your existing BI dashboards, CRM, and ERP systems ensures insights translate into action from day one.",
         numColor: "text-gm-blue",
         linkColor: "text-gm-blue",
         image: "/images/ml-predictive.webp",
@@ -54,7 +54,7 @@ export const panels = [
     {
         num: "03",
         title: "Intelligent Automation & RPA",
-        body: "Free your teams from repetitive, rule-based work with intelligent automation that combines robotic process automation with AI-driven decision intelligence. Unlike traditional bots that follow rigid scripts, our AI-enhanced automation adapts to exceptions, learns from edge cases, and escalates to humans only when genuine judgement is required. We design end-to-end workflows for invoice processing, HR onboarding, compliance monitoring, customer onboarding, and procurement approvals — typically reducing processing time by 60–80% and error rates to near zero. Our automation stack integrates directly with SAP, Salesforce, ServiceNow, and custom ERP environments. Every automation is monitored, version-controlled, and fully auditable, ensuring long-term reliability as your processes evolve.",
+        body: "Free your teams from repetitive, rule-based work with intelligent automation that combines robotic process automation with AI-driven decision intelligence. Unlike traditional bots that follow rigid scripts, our AI-enhanced automation adapts to exceptions, learns from edge cases, and escalates to humans only when genuine judgement is required. We design end-to-end workflows for invoice processing, HR onboarding, compliance monitoring, customer onboarding, and procurement approvals - typically reducing processing time by 60-80% and error rates to near zero. Our automation stack integrates directly with SAP, Salesforce, ServiceNow, and custom ERP environments. Every automation is monitored, version-controlled, and fully auditable, ensuring long-term reliability as your processes evolve.",
         numColor: "text-gm-green",
         linkColor: "text-gm-green",
         image: "/images/intelligent-automation.webp",
@@ -65,7 +65,7 @@ export const panels = [
     {
         num: "04",
         title: "AI-Driven Data & Analytics",
-        body: "We build the complete analytics stack — from cloud ingestion pipelines and warehouses on BigQuery, Snowflake, and Databricks through dbt transformation layers to executive dashboards in Looker and Power BI. Our AI layer adds forecasting, anomaly alerting, and natural language querying so every team can access reliable, context-aware insight without writing SQL. We build data governance, lineage tracking, and role-based access directly into the foundation — ensuring the insights leadership acts on are accurate, timely, and trustworthy. From raw event streams to board-ready narratives, we turn data from a cost centre into a decision-making asset.",
+        body: "We build the complete analytics stack - from cloud ingestion pipelines and warehouses on BigQuery, Snowflake, and Databricks through dbt transformation layers to executive dashboards in Looker and Power BI. Our AI layer adds forecasting, anomaly alerting, and natural language querying so every team can access reliable, context-aware insight without writing SQL. We build data governance, lineage tracking, and role-based access directly into the foundation - ensuring the insights leadership acts on are accurate, timely, and trustworthy. From raw event streams to board-ready narratives, we turn data from a cost centre into a decision-making asset.",
         numColor: "text-gm-navy",
         linkColor: "text-gm-navy",
         image: "/images/data-analytics.webp",
@@ -76,7 +76,7 @@ export const panels = [
     {
         num: "05",
         title: "Conversational AI & Chatbots",
-        body: "Deploy LLM-backed virtual agents that handle nuanced, multi-turn conversations with dynamic context memory and intelligent human handoff. We build customer support bots, sales qualification agents, and internal helpdesks across web, mobile, and WhatsApp channels — each grounded in your knowledge base, not the open internet. Our agents follow strict guardrails, respect your brand voice, and escalate gracefully when judgement is required. Clients typically achieve 40–60% ticket deflection and measurably higher satisfaction scores within 90 days of go-live, with full conversation analytics feeding back into continuous improvement.",
+        body: "Deploy LLM-backed virtual agents that handle nuanced, multi-turn conversations with dynamic context memory and intelligent human handoff. We build customer support bots, sales qualification agents, and internal helpdesks across web, mobile, and WhatsApp channels - each grounded in your knowledge base, not the open internet. Our agents follow strict guardrails, respect your brand voice, and escalate gracefully when judgement is required. Clients typically achieve 40-60% ticket deflection and measurably higher satisfaction scores within 90 days of go-live, with full conversation analytics feeding back into continuous improvement.",
         numColor: "text-gm-blue",
         linkColor: "text-gm-blue",
         image: "/images/ai-chatbots.webp",
@@ -111,18 +111,18 @@ export const orbitRings = [
 export const philSteps = [
     {
         title: 'Evaluate', body: 'Before build: baseline, benchmarks, failure modes, and an honest cost-to-value estimate.',
-        desc: 'Stage one — before build: baseline benchmarks, failure-mode analysis, honest cost-to-value estimates. Most ideas die here, which is exactly the point.'
+        desc: 'Stage one - before build: baseline benchmarks, failure-mode analysis, honest cost-to-value estimates. Most ideas die here, which is exactly the point.'
     },
     {
         title: 'Guardrail', body: "Constraints, validators, hand-off rules. The system knows when it doesn't know.",
-        desc: "Stage two — we add constraints. Validators, output schemas, confidence thresholds, hand-off rules. The system must know when it doesn't know."
+        desc: "Stage two - we add constraints. Validators, output schemas, confidence thresholds, hand-off rules. The system must know when it doesn't know."
     },
     {
         title: 'Deploy', body: 'Shadow mode first, then canary, then rollout. Never a big-bang launch.',
-        desc: 'Stage three — shadow mode first, then canary, then progressive rollout. Never a big-bang launch. Roll-back must be one command away.'
+        desc: 'Stage three - shadow mode first, then canary, then progressive rollout. Never a big-bang launch. Roll-back must be one command away.'
     },
     {
         title: 'Monitor', body: 'Drift detection, quality metrics, retraining cadence. Models decay; ours are watched.',
-        desc: 'Stage four — models decay, data drifts, users adapt. We monitor quality metrics in production and retrain on a cadence that matches your signal.'
+        desc: 'Stage four - models decay, data drifts, users adapt. We monitor quality metrics in production and retrain on a cadence that matches your signal.'
     },
 ]

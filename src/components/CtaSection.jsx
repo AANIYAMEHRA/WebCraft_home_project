@@ -1,4 +1,4 @@
-
+﻿
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -9,7 +9,7 @@ const DEFAULT_CTA_SECTION = {
   headingLine1: 'Ready to make',
   headingLine2: 'smarter decisions?',
   description:
-    'Whether you need AI strategy, market research, product development, or digital engineering — start with a conversation.',
+    'Whether you need AI strategy, market research, product development, or digital engineering - start with a conversation.',
   buttonText: 'Book a Consultation →',
   buttonUrl: '/contact',
 }

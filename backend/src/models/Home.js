@@ -1,11 +1,14 @@
-
-import mongoose from "mongoose";
+﻿import mongoose from "mongoose";
 
 const homeSchema = new mongoose.Schema(
     {
         heroChip: {
             type: String,
             default: "AI-Led · Research-Backed · Delivery-Ready",
+        },
+        heroChips: {
+            type: [mongoose.Schema.Types.Mixed],
+            default: [],
         },
         headingLine1: {
             type: String,
@@ -47,7 +50,7 @@ const homeSchema = new mongoose.Schema(
         beliefDescription: {
             type: String,
             default:
-                "We'd rather spend three months in research than three years rebuilding. It's a slower way to work. It's also the way that's kept us here since 2006 — and kept our clients with us long after the first engagement ended.",
+                "We'd rather spend three months in research than three years rebuilding. It's a slower way to work. It's also the way that's kept us here since 2006 - and kept our clients with us long after the first engagement ended.",
         },
 
         whatWeDo: {
@@ -62,7 +65,7 @@ const homeSchema = new mongoose.Schema(
             description: {
                 type: String,
                 default:
-                    "We combine AI, research, products, and engineering services into a single, integrated offering — so everything works together.",
+                    "We combine AI, research, products, and engineering services into a single, integrated offering - so everything works together.",
             },
             services: {
                 type: [
@@ -71,36 +74,41 @@ const homeSchema = new mongoose.Schema(
                         description: { type: String, default: "" },
                         buttonText: { type: String, default: "Learn More" },
                         buttonUrl: { type: String, default: "/" },
+                        tags: { type: [String], default: [] },
                     },
                 ],
                 default: [
                     {
                         title: "AI Solutions",
                         description:
-                            "Machine learning, generative AI, NLP, intelligent automation, and AI strategy — applied to real business problems with measurable outcomes.",
+                            "Machine learning, generative AI, NLP, intelligent automation, and AI strategy - applied to real business problems with measurable outcomes.",
                         buttonText: "Explore AI Solutions",
                         buttonUrl: "/ai-solutions",
+                        tags: ["Machine Learning", "GenAI", "Automation"],
                     },
                     {
                         title: "Research",
                         description:
-                            "Market research, competitive intelligence, UX research, innovation testing, and strategic advisory — to ensure you're building the right thing.",
+                            "Market research, competitive intelligence, UX research, innovation testing, and strategic advisory - to ensure you're building the right thing.",
                         buttonText: "See Research Capabilities",
                         buttonUrl: "/research",
+                        tags: ["Market Research", "UX Research", "Intelligence"],
                     },
                     {
                         title: "Products",
                         description:
-                            "Ready-to-deploy platforms — HRMS, TutorWand, and WCSchool ERP — built from domain expertise and client feedback.",
+                            "Ready-to-deploy platforms - HRMS, TutorWand, and WCSchool ERP - built from domain expertise and client feedback.",
                         buttonText: "Explore Products",
                         buttonUrl: "/products",
+                        tags: ["HRMS", "TutorWand", "WCSchool ERP"],
                     },
                     {
                         title: "Services",
                         description:
-                            "Web, mobile, UI/UX, cloud, system integration, QA, and digital transformation — the engineering depth to ship it right.",
+                            "Web, mobile, UI/UX, cloud, system integration, QA, and digital transformation - the engineering depth to ship it right.",
                         buttonText: "View All Services",
                         buttonUrl: "/services",
+                        tags: ["Web & Mobile", "Cloud", "UI/UX"],
                     },
                 ],
             },
@@ -144,7 +152,7 @@ const homeSchema = new mongoose.Schema(
                     {
                         title: "Product thinking",
                         description:
-                            "We approach projects as products — with user value, scalability, and lifecycle in mind.",
+                            "We approach projects as products - with user value, scalability, and lifecycle in mind.",
                     },
                     {
                         title: "Long-term partnership",
@@ -166,7 +174,7 @@ const homeSchema = new mongoose.Schema(
             introDescription: {
                 type: String,
                 default:
-                    "Every engagement begins with understanding. Through structured research, market analysis, and technology assessment, we help you define the right problem — then design and build the right solution.",
+                    "Every engagement begins with understanding. Through structured research, market analysis, and technology assessment, we help you define the right problem - then design and build the right solution.",
             },
             steps: {
                 type: [
@@ -184,21 +192,21 @@ const homeSchema = new mongoose.Schema(
                         title: "Understand",
                         card: "Research, validate and define the opportunity before a line of code is written.",
                         sub: "We start with clarity.",
-                        desc: "Research, validate, and define the opportunity. We listen carefully before we recommend — then we pressure-test the recommendation before we build.",
+                        desc: "Research, validate, and define the opportunity. We listen carefully before we recommend - then we pressure-test the recommendation before we build.",
                     },
                     {
                         num: "02",
                         title: "Design",
                         card: "Architect the solution around product thinking, user value and scalability.",
                         sub: "We design for leverage.",
-                        desc: "Architect the solution around product thinking, user value, and scalability. Every decision gets a written rationale — so it holds up six months later.",
+                        desc: "Architect the solution around product thinking, user value, and scalability. Every decision gets a written rationale - so it holds up six months later.",
                     },
                     {
                         num: "03",
                         title: "Deliver",
                         card: "Build, iterate and support at scale with full accountability from one team.",
                         sub: "We deliver, and we stay.",
-                        desc: "Build, iterate, and support at scale. One team from first brief to last line of code — with full accountability, not handoffs.",
+                        desc: "Build, iterate, and support at scale. One team from first brief to last line of code - with full accountability, not handoffs.",
                     },
                 ],
             },
@@ -248,7 +256,7 @@ const homeSchema = new mongoose.Schema(
                         nameLine1: "Webcraft",
                         nameLine2: "HRMS.",
                         summary:
-                            "Complete HR management — attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.",
+                            "Complete HR management - attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.",
                         meta: [
                             { label: "Category", value: "Enterprise HR" },
                             { label: "Users", value: "500+ companies" },
@@ -276,7 +284,7 @@ const homeSchema = new mongoose.Schema(
                         nameLine1: "WCSchool",
                         nameLine2: "ERP.",
                         summary:
-                            "School management platform — fees, schedules, exams, parent monitoring, and seamless communication between schools, parents, and students. One dashboard for the entire institution.",
+                            "School management platform - fees, schedules, exams, parent monitoring, and seamless communication between schools, parents, and students. One dashboard for the entire institution.",
                         meta: [
                             { label: "Category", value: "School Mgmt" },
                             { label: "Modules", value: "12+ integrated" },
@@ -304,7 +312,7 @@ const homeSchema = new mongoose.Schema(
             description: {
                 type: String,
                 default:
-                    "AI without research is noise. Research without AI is slow. Webcraft combines both — giving you the speed of intelligent automation and the confidence of informed strategy.",
+                    "AI without research is noise. Research without AI is slow. Webcraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.",
             },
             cards: {
                 type: [
@@ -312,28 +320,29 @@ const homeSchema = new mongoose.Schema(
                         num: { type: String, default: "" },
                         title: { type: String, default: "" },
                         description: { type: String, default: "" },
+                        image: { type: String, default: "" },
                     },
                 ],
                 default: [
                     {
                         num: "01",
                         title: "Predictive Analytics",
-                        description: "Surface patterns in your data before they become problems — or opportunities — for your competitors. We build models that turn raw signals into actionable forecasts.",
+                        description: "Surface patterns in your data before they become problems - or opportunities - for your competitors. We build models that turn raw signals into actionable forecasts.",
                     },
                     {
                         num: "02",
                         title: "Primary Research",
-                        description: "Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves — then structure it for AI-ready decision-making.",
+                        description: "Face-to-face interviews, focus groups, and quantitative studies. We collect the data your strategy deserves - then structure it for AI-ready decision-making.",
                     },
                     {
                         num: "03",
                         title: "Automation at Scale",
-                        description: "No-code RPA and conversational AI deployed across real workflows — cutting cost and accelerating timelines without replacing the teams who know the work best.",
+                        description: "No-code RPA and conversational AI deployed across real workflows - cutting cost and accelerating timelines without replacing the teams who know the work best.",
                     },
                     {
                         num: "04",
                         title: "LLM & Gen AI",
-                        description: "Generative AI integrated into your products and processes — with proprietary data reliability, guardrails, and enterprise-grade security baked in from day one.",
+                        description: "Generative AI integrated into your products and processes - with proprietary data reliability, guardrails, and enterprise-grade security baked in from day one.",
                     },
                     {
                         num: "05",
@@ -343,7 +352,7 @@ const homeSchema = new mongoose.Schema(
                     {
                         num: "06",
                         title: "AI Security & MLOps",
-                        description: "Fraud detection, predictive maintenance, and supply-chain optimisation — AI that processes and performs at scale with full auditability and compliance.",
+                        description: "Fraud detection, predictive maintenance, and supply-chain optimisation - AI that processes and performs at scale with full auditability and compliance.",
                     },
                 ],
             },
@@ -372,7 +381,7 @@ const homeSchema = new mongoose.Schema(
             description: {
                 type: String,
                 default:
-                    "Whether you need AI strategy, market research, product development, or digital engineering — start with a conversation.",
+                    "Whether you need AI strategy, market research, product development, or digital engineering - start with a conversation.",
             },
             buttonText: {
                 type: String,

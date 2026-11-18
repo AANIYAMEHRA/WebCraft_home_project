@@ -1,10 +1,10 @@
-// Content for the Services page. Text is copied from the Webcraft services.html.
+﻿// Content for the Services page. Text is copied from the Webcraft services.html.
 // Kept in one file so the CMS can later read and write the same shape.
 
 export const hero = {
   tag: "Engineering & Digital Services",
   headline: ["Build It Right.", "Scale It Smart."],
-  body: "From custom product development and cloud enablement to UX design and legacy modernization — Webcraft provides the engineering depth to turn strategies into working software.",
+  body: "From custom product development and cloud enablement to UX design and legacy modernization - Webcraft provides the engineering depth to turn strategies into working software.",
   cta: { label: "Start a Conversation", href: "/contact" },
   chips: [
     { label: "01", value: "Strategy", tone: "teal" },
@@ -17,7 +17,7 @@ export const hero = {
 export const capabilitiesIntro = {
   tag: "Six Capabilities",
   title: { before: "Everything you need to ", accent: "ship software that matters", after: "." },
-  body: "From first strategy deck to post-launch iteration — one team, six capabilities, one standard of craft.",
+  body: "From first strategy deck to post-launch iteration - one team, six capabilities, one standard of craft.",
 };
 
 export const capabilities = [
@@ -25,22 +25,22 @@ export const capabilities = [
     num: "01",
     name: "Strategy & Research",
     title: { before: "Strategy & ", accent: "Research" },
-    pitch: "We start before the code. Market sizing, user interviews, product discovery, competitive teardown — so you build the right thing, not just any thing.",
+    pitch: "We start before the code. Market sizing, user interviews, product discovery, competitive teardown - so you build the right thing, not just any thing.",
     subs: [
       { title: "Product discovery sprints", body: "1-to-3 week engagements that replace six months of internal debate with tested prototypes." },
-      { title: "Market & competitor analysis", body: "Primary research with buyers and users — not a deck of TAM charts pulled from Google." },
+      { title: "Market & competitor analysis", body: "Primary research with buyers and users - not a deck of TAM charts pulled from Google." },
       { title: "Jobs-to-be-done interviews", body: "Structured qualitative research that maps why your users switch, stay, or leave." },
-      { title: "Roadmap & prioritisation", body: "A 12-month plan your team can actually run — sequenced by risk, revenue and readiness." },
+      { title: "Roadmap & prioritisation", body: "A 12-month plan your team can actually run - sequenced by risk, revenue and readiness." },
     ],
   },
   {
     num: "02",
     name: "AI & Automation",
     title: { before: "AI & ", accent: "Automation" },
-    pitch: "We build AI into products and internal operations — assistants, copilots, classifiers, agents — with evaluation and guardrails from day one.",
+    pitch: "We build AI into products and internal operations - assistants, copilots, classifiers, agents - with evaluation and guardrails from day one.",
     subs: [
       { title: "LLM applications & copilots", body: "Domain-tuned assistants with retrieval, tool use, and human-in-the-loop checkpoints." },
-      { title: "Predictive ML models", body: "Forecasting, scoring, and classification pipelines — trained, monitored, retrained." },
+      { title: "Predictive ML models", body: "Forecasting, scoring, and classification pipelines - trained, monitored, retrained." },
       { title: "Process automation", body: "Workflow and document automation that removes busywork without replacing judgment." },
       { title: "Evaluation & safety", body: "Eval harnesses, red-teaming, and observability so you can ship AI with confidence." },
     ],
@@ -49,31 +49,31 @@ export const capabilities = [
     num: "03",
     name: "Engineering",
     title: { before: "Engineering & ", accent: "Product" },
-    pitch: "Full-stack product teams — design, frontend, backend, data, QA — working in short cycles with demos every two weeks.",
+    pitch: "Full-stack product teams - design, frontend, backend, data, QA - working in short cycles with demos every two weeks.",
     subs: [
-      { title: "Web applications", body: "React, Next.js, TypeScript — accessible, performant, measured." },
+      { title: "Web applications", body: "React, Next.js, TypeScript - accessible, performant, measured." },
       { title: "Mobile (iOS + Android)", body: "Native where it matters, React Native where it doesn't." },
-      { title: "API & backend services", body: "Typed, tested, documented — Node, Go, Python, Rust." },
-      { title: "UX & product design", body: "Wireframes, prototypes, design systems — shipped, not just presented." },
+      { title: "API & backend services", body: "Typed, tested, documented - Node, Go, Python, Rust." },
+      { title: "UX & product design", body: "Wireframes, prototypes, design systems - shipped, not just presented." },
     ],
   },
   {
     num: "04",
     name: "Cloud & Platform",
     title: { before: "Cloud & ", accent: "Platform" },
-    pitch: "Production platforms on AWS, Azure and GCP — built with infrastructure-as-code, observability, and cost in mind from the first commit.",
+    pitch: "Production platforms on AWS, Azure and GCP - built with infrastructure-as-code, observability, and cost in mind from the first commit.",
     subs: [
-      { title: "Cloud migrations", body: "Lift-shift, replatform, or refactor — staged with rollback at every milestone." },
+      { title: "Cloud migrations", body: "Lift-shift, replatform, or refactor - staged with rollback at every milestone." },
       { title: "Kubernetes & containers", body: "Hardened clusters, GitOps delivery, and sensible autoscaling." },
-      { title: "Data platforms", body: "Warehouses, lakes, streaming — Snowflake, BigQuery, Kafka, dbt." },
-      { title: "Security & compliance", body: "SOC 2, ISO 27001, HIPAA — built in, not bolted on." },
+      { title: "Data platforms", body: "Warehouses, lakes, streaming - Snowflake, BigQuery, Kafka, dbt." },
+      { title: "Security & compliance", body: "SOC 2, ISO 27001, HIPAA - built in, not bolted on." },
     ],
   },
   {
     num: "05",
     name: "Modernization",
     title: { before: "Legacy ", accent: "Modernization" },
-    pitch: "We untangle systems that have grown past their original design — monoliths, Oracle Forms, VB6, stored-proc spaghetti — without stopping the business.",
+    pitch: "We untangle systems that have grown past their original design - monoliths, Oracle Forms, VB6, stored-proc spaghetti - without stopping the business.",
     subs: [
       { title: "Strangler-fig rewrites", body: "Incremental replacement; the old system keeps running until the new one earns trust." },
       { title: "Data migration", body: "Schema mapping, backfills, and dual-writes validated against reconciliation checks." },
@@ -85,11 +85,11 @@ export const capabilities = [
     num: "06",
     name: "Sustain & Support",
     title: { before: "Sustain & ", accent: "Support" },
-    pitch: "Software doesn't end at launch. We keep products healthy — monitoring, on-call, continuous improvement — so small issues stay small.",
+    pitch: "Software doesn't end at launch. We keep products healthy - monitoring, on-call, continuous improvement - so small issues stay small.",
     subs: [
       { title: "24x7 monitoring & on-call", body: "Paging with clear runbooks, and humans who already know the system." },
       { title: "Managed maintenance", body: "Dependency updates, security patching, and performance tuning on a monthly cadence." },
-      { title: "Continuous improvement", body: "Small features, experiments, and polish shipped every sprint — not once a year." },
+      { title: "Continuous improvement", body: "Small features, experiments, and polish shipped every sprint - not once a year." },
       { title: "SLA-backed support", body: "Tiered response times aligned to what the system actually costs you when it's down." },
     ],
   },
@@ -117,7 +117,7 @@ export const engagementModels = {
         "Milestone-based billing with a defined end date",
         "Scoped statement of work signed before start",
         "Hand-off documentation and training at close",
-        "Typical range: 8–16 weeks, 3–7 people",
+        "Typical range: 8-16 weeks, 3-7 people",
       ],
     },
     {
@@ -125,10 +125,10 @@ export const engagementModels = {
       title: "Team extension",
       lede: "Embedded engineers, designers and PMs who work in your workflow, not ours.",
       points: [
-        "Dedicated people — not a rotating bench",
+        "Dedicated people - not a rotating bench",
         "Monthly billing, 90-day minimum commitment",
         "Daily stand-up in your tooling (Slack, Linear, Jira)",
-        "Typical range: 2–6 people, 6–18 months",
+        "Typical range: 2-6 people, 6-18 months",
       ],
     },
     {
@@ -137,9 +137,9 @@ export const engagementModels = {
       lede: "Always-on support, maintenance and continuous improvement for live systems.",
       points: [
         "Agreed SLA on response and resolution times",
-        "Monthly hours bucket — carries forward, not wasted",
+        "Monthly hours bucket - carries forward, not wasted",
         "Named technical lead who knows your codebase",
-        "Typical range: 40–160 hours / month",
+        "Typical range: 40-160 hours / month",
       ],
     },
   ],
@@ -167,7 +167,7 @@ export const cases = {
       num: "03",
       tag: "Finance · Modernisation",
       title: { before: "Risk systems, ", accent: "rebuilt", after: "." },
-      body: "Replaced a fragile legacy risk engine with an event-driven Go service. Settlement latency dropped from 4.5s to 180ms — and regulators stopped flagging exceptions.",
+      body: "Replaced a fragile legacy risk engine with an event-driven Go service. Settlement latency dropped from 4.5s to 180ms - and regulators stopped flagging exceptions.",
       stat: { value: "180ms", label: "settlement latency" },
     },
     {
@@ -190,15 +190,15 @@ export const faq = {
     },
     {
       q: "Do you sign NDAs and DPAs?",
-      a: "Yes. We sign NDAs before any discovery conversation that involves specifics. For regulated industries — healthcare, financial services, public sector — we also sign data-processing addenda, BAAs (HIPAA), and can work inside your security review process.",
+      a: "Yes. We sign NDAs before any discovery conversation that involves specifics. For regulated industries - healthcare, financial services, public sector - we also sign data-processing addenda, BAAs (HIPAA), and can work inside your security review process.",
     },
     {
       q: "Can you work alongside our existing team?",
-      a: "Yes — most of our engagements look like that. Our engineers work inside your GitHub, your Slack, your standups. We're good at being the second team, not the only team. We align on code review standards, branching model and release cadence in week one.",
+      a: "Yes - most of our engagements look like that. Our engineers work inside your GitHub, your Slack, your standups. We're good at being the second team, not the only team. We align on code review standards, branching model and release cadence in week one.",
     },
     {
       q: "How fast can you start?",
-      a: "For a typical team-extension engagement, 10–14 days from signed SOW to people on your standup. Fixed-scope projects usually take 2–3 weeks because discovery runs first. Urgent retainer coverage can start within 72 hours for incidents on live systems.",
+      a: "For a typical team-extension engagement, 10-14 days from signed SOW to people on your standup. Fixed-scope projects usually take 2-3 weeks because discovery runs first. Urgent retainer coverage can start within 72 hours for incidents on live systems.",
     },
     {
       q: "What if our priorities shift mid-engagement?",

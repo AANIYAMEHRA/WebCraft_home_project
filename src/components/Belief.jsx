@@ -1,4 +1,4 @@
-
+﻿
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -30,7 +30,7 @@ export default function Belief() {
             'We listen before we propose. We prototype before we commit.',
           beliefDescription:
             data.beliefDescription ??
-            "We'd rather spend three months in research than three years rebuilding. It's a slower way to work. It's also the way that's kept us here since 2006 — and kept our clients with us long after the first engagement ended.",
+            "We'd rather spend three months in research than three years rebuilding. It's a slower way to work. It's also the way that's kept us here since 2006 - and kept our clients with us long after the first engagement ended.",
         })
       } catch (error) {
         console.error('Belief content error:', error)
@@ -90,7 +90,7 @@ export default function Belief() {
 
   return (
     <div ref={root}>
-      {/* BELIEF — Cover Expand Animation */}
+      {/* BELIEF - Cover Expand Animation */}
       <section className="belief-section" id="belief">
         <div className="belief-sticky">
           <div className="belief-panel" id="beliefPanel"></div>

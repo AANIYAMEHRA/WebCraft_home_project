@@ -1,4 +1,4 @@
-/* Services page styles (ported from the Webcraft services.html). Scoped to the services page. */
+﻿/* Services page styles (ported from the Webcraft services.html). Scoped to the services page. */
 .svc-faq__toggle:focus-visible {
     outline: 2px solid #2A9D8F;
     outline-offset: 3px;
@@ -61,7 +61,7 @@ input:focus-visible,
 
 
 /* =========================================================
-   SERVICES PAGE — SIX CAPABILITIES (sticky index + list)
+   SERVICES PAGE - SIX CAPABILITIES (sticky index + list)
    ========================================================= */
 .caps-section {
     position: relative;
@@ -231,7 +231,7 @@ input:focus-visible,
 }
 
 /* =========================================================
-   SERVICES — TECH STACK MARQUEE (light theme)
+   SERVICES - TECH STACK MARQUEE (light theme)
    ========================================================= */
 .techmq {
     background: #F0F9F5;
@@ -301,7 +301,7 @@ input:focus-visible,
 }
 
 /* =========================================================
-   SERVICES — ENGAGEMENT MODELS
+   SERVICES - ENGAGEMENT MODELS
    ========================================================= */
 .models {
     background: #ffffff;
@@ -416,7 +416,7 @@ input:focus-visible,
 }
 
 /* =========================================================
-   SERVICES — HORIZONTAL CASE STRIP
+   SERVICES - HORIZONTAL CASE STRIP
    ========================================================= */
 .cases {
     background: #F0F9F5;
@@ -545,7 +545,7 @@ input:focus-visible,
 }
 
 /* =========================================================
-   SERVICES — FAQ ACCORDION
+   SERVICES - FAQ ACCORDION
    ========================================================= */
 .svc-faq {
     background: #ffffff;

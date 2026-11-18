@@ -1,5 +1,4 @@
-
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const API = 'http://localhost:5000/api/home'
@@ -8,35 +7,39 @@ const DEFAULT_CONTENT = {
   label: 'What We Do',
   heading: 'Four Capabilities, One Partner',
   description:
-    'We combine AI, research, products, and engineering services into a single, integrated offering — so everything works together.',
+    'We combine AI, research, products, and engineering services into a single, integrated offering - so everything works together.',
   services: [
     {
       title: 'AI Solutions',
       description:
-        'Machine learning, generative AI, NLP, intelligent automation, and AI strategy — applied to real business problems with measurable outcomes.',
+        'Machine learning, generative AI, NLP, intelligent automation, and AI strategy - applied to real business problems with measurable outcomes.',
       buttonText: 'Explore AI Solutions',
       buttonUrl: '/ai-solutions',
+      tags: ['Machine Learning', 'GenAI', 'Automation'],
     },
     {
       title: 'Research',
       description:
-        "Market research, competitive intelligence, UX research, innovation testing, and strategic advisory — to ensure you're building the right thing.",
+        "Market research, competitive intelligence, UX research, innovation testing, and strategic advisory - to ensure you're building the right thing.",
       buttonText: 'See Research Capabilities',
       buttonUrl: '/research',
+      tags: ['Market Research', 'UX Research', 'Intelligence'],
     },
     {
       title: 'Products',
       description:
-        'Ready-to-deploy platforms — HRMS, TutorWand (AI-powered ed-tech), and WCSchool ERP — built from years of domain expertise and client feedback.',
+        'Ready-to-deploy platforms - HRMS, TutorWand (AI-powered ed-tech), and WCSchool ERP - built from years of domain expertise and client feedback.',
       buttonText: 'Explore Products',
       buttonUrl: '/products',
+      tags: ['HRMS', 'TutorWand', 'WCSchool ERP'],
     },
     {
       title: 'Services',
       description:
-        'Web, mobile, UI/UX, cloud, system integration, QA, legacy modernization, and digital transformation — the engineering depth to ship it right.',
+        'Web, mobile, UI/UX, cloud, system integration, QA, legacy modernization, and digital transformation - the engineering depth to ship it right.',
       buttonText: 'View All Services',
       buttonUrl: '/services',
+      tags: ['Web & Mobile', 'Cloud', 'UI/UX'],
     },
   ],
 }
@@ -162,9 +165,9 @@ export default function WhatWeDo() {
 
                 <div className="cap-content">
                   <div className="cap-tags">
-                    <span className="cap-tag">Machine Learning</span>
-                    <span className="cap-tag">GenAI</span>
-                    <span className="cap-tag">Automation</span>
+                    {(services[0].tags ?? []).map((tag) => (
+                      <span key={tag} className="cap-tag">{tag}</span>
+                    ))}
                   </div>
 
                   <p className="cap-desc">
@@ -217,9 +220,9 @@ export default function WhatWeDo() {
 
                 <div className="cap-content">
                   <div className="cap-tags">
-                    <span className="cap-tag">Market Research</span>
-                    <span className="cap-tag">UX Research</span>
-                    <span className="cap-tag">Intelligence</span>
+                    {(services[1].tags ?? []).map((tag) => (
+                      <span key={tag} className="cap-tag">{tag}</span>
+                    ))}
                   </div>
 
                   <p className="cap-desc">
@@ -271,9 +274,9 @@ export default function WhatWeDo() {
 
                 <div className="cap-content">
                   <div className="cap-tags">
-                    <span className="cap-tag">HRMS</span>
-                    <span className="cap-tag">TutorWand</span>
-                    <span className="cap-tag">WCSchool ERP</span>
+                    {(services[2].tags ?? []).map((tag) => (
+                      <span key={tag} className="cap-tag">{tag}</span>
+                    ))}
                   </div>
 
                   <p className="cap-desc">
@@ -338,9 +341,9 @@ export default function WhatWeDo() {
 
                 <div className="cap-content">
                   <div className="cap-tags">
-                    <span className="cap-tag">Web &amp; Mobile</span>
-                    <span className="cap-tag">Cloud</span>
-                    <span className="cap-tag">UI/UX</span>
+                    {(services[3].tags ?? []).map((tag) => (
+                      <span key={tag} className="cap-tag">{tag}</span>
+                    ))}
                   </div>
 
                   <p className="cap-desc">

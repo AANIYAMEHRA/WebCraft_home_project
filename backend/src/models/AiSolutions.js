@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 
 const badgeSchema = new mongoose.Schema(
@@ -8,6 +7,8 @@ const badgeSchema = new mongoose.Schema(
     border: { type: String, default: "" },
     shadow: { type: String, default: "" },
     iconBg: { type: String, default: "" },
+    tone: { type: String, default: "teal" },
+    image: { type: String, default: "" },
     delay: { type: String, default: "0s" },
     icon: { type: String, default: "" },
   },

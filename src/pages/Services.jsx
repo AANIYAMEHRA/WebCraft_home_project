@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Services.css";
@@ -29,39 +29,39 @@ const Chip = ({ cls, num, title, color, children }) => (
 /* ---------- data ---------- */
 const CAPS = [
   { num: "01", name: "Strategy & Research", title: ["Strategy &", "Research"],
-    pitch: "We start before the code. Market sizing, user interviews, product discovery, competitive teardown — so you build the right thing, not just any thing.",
+    pitch: "We start before the code. Market sizing, user interviews, product discovery, competitive teardown - so you build the right thing, not just any thing.",
     subs: [
       ["Product discovery sprints", "1-to-3 week engagements that replace six months of internal debate with tested prototypes."],
-      ["Market & competitor analysis", "Primary research with buyers and users — not a deck of TAM charts pulled from Google."],
+      ["Market & competitor analysis", "Primary research with buyers and users - not a deck of TAM charts pulled from Google."],
       ["Jobs-to-be-done interviews", "Structured qualitative research that maps why your users switch, stay, or leave."],
-      ["Roadmap & prioritisation", "A 12-month plan your team can actually run — sequenced by risk, revenue and readiness."],
+      ["Roadmap & prioritisation", "A 12-month plan your team can actually run - sequenced by risk, revenue and readiness."],
     ] },
   { num: "02", name: "AI & Automation", title: ["AI &", "Automation"],
-    pitch: "We build AI into products and internal operations — assistants, copilots, classifiers, agents — with evaluation and guardrails from day one.",
+    pitch: "We build AI into products and internal operations - assistants, copilots, classifiers, agents - with evaluation and guardrails from day one.",
     subs: [
       ["LLM applications & copilots", "Domain-tuned assistants with retrieval, tool use, and human-in-the-loop checkpoints."],
-      ["Predictive ML models", "Forecasting, scoring, and classification pipelines — trained, monitored, retrained."],
+      ["Predictive ML models", "Forecasting, scoring, and classification pipelines - trained, monitored, retrained."],
       ["Process automation", "Workflow and document automation that removes busywork without replacing judgment."],
       ["Evaluation & safety", "Eval harnesses, red-teaming, and observability so you can ship AI with confidence."],
     ] },
   { num: "03", name: "Engineering", title: ["Engineering &", "Product"],
-    pitch: "Full-stack product teams — design, frontend, backend, data, QA — working in short cycles with demos every two weeks.",
+    pitch: "Full-stack product teams - design, frontend, backend, data, QA - working in short cycles with demos every two weeks.",
     subs: [
-      ["Web applications", "React, Next.js, TypeScript — accessible, performant, measured."],
+      ["Web applications", "React, Next.js, TypeScript - accessible, performant, measured."],
       ["Mobile (iOS + Android)", "Native where it matters, React Native where it doesn't."],
-      ["API & backend services", "Typed, tested, documented — Node, Go, Python, Rust."],
-      ["UX & product design", "Wireframes, prototypes, design systems — shipped, not just presented."],
+      ["API & backend services", "Typed, tested, documented - Node, Go, Python, Rust."],
+      ["UX & product design", "Wireframes, prototypes, design systems - shipped, not just presented."],
     ] },
   { num: "04", name: "Cloud & Platform", title: ["Cloud &", "Platform"],
-    pitch: "Production platforms on AWS, Azure and GCP — built with infrastructure-as-code, observability, and cost in mind from the first commit.",
+    pitch: "Production platforms on AWS, Azure and GCP - built with infrastructure-as-code, observability, and cost in mind from the first commit.",
     subs: [
-      ["Cloud migrations", "Lift-shift, replatform, or refactor — staged with rollback at every milestone."],
+      ["Cloud migrations", "Lift-shift, replatform, or refactor - staged with rollback at every milestone."],
       ["Kubernetes & containers", "Hardened clusters, GitOps delivery, and sensible autoscaling."],
-      ["Data platforms", "Warehouses, lakes, streaming — Snowflake, BigQuery, Kafka, dbt."],
-      ["Security & compliance", "SOC 2, ISO 27001, HIPAA — built in, not bolted on."],
+      ["Data platforms", "Warehouses, lakes, streaming - Snowflake, BigQuery, Kafka, dbt."],
+      ["Security & compliance", "SOC 2, ISO 27001, HIPAA - built in, not bolted on."],
     ] },
   { num: "05", name: "Modernization", title: ["Legacy", "Modernization"],
-    pitch: "We untangle systems that have grown past their original design — monoliths, Oracle Forms, VB6, stored-proc spaghetti — without stopping the business.",
+    pitch: "We untangle systems that have grown past their original design - monoliths, Oracle Forms, VB6, stored-proc spaghetti - without stopping the business.",
     subs: [
       ["Strangler-fig rewrites", "Incremental replacement; the old system keeps running until the new one earns trust."],
       ["Data migration", "Schema mapping, backfills, and dual-writes validated against reconciliation checks."],
@@ -69,11 +69,11 @@ const CAPS = [
       ["Risk-reviewed cutovers", "Rollback-capable releases with production shadowing before every go-live."],
     ] },
   { num: "06", name: "Sustain & Support", title: ["Sustain &", "Support"],
-    pitch: "Software doesn't end at launch. We keep products healthy — monitoring, on-call, continuous improvement — so small issues stay small.",
+    pitch: "Software doesn't end at launch. We keep products healthy - monitoring, on-call, continuous improvement - so small issues stay small.",
     subs: [
       ["24x7 monitoring & on-call", "Paging with clear runbooks, and humans who already know the system."],
       ["Managed maintenance", "Dependency updates, security patching, and performance tuning on a monthly cadence."],
-      ["Continuous improvement", "Small features, experiments, and polish shipped every sprint — not once a year."],
+      ["Continuous improvement", "Small features, experiments, and polish shipped every sprint - not once a year."],
       ["SLA-backed support", "Tiered response times aligned to what the system actually costs you when it's down."],
     ] },
 ];
@@ -84,13 +84,13 @@ const STACK = ["Python", "TypeScript", "React", "Next.js", "Node.js", "Go", "Rus
 const MODELS = [
   { k: "01", t: "Project-based", l: "Fixed scope. Fixed outcome. Ideal when you already know what you want built.",
     items: ["Milestone-based billing with a defined end date", "Scoped statement of work signed before start",
-      "Hand-off documentation and training at close", "Typical range: 8–16 weeks, 3–7 people"] },
+      "Hand-off documentation and training at close", "Typical range: 8-16 weeks, 3-7 people"] },
   { k: "02", t: "Team extension", l: "Embedded engineers, designers and PMs who work in your workflow, not ours.",
-    items: ["Dedicated people — not a rotating bench", "Monthly billing, 90-day minimum commitment",
-      "Daily stand-up in your tooling (Slack, Linear, Jira)", "Typical range: 2–6 people, 6–18 months"] },
+    items: ["Dedicated people - not a rotating bench", "Monthly billing, 90-day minimum commitment",
+      "Daily stand-up in your tooling (Slack, Linear, Jira)", "Typical range: 2-6 people, 6-18 months"] },
   { k: "03", t: "Retainer", l: "Always-on support, maintenance and continuous improvement for live systems.",
-    items: ["Agreed SLA on response and resolution times", "Monthly hours bucket — carries forward, not wasted",
-      "Named technical lead who knows your codebase", "Typical range: 40–160 hours / month"] },
+    items: ["Agreed SLA on response and resolution times", "Monthly hours bucket - carries forward, not wasted",
+      "Named technical lead who knows your codebase", "Typical range: 40-160 hours / month"] },
 ];
 
 const CASES = [
@@ -101,7 +101,7 @@ const CASES = [
     b: "Rebuilt a wholesale marketplace across English and Hindi with unified catalogue, pricing and fulfilment. 3× GMV in 9 months, with 60% mobile orders.",
     s: "3×", l: "GMV in 9 months" },
   { n: "03", tag: "Finance · Modernisation", t: ["Risk systems, ", "rebuilt", "."],
-    b: "Replaced a fragile legacy risk engine with an event-driven Go service. Settlement latency dropped from 4.5s to 180ms — and regulators stopped flagging exceptions.",
+    b: "Replaced a fragile legacy risk engine with an event-driven Go service. Settlement latency dropped from 4.5s to 180ms - and regulators stopped flagging exceptions.",
     s: "180ms", l: "settlement latency" },
   { n: "04", tag: "Industrial · IoT", t: ["Factory ", "unfrozen", "."],
     b: "Wired a plant's disconnected PLCs into a single real-time dashboard with predictive maintenance. Unplanned downtime down 63%, OEE up 14 points.",
@@ -110,9 +110,9 @@ const CASES = [
 
 const FAQ = [
   ["How do you price engagements?", "We price based on the shape of the work. Fixed-scope projects get a milestone-based fee with a defined end date. Team-extension engagements bill monthly on a per-role rate, with a 90-day minimum. Retainers bill monthly for an hours bucket. We send a written estimate before any work begins."],
-  ["Do you sign NDAs and DPAs?", "Yes. We sign NDAs before any discovery conversation that involves specifics. For regulated industries — healthcare, financial services, public sector — we also sign data-processing addenda, BAAs (HIPAA), and can work inside your security review process."],
-  ["Can you work alongside our existing team?", "Yes — most of our engagements look like that. Our engineers work inside your GitHub, your Slack, your standups. We're good at being the second team, not the only team. We align on code review standards, branching model and release cadence in week one."],
-  ["How fast can you start?", "For a typical team-extension engagement, 10–14 days from signed SOW to people on your standup. Fixed-scope projects usually take 2–3 weeks because discovery runs first. Urgent retainer coverage can start within 72 hours for incidents on live systems."],
+  ["Do you sign NDAs and DPAs?", "Yes. We sign NDAs before any discovery conversation that involves specifics. For regulated industries - healthcare, financial services, public sector - we also sign data-processing addenda, BAAs (HIPAA), and can work inside your security review process."],
+  ["Can you work alongside our existing team?", "Yes - most of our engagements look like that. Our engineers work inside your GitHub, your Slack, your standups. We're good at being the second team, not the only team. We align on code review standards, branching model and release cadence in week one."],
+  ["How fast can you start?", "For a typical team-extension engagement, 10-14 days from signed SOW to people on your standup. Fixed-scope projects usually take 2-3 weeks because discovery runs first. Urgent retainer coverage can start within 72 hours for incidents on live systems."],
   ["What if our priorities shift mid-engagement?", "That's the normal case, not the exception. Team-extension engagements let you re-point the team sprint by sprint. Fixed-scope projects have a written change-order process, but we'd rather catch the shift in a weekly check-in and adapt than push a change order after the fact."],
   ["Where is your team located?", "Our engineering, design and research teams are based in Indore, India. We work with clients across the US, EU, UK, UAE and APAC. We overlap with US Eastern time in the morning and with EU / APAC through most of the day, and we run written-first so timezone is rarely the bottleneck."],
 ];
@@ -198,7 +198,7 @@ export default function Services() {
               <span className="svc-grad">Scale It Smart.</span>
             </h1>
             <p className="svc-fade" style={{ animationDelay: ".2s" }}>
-              From custom product development and cloud enablement to UX design and legacy modernization —
+              From custom product development and cloud enablement to UX design and legacy modernization -
               Webcraft provides the engineering depth to turn strategies into working software.
             </p>
             <div className="svc-fade" style={{ animationDelay: ".3s" }}>
@@ -262,7 +262,7 @@ export default function Services() {
         <div className="svc-wrap svc-caps__head">
           <span className="svc-tag">Six Capabilities</span>
           <h2 className="svc-h2">Everything you need to <em>ship software that matters</em>.</h2>
-          <p className="svc-lede">From first strategy deck to post-launch iteration — one team, six capabilities, one standard of craft.</p>
+          <p className="svc-lede">From first strategy deck to post-launch iteration - one team, six capabilities, one standard of craft.</p>
         </div>
 
         <div className="svc-wrap svc-caps__grid">
