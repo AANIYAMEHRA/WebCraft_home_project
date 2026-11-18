@@ -1,7 +1,7 @@
+
 import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
-import ConfirmDialog from "../components/ConfirmDialog";
 import {
     INPUT_GRID,
     PageTitle,
@@ -147,10 +147,6 @@ export default function ProductsAdmin() {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
-    // Pending delete confirmation: { title, message, action }
-    // action is a closure created at click time, so it always removes the right item.
-    const [pendingRemove, setPendingRemove] = useState(null);
-
     useEffect(() => {
         let active = true;
 
@@ -182,22 +178,6 @@ export default function ProductsAdmin() {
             active = false;
         };
     }, []);
-
-    function askRemove(title, message, action) {
-        setPendingRemove({ title, message, action });
-    }
-
-    function confirmRemove() {
-        if (!pendingRemove) return;
-
-        const { action } = pendingRemove;
-        setPendingRemove(null);
-        action();
-    }
-
-    function cancelRemove() {
-        setPendingRemove(null);
-    }
 
     function setHero(key, value) {
         setForm((previous) => ({
@@ -260,6 +240,11 @@ export default function ProductsAdmin() {
     }
 
     function removeProduct(index) {
+        if (form.products.length <= 1) {
+            notify("error", "At least one product is required.");
+            return;
+        }
+
         setForm((previous) => ({
             ...previous,
             products: previous.products.filter((_, i) => i !== index),
@@ -462,13 +447,7 @@ export default function ProductsAdmin() {
                                             type="button"
                                             className={secondaryButtonClass}
                                             style={outlineButtonStyle}
-                                            onClick={() =>
-                                                askRemove(
-                                                    "Remove feature?",
-                                                    `Feature ${featureIndex + 1} ("${feature.title || "untitled"}") will be removed from ${product.name || `Product ${index + 1}`}. Click "Save Changes" to apply this update to the live site.`,
-                                                    () => removeProductItem(index, "features", featureIndex)
-                                                )
-                                            }
+                                            onClick={() => removeProductItem(index, "features", featureIndex)}
                                         >
                                             Remove Feature
                                         </button>
@@ -511,13 +490,7 @@ export default function ProductsAdmin() {
                                             type="button"
                                             className={secondaryButtonClass}
                                             style={outlineButtonStyle}
-                                            onClick={() =>
-                                                askRemove(
-                                                    "Remove statistic?",
-                                                    `Statistic ${statIndex + 1} will be removed from ${product.name || `Product ${index + 1}`}. Click "Save Changes" to apply this update to the live site.`,
-                                                    () => removeProductItem(index, "stats", statIndex)
-                                                )
-                                            }
+                                            onClick={() => removeProductItem(index, "stats", statIndex)}
                                         >
                                             Remove Statistic
                                         </button>
@@ -538,18 +511,7 @@ export default function ProductsAdmin() {
                                         type="button"
                                         className={secondaryButtonClass}
                                         style={outlineButtonStyle}
-                                        onClick={() => {
-                                            if (form.products.length <= 1) {
-                                                notify("error", "At least one product is required.");
-                                                return;
-                                            }
-
-                                            askRemove(
-                                                "Remove product?",
-                                                `${product.name || `Product ${index + 1}`} will be removed from the Products page. Click "Save Changes" to apply this update to the live site.`,
-                                                () => removeProduct(index)
-                                            );
-                                        }}
+                                        onClick={() => removeProduct(index)}
                                     >
                                         Remove Product
                                     </button>
@@ -590,17 +552,6 @@ export default function ProductsAdmin() {
                     />
                 </form>
             </div>
-
-            {pendingRemove && (
-                <ConfirmDialog
-                    title={pendingRemove.title}
-                    message={pendingRemove.message}
-                    confirmText="Delete"
-                    cancelText="Cancel"
-                    onConfirm={confirmRemove}
-                    onCancel={cancelRemove}
-                />
-            )}
         </main>
     );
 }
