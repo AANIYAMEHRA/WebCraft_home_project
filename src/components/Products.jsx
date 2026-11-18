@@ -1,178 +1,410 @@
-﻿
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
-const API = 'http://localhost:5000/api/home'
+const API = "http://localhost:5000/api/products";
 
-const DEFAULT_PRODUCTS = {
-    label: 'Our Products',
-    headingLine1: 'Platforms Built From',
-    headingLine2: 'Real Experience.',
-    items: [
-        {
-            num: 'Product 001',
-            nameLine1: 'Webcraft',
-            nameLine2: 'HRMS.',
-            summary: 'Complete HR management - attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.',
-            meta: [
-                { label: 'Category', value: 'Enterprise HR' },
-                { label: 'Users', value: '500+ companies' },
-                { label: 'Pricing', value: '₹2,999/mo flat' },
-            ],
-            buttonText: 'Learn more →',
-            buttonUrl: '/products',
-        },
-        {
-            num: 'Product 002',
-            nameLine1: 'Tutor',
-            nameLine2: 'Wand.',
-            summary: "AI-powered adaptive test prep for SAT, GRE, and more. 40K+ students, 2.7K+ teachers, 5000+ questions, and white-label options for institutes. The AI adjusts difficulty in real-time to each learner's pace.",
-            meta: [
-                { label: 'Category', value: 'Ed-Tech · AI' },
-                { label: 'Reach', value: '40K+ students' },
-                { label: 'Questions', value: '5,000+ bank' },
-            ],
-            buttonText: 'Learn more →',
-            buttonUrl: '/products',
-        },
-        {
-            num: 'Product 003',
-            nameLine1: 'WCSchool',
-            nameLine2: 'ERP.',
-            summary: 'School management platform - fees, schedules, exams, parent monitoring, and seamless communication between schools, parents, and students. One dashboard for the entire institution.',
-            meta: [
-                { label: 'Category', value: 'School Mgmt' },
-                { label: 'Modules', value: '12+ integrated' },
-                { label: 'Users', value: 'Schools · Parents' },
-            ],
-            buttonText: 'Learn more →',
-            buttonUrl: '/products',
-        },
-    ],
+// "Webcraft HRMS" -> "webcraft-hrms"
+const slugify = (text = "") =>
+    text
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+
+// Section id for each product, e.g. "product-webcraft-hrms".
+export const productAnchorId = (name = "") => `product-${slugify(name)}`;
+
+// Smoothly scrolls to a section on this page.
+function scrollToSection(id) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+}
+
+function ProductFeatures({ features = [] }) {
+    return (
+        <div className="grid grid-cols-2 gap-4">
+            {features.map((feature, index) => (
+                <div
+                    key={`${feature.title}-${index}`}
+                    className="prod-feature bg-white rounded-2xl p-6 border border-gm-teal/8"
+                    data-prod-feat
+                >
+                    {feature.title && (
+                        <h4 className="font-bold text-gm-deep text-sm mb-1">
+                            {feature.title}
+                        </h4>
+                    )}
+                    {feature.description && (
+                        <p className="text-xs text-gm-muted">
+                            {feature.description}
+                        </p>
+                    )}
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function ProductStats({ stats = [] }) {
+    return (
+        <div
+            className="grid grid-cols-2 gap-4"
+            aria-label="Product key statistics"
+        >
+            {stats.map((stat, index) => (
+                <div
+                    key={`${stat.label}-${index}`}
+                    className="prod-stat bg-gm-ghost rounded-2xl p-6 border border-gm-teal/8 text-center"
+                    data-prod-feat
+                >
+                    {stat.value && (
+                        <div className="text-2xl font-extrabold text-gm-deep">
+                            {stat.value}
+                        </div>
+                    )}
+                    {stat.label && (
+                        <div className="text-xs text-gm-muted mt-1">
+                            {stat.label}
+                        </div>
+                    )}
+                </div>
+            ))}
+        </div>
+    );
 }
 
 export default function Products() {
-    const root = useRef(null)
-    const [content, setContent] = useState(DEFAULT_PRODUCTS)
+    const root = useRef(null);
+    const location = useLocation();
+    const [content, setContent] = useState(null);
 
     useEffect(() => {
-        let cancelled = false
+        let active = true;
 
         async function loadProducts() {
             try {
-                const response = await fetch(API)
-                if (!response.ok) throw new Error('Failed to load products')
+                const response = await fetch(API);
 
-                const data = await response.json()
-                const products = data.products
+                if (!response.ok) {
+                    throw new Error("Failed to load Products");
+                }
 
-                if (!cancelled && products) {
-                    setContent({
-                        ...DEFAULT_PRODUCTS,
-                        ...products,
-                        items:
-                            Array.isArray(products.items) && products.items.length > 0
-                                ? products.items
-                                : DEFAULT_PRODUCTS.items,
-                    })
+                const data = await response.json();
+
+                if (active) {
+                    setContent(data.content || data);
                 }
             } catch (error) {
-                console.error('Products fetch error:', error)
+                console.error("Products load error:", error);
             }
         }
 
-        loadProducts()
+        loadProducts();
 
         return () => {
-            cancelled = true
-        }
-    }, [])
+            active = false;
+        };
+    }, []);
+
+    // When the page opens with a hash (for example /products#product-tutorwand),
+    // scroll to that product section once the content is rendered.
+    useEffect(() => {
+        if (!content || !location.hash) return;
+
+        const timer = setTimeout(() => {
+            scrollToSection(location.hash.slice(1));
+        }, 150);
+
+        return () => clearTimeout(timer);
+    }, [content, location.hash]);
+
+    const products = content?.products || [];
+    const hero = content?.hero || {};
+    const cta = content?.cta || {};
 
     useLayoutEffect(() => {
-        if (window.innerWidth <= 768) return
+        if (!content) return;
 
         const ctx = gsap.context(() => {
-            const track = root.current?.querySelector('#prodPanelsTrack')
-            if (!track) return
+            const sections = gsap.utils.toArray("[data-prod]");
 
-            const getScrollDistance = () =>
-                Math.max(0, track.scrollWidth - window.innerWidth)
+            sections.forEach((section) => {
+                const left = section.querySelector('[data-prod-side="left"]');
+                const right = section.querySelector('[data-prod-side="right"]');
+                const mark = section.querySelector(".prod-watermark");
 
-            const tween = gsap.to(track, {
-                x: () => -getScrollDistance(),
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: '#prodPanelsContainer',
-                    pin: true,
-                    scrub: 1,
-                    end: () => '+=' + getScrollDistance(),
-                    invalidateOnRefresh: true,
-                },
-            })
+                if (left) {
+                    gsap.from(left, {
+                        opacity: 0,
+                        x: -50,
+                        duration: 0.9,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 75%",
+                            toggleActions: "play none none reverse",
+                        },
+                    });
+                }
 
-            return () => tween.scrollTrigger?.kill()
-        }, root)
+                if (right) {
+                    gsap.from(right.querySelectorAll("[data-prod-feat]"), {
+                        opacity: 0,
+                        x: 50,
+                        duration: 0.9,
+                        stagger: 0.08,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 75%",
+                            toggleActions: "play none none reverse",
+                        },
+                    });
+                }
 
-        return () => ctx.revert()
-    }, [content.items])
+                if (mark) {
+                    gsap.fromTo(
+                        mark,
+                        { y: 60 },
+                        {
+                            y: -60,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top bottom",
+                                end: "bottom top",
+                                scrub: 0.6,
+                            },
+                        }
+                    );
+                }
+            });
+
+            const heroElements = gsap.utils.toArray(
+                ".products-hero .reveal"
+            );
+
+            gsap.fromTo(
+                heroElements,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.9,
+                    stagger: 0.12,
+                    delay: 0.1,
+                    ease: "power3.out",
+                    clearProps: "transform",
+                }
+            );
+        }, root);
+
+        return () => {
+            ctx.revert();
+        };
+    }, [content]);
+
+    if (!content) {
+        return null;
+    }
 
     return (
-        <div ref={root}>
-            <section className="prod-intro bg-gm-ghost" aria-label="Products intro">
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
-                        {content.label ?? 'Our Products'}
-                    </span>
+        <main ref={root}>
+            {/* HERO */}
+            <section
+                className="products-hero relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden"
+                aria-label="Page hero"
+            >
+                <div className="absolute inset-0 hero-mesh" />
+                <div className="orb w-[500px] h-[500px] bg-gm-teal/10 top-[-100px] right-[-100px]" />
 
-                    <h2 className="reveal prod-intro__heading" style={{ transitionDelay: '0.08s' }}>
-                        {content.headingLine1}
-                        <br />
-                        <em>{content.headingLine2}</em>
-                    </h2>
-                </div>
-            </section>
+                <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="max-w-3xl">
+                        {hero.label && (
+                            <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">
+                                {hero.label}
+                            </span>
+                        )}
 
-            <section className="prod-panels-container bg-gm-ghost" id="prodPanelsContainer">
-                <div className="prod-panels-track" id="prodPanelsTrack">
-                    {content.items.map((product, index) => (
-                        <article
-                            className={`prod-panel prod-panel--${index + 1}`}
-                            key={`${product.num}-${index}`}
-                        >
-                            <div className="prod-panel__inner">
-                                <div className="prod-panel__num" aria-hidden="true">
-                                    {product.num}
-                                </div>
+                        {(hero.headingLine1 || hero.headingLine2) && (
+                            <h1 className="reveal text-5xl lg:text-6xl font-extrabold text-gm-deep leading-[1.08] tracking-tight">
+                                {hero.headingLine1}
+                                {hero.headingLine1 && hero.headingLine2 && <br />}
+                                {hero.headingLine2 && (
+                                    <span className="bg-gradient-to-r from-gm-teal via-gm-blue to-gm-green bg-clip-text text-transparent">
+                                        {hero.headingLine2}
+                                    </span>
+                                )}
+                            </h1>
+                        )}
 
-                                <h3 className="prod-panel__title">
-                                    {product.nameLine1}
-                                    <br />
-                                    <em>{product.nameLine2}</em>
-                                </h3>
+                        {hero.description && (
+                            <p className="reveal text-lg text-gm-muted mt-6 max-w-2xl leading-relaxed">
+                                {hero.description}
+                            </p>
+                        )}
 
-                                <p className="prod-panel__summary">{product.summary}</p>
-
-                                <div className="prod-panel__meta">
-                                    {(product.meta || []).map((item, metaIndex) => (
-                                        <div key={`${item.label}-${metaIndex}`}>
-                                            {item.label}
-                                            <span>{item.value}</span>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <Link to={product.buttonUrl || '/products'} className="prod-panel__cta">
-                                    {product.buttonText || 'Learn more →'}
+                        {hero.buttonText && (
+                            <div className="reveal flex flex-wrap gap-4 mt-10">
+                                <Link
+                                    to={hero.buttonUrl?.trim() ? hero.buttonUrl : "#"}
+                                    className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-gm-teal to-gm-green text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-gm-teal/20 transition-all"
+                                >
+                                    {hero.buttonText}
+                                    <span className="transition-transform group-hover:translate-x-1">
+                                        →
+                                    </span>
                                 </Link>
                             </div>
-                        </article>
-                    ))}
+                        )}
+                    </div>
                 </div>
             </section>
-        </div>
-    )
+
+            {/* PRODUCT SECTIONS */}
+            {products.map((product, index) => {
+                const buttonIsInPage = product.buttonUrl?.startsWith("#");
+
+                return (
+                    <section
+                        key={product.num || product._id || index}
+                        id={productAnchorId(product.name)}
+                        className={`prod-section scroll-mt-28 py-20 lg:py-28 ${index % 2 === 0 ? "bg-gm-ghost" : ""
+                            }`}
+                        data-prod
+                        data-prod-num={product.num}
+                        aria-label={product.name || `Product ${index + 1}`}
+                    >
+                        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
+                            {product.num && (
+                                <span
+                                    className={`prod-watermark ${index === 1 ? "prod-watermark--right" : ""
+                                        }`}
+                                    aria-hidden="true"
+                                >
+                                    {product.num}
+                                </span>
+                            )}
+
+                            <div className="grid lg:grid-cols-2 gap-12 items-center">
+                                <div
+                                    data-prod-side="left"
+                                    className={index === 1 ? "order-1 lg:order-2" : ""}
+                                >
+                                    {product.productLabel && (
+                                        <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-6">
+                                            {product.productLabel}
+                                        </span>
+                                    )}
+
+                                    {product.name && (
+                                        <h2 className="prod-title text-4xl font-extrabold text-gm-deep mb-4">
+                                            {product.name}
+                                        </h2>
+                                    )}
+
+                                    {product.description && (
+                                        <p className="text-gm-muted leading-relaxed mb-6">
+                                            {product.description}
+                                        </p>
+                                    )}
+
+                                    {product.price && (
+                                        <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gm-teal/10 rounded-2xl mb-6">
+                                            <span className="text-2xl font-extrabold text-gm-teal">
+                                                {product.price}
+                                            </span>
+                                            {product.priceNote && (
+                                                <span className="text-sm text-gm-muted">
+                                                    {product.priceNote}
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {product.buttonText && product.buttonUrl && (
+                                        <a
+                                            href={product.buttonUrl}
+                                            {...(buttonIsInPage
+                                                ? {
+                                                    onClick: (event) => {
+                                                        event.preventDefault();
+                                                        scrollToSection(product.buttonUrl.slice(1));
+                                                    },
+                                                }
+                                                : {
+                                                    target: "_blank",
+                                                    rel: "noopener noreferrer",
+                                                })}
+                                            className="block w-fit group inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-gm-teal to-gm-green text-white font-semibold rounded-full hover:shadow-lg transition-all"
+                                        >
+                                            {product.buttonText}
+                                            <span className="transition-transform group-hover:translate-x-1">
+                                                →
+                                            </span>
+                                        </a>
+                                    )}
+                                </div>
+
+                                <div
+                                    data-prod-side="right"
+                                    className={index === 1 ? "order-2 lg:order-1" : ""}
+                                >
+                                    {product.features?.length > 0 && (
+                                        <ProductFeatures features={product.features} />
+                                    )}
+
+                                    {product.stats?.length > 0 && (
+                                        <ProductStats stats={product.stats} />
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                );
+            })}
+
+            {/* CTA */}
+            <section className="page-cta" aria-label="Call to action">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative">
+                    {cta.label && (
+                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                            {cta.label}
+                        </span>
+                    )}
+
+                    {(cta.headingLine1 || cta.headingLine2) && (
+                        <h2 className="reveal page-cta__title">
+                            {cta.headingLine1}
+                            {cta.headingLine1 && cta.headingLine2 && <br />}
+                            {cta.headingLine2 && <em>{cta.headingLine2}</em>}
+                        </h2>
+                    )}
+
+                    {cta.description && (
+                        <p className="reveal page-cta__body">
+                            {cta.description}
+                        </p>
+                    )}
+
+                    {cta.buttonText && (
+                        <div className="page-magnet-wrap">
+                            <Link
+                                to={cta.buttonUrl?.trim() ? cta.buttonUrl : "#"}
+                                className="page-magnet-btn"
+                            >
+                                {cta.buttonText} →
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            </section>
+        </main>
+    );
 }

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -46,6 +45,19 @@ const defaultColumns = [
     ],
   },
 ]
+
+// "Webcraft HRMS" -> "/products#product-webcraft-hrms"
+const productAnchor = (label = '') =>
+  `/products#product-${label
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')}`
+
+// A footer item is a product link when it points to /products and is not the plain "Products" link.
+const PRODUCT_LABELS = ['Webcraft HRMS', 'TutorWand', 'WCSchool ERP']
+
+const isProductLink = (item) => PRODUCT_LABELS.includes(item.label)
 
 export default function Footer() {
   const [footer, setFooter] = useState(null)
@@ -159,16 +171,25 @@ export default function Footer() {
                 {column.title}
               </span>
 
-              {column.items.map((item) => (
-                <Link
-                  key={item._id || item.label}
-                  to={item.to}
-                  className="site-footer__link"
-                >
-                  <span>{item.label}</span>
-                  <span className="site-footer__arrow">→</span>
-                </Link>
-              ))}
+              {column.items.map((item) => {
+                const productLink = isProductLink(item)
+
+                return (
+                  <Link
+                    key={item._id || item.label}
+                    to={productLink ? productAnchor(item.label) : item.to}
+                    className="site-footer__link"
+                    onClick={
+                      productLink
+                        ? undefined
+                        : () => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+                    }
+                  >
+                    <span>{item.label}</span>
+                    <span className="site-footer__arrow">→</span>
+                  </Link>
+                )
+              })}
             </div>
           ))}
         </div>

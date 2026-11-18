@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
 import ConfirmDialog from "../components/ConfirmDialog";
@@ -24,7 +24,7 @@ const DEFAULT_FORM = {
         headingLine1: "Platforms Built From",
         headingLine2: "Real Experience",
         description:
-            "Ready-to-deploy software products - HRMS, TutorWand, and WCSchool ERP - built from years of domain expertise and client feedback.",
+            "Ready-to-deploy software products — HRMS, TutorWand, and WCSchool ERP — built from years of domain expertise and client feedback.",
         buttonText: "Start a Conversation",
         buttonUrl: "/contact",
     },
@@ -35,7 +35,7 @@ const DEFAULT_FORM = {
             productLabel: "Product",
             name: "Webcraft HRMS",
             description:
-                "Complete human resource management - attendance, leave, payroll, self-service portal, and role-based security. Designed for mid-size organizations that need enterprise-grade features without enterprise-grade complexity.",
+                "Complete human resource management — attendance, leave, payroll, self-service portal, and role-based security. Designed for mid-size organizations that need enterprise-grade features without enterprise-grade complexity.",
             price: "₹2,999",
             priceNote: "/mo flat server cost · No per-user fees",
             buttonText: "Request a Demo",
@@ -71,7 +71,7 @@ const DEFAULT_FORM = {
             productLabel: "Product",
             name: "WCSchool ERP",
             description:
-                "Comprehensive school management platform - fee management, class scheduling, examination management, parent monitoring, and seamless communication between schools, parents, and students.",
+                "Comprehensive school management platform — fee management, class scheduling, examination management, parent monitoring, and seamless communication between schools, parents, and students.",
             price: "",
             priceNote: "",
             buttonText: "Request a Demo",
@@ -146,7 +146,10 @@ export default function ProductsAdmin() {
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
-    const [pendingProductRemove, setPendingProductRemove] = useState(null);
+
+    // Pending delete confirmation: { title, message, action }
+    // action is a closure created at click time, so it always removes the right item.
+    const [pendingRemove, setPendingRemove] = useState(null);
 
     useEffect(() => {
         let active = true;
@@ -179,6 +182,22 @@ export default function ProductsAdmin() {
             active = false;
         };
     }, []);
+
+    function askRemove(title, message, action) {
+        setPendingRemove({ title, message, action });
+    }
+
+    function confirmRemove() {
+        if (!pendingRemove) return;
+
+        const { action } = pendingRemove;
+        setPendingRemove(null);
+        action();
+    }
+
+    function cancelRemove() {
+        setPendingRemove(null);
+    }
 
     function setHero(key, value) {
         setForm((previous) => ({
@@ -241,11 +260,6 @@ export default function ProductsAdmin() {
     }
 
     function removeProduct(index) {
-        if (form.products.length <= 1) {
-            notify("error", "At least one product is required.");
-            return;
-        }
-
         setForm((previous) => ({
             ...previous,
             products: previous.products.filter((_, i) => i !== index),
@@ -282,18 +296,6 @@ export default function ProductsAdmin() {
                     : product
             ),
         }));
-    }
-
-    // Runs the removal the user confirmed in the dialog.
-    function confirmProductRemove() {
-        const target = pendingProductRemove;
-        setPendingProductRemove(null);
-
-        if (target.kind === "product") {
-            removeProduct(target.index);
-        } else {
-            removeProductItem(target.productIndex, target.listKey, target.itemIndex);
-        }
     }
 
     async function handleSubmit(event) {
@@ -461,13 +463,11 @@ export default function ProductsAdmin() {
                                             className={secondaryButtonClass}
                                             style={outlineButtonStyle}
                                             onClick={() =>
-                                                setPendingProductRemove({
-                                                    kind: "item",
-                                                    productIndex: index,
-                                                    listKey: "features",
-                                                    itemIndex: featureIndex,
-                                                    label: "feature",
-                                                })
+                                                askRemove(
+                                                    "Remove feature?",
+                                                    `Feature ${featureIndex + 1} ("${feature.title || "untitled"}") will be removed from ${product.name || `Product ${index + 1}`}. Click "Save Changes" to apply this update to the live site.`,
+                                                    () => removeProductItem(index, "features", featureIndex)
+                                                )
                                             }
                                         >
                                             Remove Feature
@@ -512,13 +512,11 @@ export default function ProductsAdmin() {
                                             className={secondaryButtonClass}
                                             style={outlineButtonStyle}
                                             onClick={() =>
-                                                setPendingProductRemove({
-                                                    kind: "item",
-                                                    productIndex: index,
-                                                    listKey: "stats",
-                                                    itemIndex: statIndex,
-                                                    label: "statistic",
-                                                })
+                                                askRemove(
+                                                    "Remove statistic?",
+                                                    `Statistic ${statIndex + 1} will be removed from ${product.name || `Product ${index + 1}`}. Click "Save Changes" to apply this update to the live site.`,
+                                                    () => removeProductItem(index, "stats", statIndex)
+                                                )
                                             }
                                         >
                                             Remove Statistic
@@ -540,9 +538,18 @@ export default function ProductsAdmin() {
                                         type="button"
                                         className={secondaryButtonClass}
                                         style={outlineButtonStyle}
-                                        onClick={() =>
-                                            setPendingProductRemove({ kind: "product", index, label: "product" })
-                                        }
+                                        onClick={() => {
+                                            if (form.products.length <= 1) {
+                                                notify("error", "At least one product is required.");
+                                                return;
+                                            }
+
+                                            askRemove(
+                                                "Remove product?",
+                                                `${product.name || `Product ${index + 1}`} will be removed from the Products page. Click "Save Changes" to apply this update to the live site.`,
+                                                () => removeProduct(index)
+                                            );
+                                        }}
                                     >
                                         Remove Product
                                     </button>
@@ -584,14 +591,14 @@ export default function ProductsAdmin() {
                 </form>
             </div>
 
-            {pendingProductRemove && (
+            {pendingRemove && (
                 <ConfirmDialog
-                    title={`Remove ${pendingProductRemove.label}?`}
-                    message={`Are you sure you want to delete this ${pendingProductRemove.label}? The change will be applied when you click Save Changes.`}
+                    title={pendingRemove.title}
+                    message={pendingRemove.message}
                     confirmText="Delete"
                     cancelText="Cancel"
-                    onConfirm={confirmProductRemove}
-                    onCancel={() => setPendingProductRemove(null)}
+                    onConfirm={confirmRemove}
+                    onCancel={cancelRemove}
                 />
             )}
         </main>

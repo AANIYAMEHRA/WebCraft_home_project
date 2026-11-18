@@ -47,6 +47,11 @@ const CARDS = [
         text: "Products page content, product details and sections.",
     },
     {
+        to: "/admin/careers",
+        title: "Careers Page CMS",
+        text: "Job openings, application process and career opportunities.",
+    },
+    {
         to: "/admin/footer",
         title: "Footer CMS",
         text: "Footer text, tagline, email and bottom line.",

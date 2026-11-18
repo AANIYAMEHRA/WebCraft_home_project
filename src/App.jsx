@@ -1,7 +1,7 @@
-
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import AdminLayout from './components/AdminLayout.jsx'
+import ScrollToTop from './components/ScrollToTop.jsx'
 
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
@@ -21,34 +21,42 @@ import AiSolutionsAdmin from './pages/AiSolutionsAdmin.jsx'
 import ResearchAdmin from './pages/ResearchAdmin.jsx'
 import ProductsAdmin from './pages/ProductsAdmin.jsx'
 import ServicesAdmin from './pages/ServicesAdmin.jsx'
+import CareersAdmin from "./pages/CareersAdmin";
+import ContactAdmin from "./pages/ContactAdmin.jsx";
 
 export default function App() {
   return (
-    <Routes>
-      {/* Public website */}
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/ai-solutions" element={<AiSolutions />} />
-        <Route path="/research" element={<Research />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/careers" element={<Careers />} />
-      </Route>
+    <>
+      <ScrollToTop />
 
-      {/* Admin CMS */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<AdminDashboard />} />
-        <Route path="home" element={<HomeAdmin />} />
-        <Route path="about" element={<AboutAdmin />} />
-        <Route path="header" element={<HeaderAdmin />} />
-        <Route path="footer" element={<FooterAdmin />} />
-        <Route path="ai-solutions" element={<AiSolutionsAdmin />} />
-        <Route path="research" element={<ResearchAdmin />} />
-        <Route path="products" element={<ProductsAdmin />} />
-        <Route path="services" element={<ServicesAdmin />} />
-      </Route>
-    </Routes>
+      <Routes>
+        {/* Public website */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/ai-solutions" element={<AiSolutions />} />
+          <Route path="/research" element={<Research />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/careers" element={<Careers />} />
+        </Route>
+
+        {/* Admin CMS */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="home" element={<HomeAdmin />} />
+          <Route path="about" element={<AboutAdmin />} />
+          <Route path="header" element={<HeaderAdmin />} />
+          <Route path="footer" element={<FooterAdmin />} />
+          <Route path="ai-solutions" element={<AiSolutionsAdmin />} />
+          <Route path="research" element={<ResearchAdmin />} />
+          <Route path="products" element={<ProductsAdmin />} />
+          <Route path="services" element={<ServicesAdmin />} />
+          <Route path="/admin/careers" element={<CareersAdmin />} />
+          <Route path="contact" element={<ContactAdmin />} />
+        </Route>
+      </Routes>
+    </>
   )
 }

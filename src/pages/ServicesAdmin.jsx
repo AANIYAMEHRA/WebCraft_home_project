@@ -1,6 +1,7 @@
 ﻿import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
 import CollapsibleSection from "../components/CollapsibleSection";
+import ConfirmDialog from "../components/ConfirmDialog";
 import {
   INPUT_GRID,
   PageTitle,
@@ -37,6 +38,13 @@ const TONE_OPTIONS = [
   { value: "blue", label: "Blue", swatch: "bg-gm-blue" },
   { value: "green", label: "Green", swatch: "bg-gm-green" },
 ];
+
+// Friendly labels for the three parts of a heading.
+const HEADING_PART_LABELS = {
+  before: "Heading (before highlight)",
+  accent: "Highlighted word",
+  after: "Heading (after highlight)",
+};
 
 const MAX_HERO_CHIPS = 4; // the hero has four floating chip positions
 
@@ -76,6 +84,10 @@ export default function ServicesAdmin() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  // Pending delete confirmation: { title, message, action }
+  // action is a closure created at click time, so it always removes the right item.
+  const [pendingRemove, setPendingRemove] = useState(null);
+
   useEffect(() => {
     let active = true;
 
@@ -100,6 +112,31 @@ export default function ServicesAdmin() {
       active = false;
     };
   }, []);
+
+  function askRemove(title, message, action) {
+    setPendingRemove({ title, message, action });
+  }
+
+  // Shared confirmation text for list items.
+  function confirmItemRemove(itemName, action) {
+    askRemove(
+      "Remove item?",
+      `${itemName} will be removed from this section. Click "Save Changes" to apply this update to the live site.`,
+      action
+    );
+  }
+
+  function confirmRemove() {
+    if (!pendingRemove) return;
+
+    const { action } = pendingRemove;
+    setPendingRemove(null);
+    action();
+  }
+
+  function cancelRemove() {
+    setPendingRemove(null);
+  }
 
   // Binds a text field to a path, e.g. bind(["hero", "tag"]).
   const bind = (path) => ({
@@ -153,7 +190,7 @@ export default function ServicesAdmin() {
       {parts.map((part) => (
         <Field
           key={part}
-          label={`Heading: ${part}`}
+          label={HEADING_PART_LABELS[part]}
           {...bind([...path, part])}
         />
       ))}
@@ -210,6 +247,8 @@ export default function ServicesAdmin() {
     );
   }
 
+  const chipLimitReached = content.hero.chips.length >= MAX_HERO_CHIPS;
+
   return (
     <main className="min-h-screen px-6 py-8" style={pageStyle}>
       <div className="mx-auto max-w-5xl">
@@ -239,7 +278,11 @@ export default function ServicesAdmin() {
               <div key={i} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Chip ${i + 1}`}
-                  onRemove={() => removeAt(["hero", "chips"], i)}
+                  onRemove={() =>
+                    confirmItemRemove(`Chip ${i + 1}`, () =>
+                      removeAt(["hero", "chips"], i)
+                    )
+                  }
                 />
 
                 <div className={INPUT_GRID}>
@@ -289,7 +332,12 @@ export default function ServicesAdmin() {
             {addButton(
               "+ Add Chip",
               () => addTo(["hero", "chips"], { label: "", value: "", tone: "teal", icon: "" }),
-              content.hero.chips.length >= MAX_HERO_CHIPS
+              chipLimitReached
+            )}
+            {chipLimitReached && (
+              <p className="text-sm opacity-70">
+                Maximum {MAX_HERO_CHIPS} chips allowed. The hero has {MAX_HERO_CHIPS} floating positions on the site.
+              </p>
             )}
           </CollapsibleSection>
 
@@ -307,7 +355,11 @@ export default function ServicesAdmin() {
               <div key={ci} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`${cap.num} · ${cap.name}`}
-                  onRemove={() => removeAt(["capabilities"], ci)}
+                  onRemove={() =>
+                    confirmItemRemove(`Capability ${cap.num || ci + 1}${cap.name ? ` (${cap.name})` : ""}`, () =>
+                      removeAt(["capabilities"], ci)
+                    )
+                  }
                 />
 
                 <div className={INPUT_GRID}>
@@ -326,7 +378,11 @@ export default function ServicesAdmin() {
                   <div key={si} className={itemClass} style={itemStyle}>
                     <ItemHeader
                       title={`Sub-service ${si + 1}`}
-                      onRemove={() => removeAt(["capabilities", ci, "subs"], si)}
+                      onRemove={() =>
+                        confirmItemRemove(`Sub-service ${si + 1}`, () =>
+                          removeAt(["capabilities", ci, "subs"], si)
+                        )
+                      }
                     />
                     <Field label="Title" {...bind(["capabilities", ci, "subs", si, "title"])} />
                     <Field label="Body" multiline {...bind(["capabilities", ci, "subs", si, "body"])} />
@@ -368,7 +424,11 @@ export default function ServicesAdmin() {
               <div key={mi} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Model ${model.kicker || mi + 1} · ${model.title}`}
-                  onRemove={() => removeAt(["engagementModels", "models"], mi)}
+                  onRemove={() =>
+                    confirmItemRemove(`Engagement model ${model.kicker || mi + 1}`, () =>
+                      removeAt(["engagementModels", "models"], mi)
+                    )
+                  }
                 />
 
                 <div className={INPUT_GRID}>
@@ -396,7 +456,11 @@ export default function ServicesAdmin() {
               <div key={ci} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Case ${item.num || ci + 1}`}
-                  onRemove={() => removeAt(["cases", "items"], ci)}
+                  onRemove={() =>
+                    confirmItemRemove(`Case ${item.num || ci + 1}`, () =>
+                      removeAt(["cases", "items"], ci)
+                    )
+                  }
                 />
 
                 <div className={INPUT_GRID}>
@@ -437,7 +501,11 @@ export default function ServicesAdmin() {
               <div key={i} className={itemClass} style={itemStyle}>
                 <ItemHeader
                   title={`Question ${i + 1}`}
-                  onRemove={() => removeAt(["faq", "items"], i)}
+                  onRemove={() =>
+                    confirmItemRemove(`Question ${i + 1}`, () =>
+                      removeAt(["faq", "items"], i)
+                    )
+                  }
                 />
                 <Field label="Question" {...bind(["faq", "items", i, "q"])} />
                 <Field label="Answer" multiline {...bind(["faq", "items", i, "a"])} />
@@ -465,6 +533,17 @@ export default function ServicesAdmin() {
           <SaveBar saving={saving} error={error} message={message} />
         </form>
       </div>
+
+      {pendingRemove && (
+        <ConfirmDialog
+          title={pendingRemove.title}
+          message={pendingRemove.message}
+          confirmText="Delete"
+          cancelText="Cancel"
+          onConfirm={confirmRemove}
+          onCancel={cancelRemove}
+        />
+      )}
     </main>
   );
 }

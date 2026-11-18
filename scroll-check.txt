@@ -1,0 +1,28 @@
+﻿src\components\AdminLayout.jsx:238: className="fixed inset-y-0 left-0 hidden w-72 flex-col overflow-y-auto bg-[#0b2350] px-5 py-8 md:flex"
+src\components\AdminUi.jsx:188: className="relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-white shadow-sm"
+src\components\CollapsibleSection.jsx:38: className="scroll-mt-28 overflow-hidden rounded-3xl border bg-white"
+src\components\ConfirmDialog.jsx:35: className="w-full max-w-md overflow-hidden rounded-3xl border bg-white"
+src\components\Footer.jsx:187: onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+src\components\Hero.jsx:42: <section className="relative min-h-screen hero-mesh noise grid-bg flex items-center overflow-hidden" aria-label="Hero">
+src\components\Layout.jsx:8: function ScrollToTop() {
+src\components\Layout.jsx:11: window.scrollTo(0, 0)
+src\components\Layout.jsx:20: <ScrollToTop />
+src\components\ScrollToTop.jsx:6: export default function ScrollToTop() {
+src\components\ScrollToTop.jsx:11: window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+src\components\WhatWeDo.jsx:93: className="py-28 lg:py-36 bg-gm-ghost overflow-hidden relative"
+src\pages\About.jsx:252: <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden" aria-label="About hero">
+src\pages\About.jsx:378: <section className="py-20 lg:py-28 bg-white relative overflow-hidden" aria-label="Mission and values">
+src\pages\About.jsx:473: <section className="careers-section bg-gm-ghost py-24 lg:py-32 text-center relative overflow-hidden" id="careersSection">
+src\pages\AdminDashboard.jsx:68: className="group overflow-hidden rounded-3xl border bg-white transition hover:-translate-y-1"
+src\pages\AiSolutions.jsx:375: className="relative min-h-screen flex flex-col bg-white overflow-hidden pt-20"
+src\pages\AiSolutionsAdmin.jsx:584: <div className="relative w-20 h-20 rounded-xl border bg-white flex items-center justify-center overflow-hidden">
+src\pages\Careers.jsx:40: const scrollToApplication = (event) => {
+src\pages\Careers.jsx:116: <main className="overflow-hidden bg-white">
+src\pages\Careers.jsx:119: <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
+src\pages\Careers.jsx:154: onClick={scrollToApplication}
+src\pages\Careers.jsx:321: <section className="relative py-20 lg:py-28 overflow-hidden bg-gm-deep">
+src\pages\Contact.jsx:270: className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 overflow-hidden"
+src\pages\HeaderAdmin.jsx:311: className="relative flex h-28 w-48 items-center justify-center overflow-hidden rounded-2xl border bg-white p-4 shadow-sm"
+src\pages\Products.jsx:190: className="products-hero relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden"
+src\pages\ResearchAdmin.jsx:139: className={`overflow-hidden rounded-2xl border-2 border-dashed transition-colors ${
+src\pages\ResearchAdmin.jsx:145: <div className="flex h-44 w-full items-center justify-center overflow-hidden rounded-xl bg-gm-teal/5 sm:w-72">
