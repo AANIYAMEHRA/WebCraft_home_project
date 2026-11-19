@@ -4,7 +4,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useReveal from "../hooks/useReveal";
 import useMagnet from "../hooks/useMagnet";
+import "./AboutStats.css";
 import { heroChips, milestones, ways, values, philSteps, stats } from "./aboutData";
+import "./AboutStats.css";
 
 
 
@@ -14,6 +16,9 @@ const API = "http://localhost:5000/api/about";
 const DEFAULT_SECTION_CONTENT = {
     heroHeading1: "The Company",
     heroHeading2: "Behind the Work",
+    heroLabel: "About Webcraft",
+    storyIntro:
+        "Two decades of building software, research and AI for clients across industries.",
     heroDescription:
         "Founded in 2006, WebCraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner - serving 3000+ clients with a team of 230+ professionals.",
     storyLabel: "Our Story",
@@ -278,7 +283,7 @@ export default function About() {
                                         <div className="absolute inset-[10%] rounded-full bg-gradient-to-br from-gm-teal/30 to-gm-blue/20 border border-white/30 flex items-center justify-center">
                                             <div className="absolute inset-[15%] rounded-full bg-gradient-to-br from-gm-teal to-gm-green shadow-2xl shadow-gm-teal/30 flex flex-col items-center justify-center text-white">
                                                 <span className="font-extrabold text-5xl leading-none about-pulse" style={{ fontFamily: "'Fraunces', serif" }}>
-                                                    17<sup className="text-2xl align-top">+</sup>
+                                                    19<sup className="text-2xl align-top">+</sup>
                                                 </span>
                                                 <span className="text-[10px] font-mono tracking-[0.3em] uppercase mt-2 opacity-90">Years</span>
                                             </div>

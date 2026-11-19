@@ -1,4 +1,3 @@
-
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
@@ -329,13 +328,13 @@ export default function Products() {
             <section className="page-cta" aria-label="Call to action">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative">
                     {cta.label && (
-                        <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
+                        <span className="section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
                             {cta.label}
                         </span>
                     )}
 
                     {(cta.headingLine1 || cta.headingLine2) && (
-                        <h2 className="reveal page-cta__title">
+                        <h2 className="page-cta__title">
                             {cta.headingLine1}
                             {cta.headingLine1 && cta.headingLine2 && <br />}
                             {cta.headingLine2 && <em>{cta.headingLine2}</em>}
@@ -343,7 +342,7 @@ export default function Products() {
                     )}
 
                     {cta.description && (
-                        <p className="reveal page-cta__body">
+                        <p className="page-cta__body">
                             {cta.description}
                         </p>
                     )}

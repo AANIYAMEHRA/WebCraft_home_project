@@ -134,7 +134,7 @@ export default function Hero() {
                 <div className="orb w-[500px] h-[500px] bg-gm-teal/10 top-[-100px] left-[-100px]"></div>
                 <div className="orb w-[400px] h-[400px] bg-gm-blue/10 bottom-[-50px] right-[-50px]" style={{ animationDelay: '3s' }}></div>
                 <div className="orb w-[250px] h-[250px] bg-gm-green/10 top-[40%] right-[20%]" style={{ animationDelay: '5s' }}></div>
-                <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20 lg:pt-0 lg:pb-0">
+                <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-0">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div id="heroLeft">
 

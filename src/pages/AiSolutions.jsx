@@ -149,6 +149,13 @@ const polar = (radius, deg) => {
     return `translate(${250 + Math.cos(a) * radius}, ${250 + Math.sin(a) * radius})`;
 };
 
+const HERO_FALLBACK = {
+    label: "AI Solutions",
+    heading: "Intelligent systems. Built to work.",
+    description:
+        "Practical AI solutions designed around your data, your workflows and your goals.",
+};
+
 export default function AiSolutions() {
     const pageRef = useRef(null);
     const orbitRef = useRef(null);
@@ -221,7 +228,12 @@ export default function AiSolutions() {
     }, []);
 
     /* Dynamic values (fall back to the default data when the CMS list is empty) */
-    const hero = content.hero;
+    const hero = {
+        ...content.hero,
+        label: content.hero?.label || HERO_FALLBACK.label,
+        heading: content.hero?.heading || HERO_FALLBACK.heading,
+        description: content.hero?.description || HERO_FALLBACK.description,
+    };
 
     const heroBadges = hero.badges?.length ? hero.badges : defaultHeroBadges;
 
@@ -383,7 +395,7 @@ export default function AiSolutions() {
 
                 {/* 1. HERO */}
                 <section
-                    className="relative min-h-screen flex flex-col bg-white overflow-hidden pt-20"
+                    className="relative min-h-screen flex flex-col bg-white overflow-hidden"
                     aria-label="Page hero"
                 >
                     <div className="absolute inset-0 hero-mesh" />
@@ -397,7 +409,7 @@ export default function AiSolutions() {
                     />
 
                     <div className="relative flex-1 flex items-center">
-                        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full py-20 lg:py-28">
+                        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full pt-32 pb-20 lg:pt-40 lg:pb-28">
                             <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
 
                                 <div className="lg:col-span-3">

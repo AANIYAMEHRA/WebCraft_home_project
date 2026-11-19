@@ -1,4 +1,3 @@
-
 import express from "express";
 import Footer from "../models/Footer.js";
 
@@ -60,8 +59,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-
- // Update footer content
+// Update footer content
 router.put("/", async (req, res) => {
   try {
     let footer = await Footer.findOne();
@@ -74,6 +72,9 @@ router.put("/", async (req, res) => {
         "heading",
         "headingEmphasis",
         "email",
+        "contactEmail",
+        "phone",
+        "address",
         "brandTagline",
         "socials",
         "columns",

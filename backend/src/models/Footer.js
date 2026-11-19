@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 
 const footerLinkSchema = new mongoose.Schema(
@@ -56,6 +55,11 @@ const footerSchema = new mongoose.Schema(
       type: String,
       default: "Research · AI · Engineering",
     },
+    // Contact details shown in the footer
+    contactEmail: { type: String, default: "admin@webcraft.co.in", trim: true },
+    careersEmail: { type: String, default: "hr@webcraftit.com", trim: true },
+    phone: { type: String, default: "", trim: true },
+    address: { type: String, default: "Indore, India", trim: true },
   },
   { timestamps: true }
 );

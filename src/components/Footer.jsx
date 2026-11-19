@@ -59,6 +59,12 @@ const PRODUCT_LABELS = ['WebCraft HRMS', 'TutorWand', 'WCSchool ERP']
 
 const isProductLink = (item) => PRODUCT_LABELS.includes(item.label)
 
+// Contact details. These match the defaults in the Footer CMS.
+const CONTACT_FALLBACK = {
+  email: 'hr@webcraftit.com',
+  address: 'Indore, Madhya Pradesh, India',
+}
+
 export default function Footer() {
   const [footer, setFooter] = useState(null)
 
@@ -105,6 +111,12 @@ export default function Footer() {
     ? footer.columns
     : defaultColumns
 
+  const contact = {
+    email: footer?.contactEmail || CONTACT_FALLBACK.email,
+    phone: footer?.phone || '',
+    address: footer?.address || CONTACT_FALLBACK.address,
+  }
+
   return (
     <footer className="site-footer" role="contentinfo">
       <div className="site-footer__bg" aria-hidden="true" />
@@ -140,6 +152,27 @@ export default function Footer() {
                 'Research-led, AI-enabled digital transformation for teams that ship.'}
             </p>
 
+            <div className="site-footer__contact">
+              <span className="site-footer__col-label">
+                <span className="site-footer__col-dot" aria-hidden="true" />
+                Contact
+              </span>
+
+              <a href={`mailto:${contact.email}`} className="site-footer__link">
+                <span>{contact.email}</span>
+              </a>
+
+              {contact.phone && (
+                <a href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="site-footer__link">
+                  <span>{contact.phone}</span>
+                </a>
+              )}
+
+              <p className="site-footer__link">
+                <span>{contact.address}</span>
+              </p>
+            </div>
+
             <div className="site-footer__socials">
               <span className="site-footer__socials-label">
                 Follow along
@@ -160,6 +193,24 @@ export default function Footer() {
                     </svg>
                   </a>
                 ))}
+
+                <a
+                  href={`mailto:${contact.email}?subject=${encodeURIComponent('Resume or Query')}`}
+                  className="site-footer__social"
+                  aria-label="Email us"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <path d="M3 7l9 6 9-6" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
