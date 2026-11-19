@@ -1,9 +1,9 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { notify } from "../components/adminToast";
- 
+
 const API_URL = "http://localhost:5000/api/footer";
- 
-// Colors and fonts taken from the live Webcraft-IT site.
+
+// Colors and fonts taken from the live WebCraft-IT site.
 const COLORS = {
     navy: "#102a4f",      // headings (hero "Smarter Decisions.")
     text: "#1e293b",      // labels, input text
@@ -14,7 +14,7 @@ const COLORS = {
     border: "#d7ebe4",
     bg: "#f4faf8",
 };
- 
+
 // Footer colors, sampled from the live site's footer.
 const FOOTER = {
     bg: "#102a4f",
@@ -25,11 +25,11 @@ const FOOTER = {
     faint: "rgba(226,232,240,0.5)",
     line: "rgba(255,255,255,0.12)",
 };
- 
+
 const FONT_HEADING = "'Fraunces', Georgia, 'Times New Roman', serif";
 const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_MONO = "'JetBrains Mono', ui-monospace, 'Courier New', monospace";
- 
+
 // Heading scale, largest to smallest (priority order).
 const SIZE = {
     h1: "45px",       // page title   - "Footer CMS"
@@ -38,7 +38,7 @@ const SIZE = {
     label: "16px",    // field labels
     body: "16px",     // inputs, buttons, messages
 };
- 
+
 const pageStyle = {
     backgroundColor: COLORS.bg,
     backgroundImage: [
@@ -50,9 +50,9 @@ const pageStyle = {
     fontFamily: FONT_BODY,
     color: COLORS.text,
 };
- 
+
 const headingStyle = { fontFamily: FONT_HEADING, color: COLORS.navy };
- 
+
 // Gradient text for "CMS". inline-block gives the gradient a box that covers the glyphs,
 // and WebkitTextFillColor stops the text color from hiding the gradient.
 const gradientTextStyle = {
@@ -65,13 +65,13 @@ const gradientTextStyle = {
     color: "transparent",
     WebkitTextFillColor: "transparent",
 };
- 
+
 const cardStyle = {
     backgroundColor: "#ffffff",
     border: `1px solid ${COLORS.border}`,
     boxShadow: "0 10px 30px -15px rgba(15,36,64,0.15)",
 };
- 
+
 const inputClass =
     "w-full rounded-xl border bg-white px-4 py-3 outline-none transition placeholder:text-[#8a9aa9] focus:border-[#2aa27c] focus:ring-4 focus:ring-[#2aa27c]/20";
 const inputStyle = {
@@ -79,61 +79,78 @@ const inputStyle = {
     color: COLORS.text,
     fontSize: SIZE.body,
 };
- 
+
 const primaryButtonStyle = {
     background: `linear-gradient(90deg, ${COLORS.green}, ${COLORS.teal})`,
     boxShadow: "0 8px 20px -8px rgba(31,138,134,0.55)",
     color: "#ffffff",
 };
- 
+
 export default function FooterAdmin() {
     const [footer, setFooter] = useState({});
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("");
- 
+
     useEffect(() => {
         async function loadFooter() {
             try {
                 const response = await fetch(API_URL);
- 
+
                 if (!response.ok) {
                     throw new Error(
                         "Failed to load footer. Please check the backend."
                     );
                 }
- 
+
                 const data = await response.json();
                 setFooter(data.footer || data);
             } catch (error) {
                 setMessage(
                     error.message ||
-                        "Failed to load footer. Please check the backend."
+                    "Failed to load footer. Please check the backend."
                 );
                 setMessageType("error");
             } finally {
                 setLoading(false);
             }
         }
- 
+
         loadFooter();
     }, []);
- 
+
     function updateField(field, value) {
         setFooter((current) => ({
             ...current,
             [field]: value,
         }));
     }
- 
+    function updateColumnItem(columnIndex, itemIndex, value) {
+        setFooter((current) => ({
+            ...current,
+            columns: current.columns.map((column, cIndex) =>
+                cIndex === columnIndex
+                    ? {
+                        ...column,
+                        items: column.items.map((item, iIndex) =>
+                            iIndex === itemIndex
+                                ? { ...item, label: value }
+                                : item
+                        ),
+                    }
+                    : column
+            ),
+        }));
+    }
+
     async function saveFooter(event) {
         event.preventDefault();
- 
+
         setSaving(true);
         setMessage("");
         setMessageType("");
- 
+
         try {
             const response = await fetch(API_URL, {
                 method: "PUT",
@@ -142,17 +159,17 @@ export default function FooterAdmin() {
                 },
                 body: JSON.stringify(footer),
             });
- 
+
             const data = await response.json();
- 
+
             if (!response.ok) {
                 throw new Error(data.message || "Failed to save footer.");
             }
- 
+
             if (data.footer) {
                 setFooter(data.footer);
             }
- 
+
             setMessage("Footer updated successfully!");
             notify("success", "Footer saved successfully!");
             setMessageType("success");
@@ -164,7 +181,7 @@ export default function FooterAdmin() {
             setSaving(false);
         }
     }
- 
+
     if (loading) {
         return (
             <p className="p-6" style={{ ...pageStyle, fontSize: SIZE.body }}>
@@ -172,20 +189,20 @@ export default function FooterAdmin() {
             </p>
         );
     }
- 
+
     const excludedFields = [
         "_id",
         "__v",
         "createdAt",
         "updatedAt",
     ];
- 
+
     const textFields = Object.entries(footer).filter(
         ([key, value]) =>
             typeof value === "string" &&
             !excludedFields.includes(key)
     );
- 
+
     return (
         <main className="min-h-screen px-6 py-16" style={pageStyle}>
             <div className="mx-auto max-w-5xl">
@@ -195,14 +212,14 @@ export default function FooterAdmin() {
                 >
                     Footer <span style={gradientTextStyle}>CMS</span>
                 </h1>
- 
+
                 <p
                     className="mb-14"
                     style={{ color: COLORS.muted, fontSize: SIZE.subtitle }}
                 >
                     Edit your website footer content here.
                 </p>
- 
+
                 <form id="admin-form" onSubmit={saveFooter} className="space-y-10">
                     <section className="rounded-3xl p-10" style={cardStyle}>
                         <h2
@@ -211,7 +228,7 @@ export default function FooterAdmin() {
                         >
                             Footer Content
                         </h2>
- 
+
                         <div className="space-y-6">
                             {textFields.map(([key, value]) => (
                                 <div key={key}>
@@ -226,7 +243,7 @@ export default function FooterAdmin() {
                                                 char.toUpperCase()
                                             )}
                                     </label>
- 
+
                                     <input
                                         id={`footer-${key}`}
                                         placeholder={`Enter ${key
@@ -247,8 +264,73 @@ export default function FooterAdmin() {
                             ))}
                         </div>
                     </section>
- 
- 
+                    <section className="rounded-3xl p-10" style={cardStyle}>
+                        <h2
+                            className="mb-3 font-bold leading-tight"
+                            style={{ ...headingStyle, fontSize: SIZE.h2 }}
+                        >
+                            Footer Navigation Columns
+                        </h2>
+
+                        <p
+                            className="mb-8"
+                            style={{ color: COLORS.muted, fontSize: SIZE.body }}
+                        >
+                            Edit footer column titles and navigation labels.
+                        </p>
+
+                        <div className="space-y-8">
+                            {(footer.columns || []).map((column, columnIndex) => (
+                                <div
+                                    key={column._id || columnIndex}
+                                    className="rounded-2xl border p-6"
+                                    style={{ borderColor: COLORS.border }}
+                                >
+                                    <h3
+                                        className="mb-5 font-semibold"
+                                        style={{
+                                            color: COLORS.navy,
+                                            fontSize: SIZE.label,
+                                        }}
+                                    >
+                                        {column.title}
+                                    </h3>
+
+                                    <div className="space-y-5">
+                                        {column.items.map((item, itemIndex) => (
+                                            <div key={item._id || itemIndex}>
+                                                <label
+                                                    className="mb-2 block font-semibold"
+                                                    style={{
+                                                        color: COLORS.text,
+                                                        fontSize: SIZE.body,
+                                                    }}
+                                                >
+                                                    Navigation Label {itemIndex + 1}
+                                                </label>
+
+                                                <input
+                                                    type="text"
+                                                    value={item.label}
+                                                    onChange={(event) =>
+                                                        updateColumnItem(
+                                                            columnIndex,
+                                                            itemIndex,
+                                                            event.target.value
+                                                        )
+                                                    }
+                                                    className={inputClass}
+                                                    style={inputStyle}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+
                     {/* Save button and status message on the same line */}
                     <div className="flex flex-wrap items-center gap-6">
                         <button
@@ -259,7 +341,7 @@ export default function FooterAdmin() {
                         >
                             {saving ? "Saving..." : "Save Changes"}
                         </button>
- 
+
                         {message && (
                             <p
                                 role={
