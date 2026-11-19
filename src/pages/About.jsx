@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -15,7 +15,7 @@ const DEFAULT_SECTION_CONTENT = {
     heroHeading1: "The Company",
     heroHeading2: "Behind the Work",
     heroDescription:
-        "Founded in 2006, Webcraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner - serving 3000+ clients with a team of 230+ professionals.",
+        "Founded in 2006, WebCraft has grown from a web development firm into a research-led, AI-enabled digital transformation partner - serving 3000+ clients with a team of 230+ professionals.",
     storyLabel: "Our Story",
     waysLabel: "What We Help You Do",
     waysHeading: "Six Ways We Create Value",
@@ -31,12 +31,12 @@ const DEFAULT_SECTION_CONTENT = {
     careersHeading: "We're hiring. Come build with us.",
     careersDescription:
         "If the values on this page sound like your kind of work, we'd like to hear from you.",
-    careersButton: "See Open Roles →",
+    careersButton: "See Open Roles ?",
     ctaLabel: "Let's Work Together",
     ctaHeading: "Let's work together.",
     ctaDescription:
         "Whether you're exploring a new product direction or modernizing an existing system - we'd like to hear about it.",
-    ctaButton: "Start a Conversation →",
+    ctaButton: "Start a Conversation ?",
 };
 
 /* ------------------------------------------------------------------ */
@@ -156,7 +156,7 @@ export default function About() {
     // <title>
     useEffect(() => {
         const prev = document.title;
-        document.title = "About Us - Webcraft | Research-Led, AI-Enabled Digital Transformation";
+        document.title = "About Us - WebCraft | Research-Led, AI-Enabled Digital Transformation";
         return () => { document.title = prev; };
     }, []);
 
@@ -330,7 +330,7 @@ export default function About() {
                         <div className="story-milestones">
                             {aboutContent.milestones.map((m) => (
                                 <article className="story-mile" key={m.year} data-year={m.year} data-context={m.context}>
-                                    <div className="story-mile__year">{m.year} · {m.tag}</div>
+                                    <div className="story-mile__year">{m.year} � {m.tag}</div>
                                     <h3 className="story-mile__title">{m.title[0]}<em>{m.title[1]}</em>{m.title[2]}</h3>
                                     <p className="story-mile__body">{m.body}</p>
                                 </article>

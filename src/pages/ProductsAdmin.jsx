@@ -33,7 +33,7 @@ const DEFAULT_FORM = {
         {
             num: "01",
             productLabel: "Product",
-            name: "Webcraft HRMS",
+            name: "WebCraft HRMS",
             description:
                 "Complete human resource management — attendance, leave, payroll, self-service portal, and role-based security. Designed for mid-size organizations that need enterprise-grade features without enterprise-grade complexity.",
             price: "₹2,999",

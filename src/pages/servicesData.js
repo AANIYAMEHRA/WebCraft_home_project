@@ -1,10 +1,10 @@
-﻿// Content for the Services page. Text is copied from the Webcraft services.html.
+// Content for the Services page. Text is copied from the WebCraft services.html.
 // Kept in one file so the CMS can later read and write the same shape.
 
 export const hero = {
   tag: "Engineering & Digital Services",
   headline: ["Build It Right.", "Scale It Smart."],
-  body: "From custom product development and cloud enablement to UX design and legacy modernization - Webcraft provides the engineering depth to turn strategies into working software.",
+  body: "From custom product development and cloud enablement to UX design and legacy modernization - WebCraft provides the engineering depth to turn strategies into working software.",
   cta: { label: "Start a Conversation", href: "/contact" },
   chips: [
     { label: "01", value: "Strategy", tone: "teal" },

@@ -5,7 +5,7 @@ const careersPageSchema = new mongoose.Schema(
     key: { type: String, default: "main", unique: true },
 
     hero: {
-      chip: { type: String, default: "Careers at Webcraft" },
+      chip: { type: String, default: "Careers at WebCraft" },
       titleLine1: { type: String, default: "Build what's next." },
       titleLine2: { type: String, default: "Build it with us." },
       description: {
@@ -35,14 +35,14 @@ const careersPageSchema = new mongoose.Schema(
       paragraph1: {
         type: String,
         default:
-          "Webcraft has grown from a web development startup into a research-led, AI-enabled digital transformation partner.",
+          "WebCraft has grown from a web development startup into a research-led, AI-enabled digital transformation partner.",
       },
       paragraph2: {
         type: String,
         default:
           "Our work spans research, practical AI and automation, software engineering, cloud solutions, and long-term product support. We believe in understanding problems before building solutions and delivering work that creates lasting value.",
       },
-      linkText: { type: String, default: "Discover Webcraft" },
+      linkText: { type: String, default: "Discover WebCraft" },
       linkUrl: { type: String, default: "/about" },
     },
 
@@ -76,7 +76,7 @@ const careersPageSchema = new mongoose.Schema(
     openPositions: {
       label: { type: String, default: "Opportunities" },
       heading: { type: String, default: "Open Positions" },
-      description: { type: String, default: "Explore opportunities to become part of the Webcraft journey." },
+      description: { type: String, default: "Explore opportunities to become part of the WebCraft journey." },
       emptyTitle: { type: String, default: "No open positions currently" },
       emptyDescription: { type: String, default: "There are no listed openings at the moment. Please check back later for future opportunities." },
       contactText: { type: String, default: "Contact our team" },
@@ -89,7 +89,7 @@ const careersPageSchema = new mongoose.Schema(
       headingHighlight: { type: String, default: "could start here." },
       description: {
         type: String,
-        default: "Interested in working with Webcraft? Share your details and resume with our HR team.",
+        default: "Interested in working with WebCraft? Share your details and resume with our HR team.",
       },
     },
   },

@@ -3,7 +3,7 @@
 </p>
 
 
-<h1 align="center">Webcraft-IT Website</h1>
+<h1 align="center">WebCraft-IT Website</h1>
  
 <p align="center">
   <b>A full-stack corporate website with a built-in admin CMS.</b><br />
@@ -45,7 +45,7 @@
  
 - Sidebar navigation with a dropdown for each page's sections, which scrolls to and expands that section
 - **Header:** logo upload, navigation links, contact button
-- **Home:** hero, statistics, services, why Webcraft, approach, products, AI solutions and call to action
+- **Home:** hero, statistics, services, why WebCraft, approach, products, AI solutions and call to action
 - **About:** hero and chips, milestones, six ways, values, delivery philosophy, statistics, careers and call to action
 - **Footer:** footer text and links
 - Logo and icon uploads: choose an SVG and the app stores its drawing path, with a camera or pencil button for each icon
@@ -238,7 +238,7 @@ Each content type has a `GET` route to read it and a `PUT` route to save it.
 **Overview**
  
 <p align="center">
-  <img width="1914" height="970" alt="Webcraft-IT overview" src="https://github.com/user-attachments/assets/c647fdad-2cdd-45d8-b951-063003170dc8" />
+  <img width="1914" height="970" alt="WebCraft-IT overview" src="https://github.com/user-attachments/assets/c647fdad-2cdd-45d8-b951-063003170dc8" />
 </p>
 
 **Public website**
@@ -312,4 +312,4 @@ Built as a full-stack project covering frontend UI, REST API design, database mo
  
 ## 📄 License
  
-Private project. All rights reserved by Webcraft-IT.
+Private project. All rights reserved by WebCraft-IT.

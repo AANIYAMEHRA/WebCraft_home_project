@@ -1,4 +1,4 @@
-﻿// Research page copy and data. Mirrors the pattern of aiSolutionsData.js.
+// Research page copy and data. Mirrors the pattern of aiSolutionsData.js.
 // Internal links are router paths; the header and footer come from Layout.
 // Keep this shape stable: the CMS step will load/save this same structure.
 
@@ -24,7 +24,7 @@ export const manifesto = {
     { text: 'a decision made too early.', em: true },
     {
       text:
-        ' A product built before the need was validated. A platform migrated before the cost was understood. An AI system deployed before the baseline was measured. Research isn’t a preliminary step - it’s the discipline that decides whether the expensive step is even worth taking.',
+        ' A product built before the need was validated. A platform migrated before the cost was understood. An AI system deployed before the baseline was measured. Research isn’t a preliminary step - it�s the discipline that decides whether the expensive step is even worth taking.',
     },
   ],
 };
@@ -188,7 +188,7 @@ export const chart = {
   heading: { before: 'A sample of what ', accent: 'we ask', after: ', charted.' },
   body:
     'Across 240+ engagements we keep track of the questions that repeatedly surface in discovery - and the issues that most often block progress. Here\'s an illustrative snapshot of common enterprise-transformation blockers, ranked by how frequently they appear in our opening interviews.',
-  title: 'Most common transformation blockers · Webcraft research interviews',
+  title: 'Most common transformation blockers · WebCraft research interviews',
   sampleSize: 'n = 240 engagements',
   rows: [
     { label: 'Unclear priorities', value: 68 },
@@ -199,7 +199,7 @@ export const chart = {
     { label: 'Budget misalignment', value: 33 },
     { label: 'Regulatory', value: 22 },
   ],
-  source: 'Source · Webcraft research engagements, 2006 - 2026',
+  source: 'Source · WebCraft research engagements, 2006 - 2026',
   note: '* Illustrative · not a formal survey',
 };
 

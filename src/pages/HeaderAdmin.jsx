@@ -1,10 +1,10 @@
-﻿import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { notify } from "../components/adminToast";
 import ConfirmDialog from "../components/ConfirmDialog";
  
 const API_URL = "http://localhost:5000/api/header";
  
-// Colors and fonts taken from the live Webcraft-IT site (image 2).
+// Colors and fonts taken from the live WebCraft-IT site (image 2).
 const COLORS = {
     navy: "#102a4f",   // headings (hero "Smarter Decisions.")
     text: "#313f56",   // nav links, labels, input text

@@ -12,12 +12,12 @@ export async function sendContactEmail(lead) {
   });
 
   await transporter.sendMail({
-    from: `"Webcraft Website" <${process.env.MAIL_USER}>`,
+    from: `"WebCraft Website" <${process.env.MAIL_USER}>`,
     to: process.env.MAIL_TO,
     replyTo: lead.workEmail,
     subject: `New enquiry: ${lead.interest} — ${lead.fullName}`,
     html: `
-      <h2>New enquiry from Webcraft website</h2>
+      <h2>New enquiry from WebCraft website</h2>
       <p><b>Name:</b> ${escape(lead.fullName)}</p>
       <p><b>Email:</b> ${escape(lead.workEmail)}</p>
       <p><b>Phone:</b> ${escape(lead.phoneNumber) || "-"}</p>

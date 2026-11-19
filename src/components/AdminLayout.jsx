@@ -35,7 +35,7 @@ const HOME_SECTIONS = [
     { id: "statistics", label: "Hero Statistics" },
     { id: "belief", label: "Our Belief" },
     { id: "what-we-do", label: "What We Do" },
-    { id: "why-webcraft", label: "Why Webcraft" },
+    { id: "why-webcraft", label: "Why WebCraft" },
     { id: "approach", label: "Our Approach" },
     { id: "products", label: "Products" },
     { id: "ai-stack", label: "AI Solutions" },
@@ -99,7 +99,7 @@ const SERVICES_SECTIONS = [
 const CAREERS_SECTIONS = [
     { id: "hero", label: "Hero Content" },
     { id: "statistics", label: "Hero Statistics" },
-    { id: "why-webcraft", label: "Why Webcraft" },
+    { id: "why-webcraft", label: "Why WebCraft" },
     { id: "values", label: "Our Values" },
     { id: "open-positions", label: "Open Positions" },
     { id: "jobs", label: "Job Openings" },
@@ -267,7 +267,7 @@ export default function AdminLayout() {
                 <div className="mb-10 px-2">
                     <img
                         src="/logo.svg"
-                        alt="Webcraft-IT"
+                        alt="WebCraft-IT"
                         className="h-10 w-auto"
                     />
                 </div>

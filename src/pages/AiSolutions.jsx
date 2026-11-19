@@ -1,4 +1,4 @@
-﻿import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -250,7 +250,7 @@ export default function AiSolutions() {
     /* Page title */
     useEffect(() => {
         const prev = document.title;
-        document.title = "AI Solutions - Webcraft";
+        document.title = "AI Solutions - WebCraft";
 
         return () => {
             document.title = prev;
@@ -660,7 +660,7 @@ export default function AiSolutions() {
                                 className="page-magnet-btn"
                                 ref={ctaBtnRef}
                             >
-                                {cta.buttonText} →
+                                {cta.buttonText} ?
                             </Link>
                         </div>
                     </div>

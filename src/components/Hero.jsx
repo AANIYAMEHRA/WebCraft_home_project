@@ -157,7 +157,7 @@ export default function Hero() {
                             </h1>
                             <p id="heroSub" className="hero-gsap text-lg text-gm-muted mt-6 max-w-lg leading-relaxed">
                                 {content?.description ??
-                                    'Webcraft combines AI solutions and deep research with proven engineering to help you decide what to build, then build it right.'}
+                                    'WebCraft combines AI solutions and deep research with proven engineering to help you decide what to build, then build it right.'}
                             </p>
                             <div id="heroCtas" className="hero-gsap flex flex-wrap gap-4 mt-10">
                                 <Link to={content?.button1Url ?? '/ai-solutions'} className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-gm-teal to-gm-green text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-gm-teal/20 transition-all">

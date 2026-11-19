@@ -51,7 +51,7 @@ app.use("/api/careers-page", careersPageRoutes);
 app.use("/api/contact-page", contactPageRoutes);
 
 app.get("/api/health", (req, res) => {
-  res.json({ message: "Webcraft backend is running" });
+  res.json({ message: "WebCraft backend is running" });
 });
 
 const PORT = process.env.PORT || 5000;
