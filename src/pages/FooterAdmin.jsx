@@ -26,6 +26,14 @@ const FOOTER = {
     line: "rgba(255,255,255,0.12)",
 };
 
+// Contact details shown in the footer. They appear as fields in this form
+// even before the footer has been saved once.
+const CONTACT_DEFAULTS = {
+    contactEmail: "hr@webcraftit.com",
+    phone: "",
+    address: "Indore, Madhya Pradesh, India",
+};
+
 const FONT_HEADING = "'Fraunces', Georgia, 'Times New Roman', serif";
 const FONT_BODY = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_MONO = "'JetBrains Mono', ui-monospace, 'Courier New', monospace";
@@ -105,7 +113,7 @@ export default function FooterAdmin() {
                 }
 
                 const data = await response.json();
-                setFooter(data.footer || data);
+                setFooter({ ...CONTACT_DEFAULTS, ...(data.footer || data) });
             } catch (error) {
                 setMessage(
                     error.message ||
@@ -167,7 +175,7 @@ export default function FooterAdmin() {
             }
 
             if (data.footer) {
-                setFooter(data.footer);
+                setFooter({ ...CONTACT_DEFAULTS, ...data.footer });
             }
 
             setMessage("Footer updated successfully!");

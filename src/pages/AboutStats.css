@@ -1,0 +1,14 @@
+/* About: equal-width odometer digits so the stat gaps look even.
+   Fraunces uses proportional numerals (a "1" is narrower than a "9"),
+   so the digit columns are made tabular and each digit is centred. */
+.num-stat__value {
+  font-variant-numeric: tabular-nums;
+}
+
+.num-odometer {
+  font-variant-numeric: tabular-nums;
+}
+
+.num-odometer-digit span {
+  text-align: center;
+}

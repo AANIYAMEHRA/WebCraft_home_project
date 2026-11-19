@@ -52,6 +52,11 @@ const CARDS = [
         text: "Job openings, application process and career opportunities.",
     },
     {
+        to: "/admin/contact",
+        title: "Contact Page CMS",
+        text: "Contact form, interest options, contact methods and process.",
+    },
+    {
         to: "/admin/footer",
         title: "Footer CMS",
         text: "Footer text, tagline, email and bottom line.",
