@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const API = 'http://localhost:5000/api/home'
@@ -8,7 +8,7 @@ const DEFAULT_AI_STACK = {
     headingLine1: 'The future belongs to businesses',
     headingLine2: 'that know before they act',
     description:
-        'AI without research is noise. Research without AI is slow. Webcraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.',
+        'AI without research is noise. Research without AI is slow. WebCraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.',
     cards: [
         {
             num: '01',

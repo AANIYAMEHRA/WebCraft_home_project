@@ -79,7 +79,7 @@ function mergeForm(data = {}) {
       badges: listOr(data.hero?.badges, DEFAULT_FORM.hero.badges).map(
         (badge, index) => ({
           ...DEFAULT_FORM.hero.badges[
-            index % DEFAULT_FORM.hero.badges.length
+          index % DEFAULT_FORM.hero.badges.length
           ],
           ...badge,
         })
@@ -106,7 +106,7 @@ function mergeForm(data = {}) {
         DEFAULT_FORM.techStack.orbitRings
       ).map((ring, index) => ({
         ...DEFAULT_FORM.techStack.orbitRings[
-          index % DEFAULT_FORM.techStack.orbitRings.length
+        index % DEFAULT_FORM.techStack.orbitRings.length
         ],
         ...ring,
         items: Array.isArray(ring.items) ? ring.items : [],
@@ -121,7 +121,7 @@ function mergeForm(data = {}) {
         DEFAULT_FORM.philosophy.steps
       ).map((step, index) => ({
         ...DEFAULT_FORM.philosophy.steps[
-          index % DEFAULT_FORM.philosophy.steps.length
+        index % DEFAULT_FORM.philosophy.steps.length
         ],
         ...step,
       })),
@@ -266,11 +266,11 @@ export default function AiSolutionsAdmin() {
           i !== ringIndex
             ? ring
             : {
-                ...ring,
-                items: ring.items.map((item, j) =>
-                  j === itemIndex ? { ...item, ...changes } : item
-                ),
-              }
+              ...ring,
+              items: ring.items.map((item, j) =>
+                j === itemIndex ? { ...item, ...changes } : item
+              ),
+            }
         ),
       },
     }));
@@ -454,9 +454,8 @@ export default function AiSolutionsAdmin() {
 
                   <div className="flex items-center gap-3">
                     <span
-                      className={`inline-block h-8 w-8 rounded-full border ${
-                        TONE_OPTIONS.find((t) => t.value === (badge.tone ?? "teal"))?.swatch ?? "bg-gray-200"
-                      }`}
+                      className={`inline-block h-8 w-8 rounded-full border ${TONE_OPTIONS.find((t) => t.value === (badge.tone ?? "teal"))?.swatch ?? "bg-gray-200"
+                        }`}
                     />
 
                     <select

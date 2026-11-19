@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { notify } from "./adminToast";
 import ConfirmDialog from "./ConfirmDialog";
  
-// Shared look for every admin page. Colours and fonts come from the live Webcraft-IT site.
+// Shared look for every admin page. Colours and fonts come from the live WebCraft-IT site.
 export const COLORS = {
     navy: "#102a4f",
     text: "#253144",

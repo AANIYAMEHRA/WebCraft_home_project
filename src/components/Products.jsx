@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const API = "http://localhost:5000/api/products";
 
-// "Webcraft HRMS" -> "webcraft-hrms"
+// "WebCraft HRMS" -> "webcraft-hrms"
 const slugify = (text = "") =>
     text
         .toLowerCase()

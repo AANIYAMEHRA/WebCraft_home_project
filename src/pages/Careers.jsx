@@ -85,7 +85,7 @@ export default function Careers() {
 
     useEffect(() => {
         const previousTitle = document.title;
-        document.title = "Careers — Webcraft | Build What's Next";
+        document.title = "Careers — WebCraft | Build What's Next";
 
         return () => {
             document.title = previousTitle;
@@ -103,7 +103,7 @@ export default function Careers() {
                 <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="max-w-4xl">
                         <span className="reveal section-tag inline-block text-xs text-gm-teal font-bold uppercase tracking-widest bg-gm-teal/8 px-4 py-1.5 rounded-full mb-7">
-                            {page?.hero?.chip ?? "Careers at Webcraft"}
+                            {page?.hero?.chip ?? "Careers at WebCraft"}
                         </span>
 
                         <h1 className="reveal text-5xl md:text-6xl lg:text-7xl font-extrabold text-gm-deep leading-[1.08] tracking-tight">
@@ -172,7 +172,7 @@ export default function Careers() {
                         <div className="reveal">
                             <p className="text-gm-muted text-lg leading-relaxed">
                                 {page?.whyWebcraft?.paragraph1 ??
-                                    "Webcraft has grown from a web development startup into a research-led, AI-enabled digital transformation partner."}
+                                    "WebCraft has grown from a web development startup into a research-led, AI-enabled digital transformation partner."}
                             </p>
                             <p className="text-gm-muted leading-relaxed mt-5">
                                 {page?.whyWebcraft?.paragraph2 ??
@@ -182,7 +182,7 @@ export default function Careers() {
                                 to={page?.whyWebcraft?.linkUrl ?? "/about"}
                                 className="inline-flex items-center gap-2 text-gm-teal font-bold text-sm mt-7 hover:gap-4 transition-all"
                             >
-                                {page?.whyWebcraft?.linkText ?? "Discover Webcraft"} <span>→</span>
+                                {page?.whyWebcraft?.linkText ?? "Discover WebCraft"} <span>→</span>
                             </Link>
                         </div>
                     </div>
@@ -248,7 +248,7 @@ export default function Careers() {
 
                         <p className="reveal text-gm-muted mt-5 max-w-xl mx-auto leading-relaxed">
                             {page?.openPositions?.description ??
-                                "Explore opportunities to become part of the Webcraft journey."}
+                                "Explore opportunities to become part of the WebCraft journey."}
                         </p>
                     </div>
 
@@ -335,7 +335,7 @@ export default function Careers() {
 
                     <p className="reveal text-white/70 text-lg leading-relaxed max-w-2xl mx-auto mt-7">
                         {page?.cta?.description ??
-                            "Interested in working with Webcraft? Share your details and resume with our HR team."}
+                            "Interested in working with WebCraft? Share your details and resume with our HR team."}
                     </p>
 
                     <form

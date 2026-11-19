@@ -1,4 +1,4 @@
-﻿
+
 import express from "express";
 import Home from "../models/Home.js";
 
@@ -9,7 +9,7 @@ const defaultHome = {
     headingLine1: "Smarter Decisions.",
     headingLine2: "Stronger Products.",
     description:
-        "Webcraft combines AI solutions and deep research with proven engineering to help you decide what to build, then build it right.",
+        "WebCraft combines AI solutions and deep research with proven engineering to help you decide what to build, then build it right.",
 
     button1Text: "Explore AI Solutions",
     button1Url: "/ai-solutions",
@@ -104,14 +104,14 @@ const defaultHome = {
         items: [
             {
                 num: "Product 001",
-                nameLine1: "Webcraft",
+                nameLine1: "WebCraft",
                 nameLine2: "HRMS.",
                 summary:
                     "Complete HR management - attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.",
                 meta: [
                     { label: "Category", value: "Enterprise HR" },
                     { label: "Users", value: "500+ companies" },
-                    { label: "Pricing", value: "₹2,999/mo flat" },
+                    { label: "Pricing", value: "?2,999/mo flat" },
                 ],
                 buttonText: "Learn more →",
                 buttonUrl: "/products",
@@ -151,7 +151,7 @@ const defaultHome = {
         headingLine1: "The future belongs to businesses",
         headingLine2: "that know before they act",
         description:
-            "AI without research is noise. Research without AI is slow. Webcraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.",
+            "AI without research is noise. Research without AI is slow. WebCraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.",
         cards: [
             {
                 num: "01",

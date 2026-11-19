@@ -1,4 +1,4 @@
-﻿import mongoose from "mongoose";
+import mongoose from "mongoose";
 
 const homeSchema = new mongoose.Schema(
     {
@@ -21,7 +21,7 @@ const homeSchema = new mongoose.Schema(
         description: {
             type: String,
             default:
-                "Webcraft combines AI solutions and deep research with proven engineering to help you decide what to build, then build it right.",
+                "WebCraft combines AI solutions and deep research with proven engineering to help you decide what to build, then build it right.",
         },
         button1Text: {
             type: String,
@@ -120,12 +120,12 @@ const homeSchema = new mongoose.Schema(
             },
             heading: {
                 type: String,
-                default: "Why serious businesses choose Webcraft",
+                default: "Why serious businesses choose WebCraft",
             },
             description: {
                 type: String,
                 default:
-                    "Most technology partners start with a scope document. We start with the right questions. Webcraft combines research rigour with engineering depth so that what gets built actually solves the problem it was designed for.",
+                    "Most technology partners start with a scope document. We start with the right questions. WebCraft combines research rigour with engineering depth so that what gets built actually solves the problem it was designed for.",
             },
             image: {
                 type: String,
@@ -253,14 +253,14 @@ const homeSchema = new mongoose.Schema(
                 default: [
                     {
                         num: "Product 001",
-                        nameLine1: "Webcraft",
+                        nameLine1: "WebCraft",
                         nameLine2: "HRMS.",
                         summary:
                             "Complete HR management - attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.",
                         meta: [
                             { label: "Category", value: "Enterprise HR" },
                             { label: "Users", value: "500+ companies" },
-                            { label: "Pricing", value: "₹2,999/mo flat" },
+                            { label: "Pricing", value: "?2,999/mo flat" },
                         ],
                         buttonText: "Learn more →",
                         buttonUrl: "/products",
@@ -312,7 +312,7 @@ const homeSchema = new mongoose.Schema(
             description: {
                 type: String,
                 default:
-                    "AI without research is noise. Research without AI is slow. Webcraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.",
+                    "AI without research is noise. Research without AI is slow. WebCraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.",
             },
             cards: {
                 type: [

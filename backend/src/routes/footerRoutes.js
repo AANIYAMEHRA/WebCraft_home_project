@@ -38,7 +38,7 @@ router.get("/", async (req, res) => {
           {
             title: "Products",
             items: [
-              { label: "Webcraft HRMS", to: "/products" },
+              { label: "WebCraft HRMS", to: "/products" },
               { label: "TutorWand", to: "/products" },
               { label: "WCSchool ERP", to: "/products" },
             ],

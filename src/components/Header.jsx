@@ -116,12 +116,12 @@ export default function Header() {
           <Link
             to="/"
             className="flex items-center gap-2 z-50"
-            aria-label="Webcraft Home"
+            aria-label="WebCraft Home"
           >
             {headerData.logoUrl && (
               <img
                 src={headerData.logoUrl}
-                alt="Webcraft IT"
+                alt="WebCraft IT"
                 className="h-10 w-auto"
               />
             )}

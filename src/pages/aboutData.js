@@ -1,4 +1,4 @@
-﻿export const heroChips = [
+export const heroChips = [
     {
         label: "Since", value: "2006",
         pos: "top-[5%] left-[8%]", box: "shadow-gm-teal/10 border-gm-teal/10", color: "text-gm-teal",
@@ -28,7 +28,7 @@
 export const milestones = [
     {
         year: "2006", tag: "The Beginning", context: "A web development startup in Indore with a vision.",
-        title: ["Webcraft IT ", "founded", " in Indore, Madhya Pradesh."],
+        title: ["WebCraft IT ", "founded", " in Indore, Madhya Pradesh."],
         body: "Launched as a web development and IT services startup with a clear vision - serving SMEs with reliable, cost-effective digital solutions. A small team, one office, and the ambition to build something lasting."
     },
     {

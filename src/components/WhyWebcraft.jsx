@@ -1,4 +1,4 @@
-﻿
+
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -9,9 +9,9 @@ const API = 'http://localhost:5000/api/home'
 
 const DEFAULT_WHY_WEBCRAFT = {
   label: 'The Difference',
-  heading: 'Why serious businesses choose Webcraft',
+  heading: 'Why serious businesses choose WebCraft',
   description:
-    'Most technology partners start with a scope document. We start with the right questions. Webcraft combines research rigour with engineering depth so that what gets built actually solves the problem it was designed for.',
+    'Most technology partners start with a scope document. We start with the right questions. WebCraft combines research rigour with engineering depth so that what gets built actually solves the problem it was designed for.',
   image: '/images/why.webp',
   cards: [
     {
@@ -49,7 +49,7 @@ export default function WhyWebcraft() {
         const response = await fetch(API)
 
         if (!response.ok) {
-          throw new Error('Failed to load Why Webcraft content')
+          throw new Error('Failed to load Why WebCraft content')
         }
 
         const data = await response.json()
@@ -69,7 +69,7 @@ export default function WhyWebcraft() {
           })
         }
       } catch (error) {
-        console.error('Unable to load Why Webcraft CMS content:', error)
+        console.error('Unable to load Why WebCraft CMS content:', error)
       }
     }
 
@@ -146,7 +146,7 @@ export default function WhyWebcraft() {
       <section
         className="why-scrub-section relative bg-white"
         id="whyScrub"
-        aria-label="Why Webcraft"
+        aria-label="Why WebCraft"
       >
         <div className="orb w-[350px] h-[350px] bg-gm-teal/6 top-[-80px] right-[-80px]"></div>
 

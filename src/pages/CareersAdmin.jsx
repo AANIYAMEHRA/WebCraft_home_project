@@ -44,7 +44,7 @@ function authHeaders() {
 function mergeCareers(data = {}) {
     return {
         hero: {
-            chip: "Careers at Webcraft",
+            chip: "Careers at WebCraft",
             titleLine1: "Build what's next.",
             titleLine2: "Build it with us.",
             description:
@@ -68,10 +68,10 @@ function mergeCareers(data = {}) {
             heading: "Technology with",
             headingHighlight: "purpose.",
             paragraph1:
-                "Webcraft has grown from a web development startup into a research-led, AI-enabled digital transformation partner.",
+                "WebCraft has grown from a web development startup into a research-led, AI-enabled digital transformation partner.",
             paragraph2:
                 "Our work spans research, practical AI and automation, software engineering, cloud solutions, and long-term product support. We believe in understanding problems before building solutions and delivering work that creates lasting value.",
-            linkText: "Discover Webcraft",
+            linkText: "Discover WebCraft",
             linkUrl: "/about",
             ...(data.whyWebcraft || {}),
         },
@@ -95,7 +95,7 @@ function mergeCareers(data = {}) {
         openPositions: {
             label: "Opportunities",
             heading: "Open Positions",
-            description: "Explore opportunities to become part of the Webcraft journey.",
+            description: "Explore opportunities to become part of the WebCraft journey.",
             emptyTitle: "No open positions currently",
             emptyDescription:
                 "There are no listed openings at the moment. Please check back later for future opportunities.",
@@ -108,7 +108,7 @@ function mergeCareers(data = {}) {
             heading: "Your next chapter",
             headingHighlight: "could start here.",
             description:
-                "Interested in working with Webcraft? Share your details and resume with our HR team.",
+                "Interested in working with WebCraft? Share your details and resume with our HR team.",
             ...(data.cta || {}),
         },
     };
@@ -343,7 +343,7 @@ export default function CareersAdmin() {
                     </CollapsibleSection>
 
                     {/* WHY WEBCRAFT */}
-                    <CollapsibleSection id="why-webcraft" title="Why Webcraft Section">
+                    <CollapsibleSection id="why-webcraft" title="Why WebCraft Section">
                         <Field label="Section Label" {...bind("whyWebcraft.label")} />
 
                         <div className={INPUT_GRID}>

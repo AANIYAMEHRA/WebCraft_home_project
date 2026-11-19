@@ -1,4 +1,4 @@
-﻿/* Services page styles (ported from the Webcraft services.html). Scoped to the services page. */
+/* Services page styles (ported from the WebCraft services.html). Scoped to the services page. */
 .svc-faq__toggle:focus-visible {
     outline: 2px solid #2A9D8F;
     outline-offset: 3px;

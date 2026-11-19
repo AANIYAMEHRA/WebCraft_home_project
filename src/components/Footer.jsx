@@ -32,7 +32,7 @@ const defaultColumns = [
   {
     title: 'Products',
     items: [
-      { to: '/products', label: 'Webcraft HRMS' },
+      { to: '/products', label: 'WebCraft HRMS' },
       { to: '/products', label: 'TutorWand' },
       { to: '/products', label: 'WCSchool ERP' },
     ],
@@ -46,7 +46,7 @@ const defaultColumns = [
   },
 ]
 
-// "Webcraft HRMS" -> "/products#product-webcraft-hrms"
+// "WebCraft HRMS" -> "/products#product-webcraft-hrms"
 const productAnchor = (label = '') =>
   `/products#product-${label
     .toLowerCase()
@@ -55,7 +55,7 @@ const productAnchor = (label = '') =>
     .replace(/(^-|-$)/g, '')}`
 
 // A footer item is a product link when it points to /products and is not the plain "Products" link.
-const PRODUCT_LABELS = ['Webcraft HRMS', 'TutorWand', 'WCSchool ERP']
+const PRODUCT_LABELS = ['WebCraft HRMS', 'TutorWand', 'WCSchool ERP']
 
 const isProductLink = (item) => PRODUCT_LABELS.includes(item.label)
 
@@ -131,8 +131,8 @@ export default function Footer() {
 
         <div className="site-footer__grid">
           <div className="site-footer__brand">
-            <Link to="/" className="site-footer__logo" aria-label="Webcraft Home">
-              <img src="/logo.svg" alt="Webcraft IT" />
+            <Link to="/" className="site-footer__logo" aria-label="WebCraft Home">
+              <img src="/logo.svg" alt="WebCraft IT" />
             </Link>
 
             <p className="site-footer__tag">
@@ -196,7 +196,7 @@ export default function Footer() {
 
         <div className="site-footer__bottom">
           <p className="site-footer__copy">
-            &copy; {new Date().getFullYear()} Webcraft IT Services. All rights reserved.
+            &copy; {new Date().getFullYear()} WebCraft IT Services. All rights reserved.
           </p>
 
           <p className="site-footer__meta">

@@ -113,7 +113,7 @@ const REQUIRED_FIELDS = [
     { path: ["button1Text"], label: "First Button Text" },
     { path: ["button1Url"], label: "First Button URL" },
     { path: ["whatWeDo", "heading"], label: "What We Do - Main Heading" },
-    { path: ["whyWebcraft", "heading"], label: "Why Webcraft - Heading" },
+    { path: ["whyWebcraft", "heading"], label: "Why WebCraft - Heading" },
     { path: ["approach", "heading"], label: "Our Approach - Main Heading" },
     { path: ["products", "headingLine1"], label: "Products - Heading Line 1" },
     { path: ["aiStack", "headingLine1"], label: "AI Stack - Heading Line 1" },
@@ -171,9 +171,9 @@ const DEFAULT_WHAT_WE_DO = {
 
 const DEFAULT_WHY_WEBCRAFT = {
     label: "The Difference",
-    heading: "Why serious businesses choose Webcraft",
+    heading: "Why serious businesses choose WebCraft",
     description:
-        "Most technology partners start with a scope document. We start with the right questions. Webcraft combines research rigour with engineering depth so that what gets built actually solves the problem it was designed for.",
+        "Most technology partners start with a scope document. We start with the right questions. WebCraft combines research rigour with engineering depth so that what gets built actually solves the problem it was designed for.",
     image: "/images/why.webp",
     cards: [
         {
@@ -233,7 +233,7 @@ const DEFAULT_PRODUCTS = {
     items: [
         {
             num: "Product 001",
-            nameLine1: "Webcraft",
+            nameLine1: "WebCraft",
             nameLine2: "HRMS.",
             summary:
                 "Complete HR management - attendance, leave, payroll, self-service portal, and role-based security. Flat ₹2,999/mo server cost, no per-user fees. Built for mid-size teams who need enterprise features without enterprise budgets.",
@@ -281,7 +281,7 @@ const DEFAULT_AI_STACK = {
     headingLine1: "The future belongs to businesses",
     headingLine2: "that know before they act",
     description:
-        "AI without research is noise. Research without AI is slow. Webcraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.",
+        "AI without research is noise. Research without AI is slow. WebCraft combines both - giving you the speed of intelligent automation and the confidence of informed strategy.",
     cards: [
         {
             num: "01",
@@ -406,7 +406,7 @@ function CardIconUpload({ value, fallbackPath, onChange, onRequestRemove }) {
     );
 }
 
-// Large image box for the Why Webcraft section: camera icon when empty, edit option after upload.
+// Large image box for the Why WebCraft section: camera icon when empty, edit option after upload.
 function ImageUploadBox({ value, onChange, onRequestRemove }) {
     function handleFile(event) {
         const file = event.target.files?.[0];
@@ -905,7 +905,7 @@ export default function HomeAdmin() {
                     </CollapsibleSection>
 
                     {/* WHY WEBCRAFT */}
-                    <CollapsibleSection id="why-webcraft" title={form.whyWebcraft.label || "Why Webcraft"}>
+                    <CollapsibleSection id="why-webcraft" title={form.whyWebcraft.label || "Why WebCraft"}>
                         <Field label="Section Label" {...sec("whyWebcraft", "label")} />
                         <Field label="Heading" required {...sec("whyWebcraft", "heading")} />
                         <Field label="Description" multiline {...sec("whyWebcraft", "description")} />

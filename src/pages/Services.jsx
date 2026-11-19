@@ -1,4 +1,4 @@
-ï»¿import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Services.css";
@@ -94,16 +94,16 @@ const MODELS = [
 ];
 
 const CASES = [
-  { n: "01", tag: "Healthcare Â· AI", t: ["Clinical ", "co-pilot", "."],
+  { n: "01", tag: "Healthcare · AI", t: ["Clinical ", "co-pilot", "."],
     b: "Built a clinician-facing assistant that drafts visit notes from ambient audio. Doctors spend 42% less time on documentation and see 2 more patients per day.",
     s: "-42%", l: "time on notes" },
-  { n: "02", tag: "Commerce Â· Platform", t: ["Bilingual B2B ", "commerce", "."],
-    b: "Rebuilt a wholesale marketplace across English and Hindi with unified catalogue, pricing and fulfilment. 3Ã— GMV in 9 months, with 60% mobile orders.",
-    s: "3Ã—", l: "GMV in 9 months" },
-  { n: "03", tag: "Finance Â· Modernisation", t: ["Risk systems, ", "rebuilt", "."],
+  { n: "02", tag: "Commerce · Platform", t: ["Bilingual B2B ", "commerce", "."],
+    b: "Rebuilt a wholesale marketplace across English and Hindi with unified catalogue, pricing and fulfilment. 3× GMV in 9 months, with 60% mobile orders.",
+    s: "3×", l: "GMV in 9 months" },
+  { n: "03", tag: "Finance · Modernisation", t: ["Risk systems, ", "rebuilt", "."],
     b: "Replaced a fragile legacy risk engine with an event-driven Go service. Settlement latency dropped from 4.5s to 180ms - and regulators stopped flagging exceptions.",
     s: "180ms", l: "settlement latency" },
-  { n: "04", tag: "Industrial Â· IoT", t: ["Factory ", "unfrozen", "."],
+  { n: "04", tag: "Industrial · IoT", t: ["Factory ", "unfrozen", "."],
     b: "Wired a plant's disconnected PLCs into a single real-time dashboard with predictive maintenance. Unplanned downtime down 63%, OEE up 14 points.",
     s: "-63%", l: "unplanned downtime" },
 ];
@@ -199,7 +199,7 @@ export default function Services() {
             </h1>
             <p className="svc-fade" style={{ animationDelay: ".2s" }}>
               From custom product development and cloud enablement to UX design and legacy modernization -
-              Webcraft provides the engineering depth to turn strategies into working software.
+              WebCraft provides the engineering depth to turn strategies into working software.
             </p>
             <div className="svc-fade" style={{ animationDelay: ".3s" }}>
               <a href="/contact" className="svc-btn">Start a Conversation <Arrow /></a>
@@ -284,7 +284,7 @@ export default function Services() {
                 <div className="svc-item__grid">
                   {c.subs.map(([h, p]) => (
                     <div className="svc-sub" key={h}>
-                      <span className="svc-sub__arrow">â†’</span>
+                      <span className="svc-sub__arrow">?</span>
                       <h4>{h}</h4>
                       <p>{p}</p>
                     </div>
@@ -382,7 +382,7 @@ export default function Services() {
           <h2 className="svc-cta__title">Tell us what you're<br /><em>trying to build.</em></h2>
           <p className="svc-cta__body">One short note. One reply within a business day. No sales dance.</p>
           <div className="svc-magnet" onMouseMove={magnet} onMouseLeave={unmagnet}>
-            <a href="/contact" className="svc-magnet__btn">Start a conversation <span aria-hidden="true">â†’</span></a>
+            <a href="/contact" className="svc-magnet__btn">Start a conversation <span aria-hidden="true">?</span></a>
           </div>
           <p className="svc-cta__alt">
             or email <a href="mailto:admin@webcraft.co.in">admin@webcraft.co.in</a> directly.
